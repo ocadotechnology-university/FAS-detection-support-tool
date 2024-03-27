@@ -4,8 +4,6 @@ class FileNotCorrectException(Exception):
 
 class ValidateFile:
     def validate(self, file):
-        pass
-
         # check if file not corrupted
         if not self.is_file_corrupted(file):
             raise FileNotCorrectException("File corrupted.")
