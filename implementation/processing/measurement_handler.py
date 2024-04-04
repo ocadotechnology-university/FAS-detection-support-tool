@@ -12,13 +12,16 @@ class MeasureHandler(MeasureHandlerInterface):
         return measurement
 
     def validate(self, measurement):
-        if not self.validate_eye(measurement.eye):
-            raise MeasurementsNotCorrect("Eye measurement is not correct")
+        if not self.validate_eye(measurement.left_eye):
+            raise MeasurementsNotCorrect("Left eye measurement is not correct")
 
-        if not self.validate_lip(measurement.eye):
+        if not self.validate_eye(measurement.right_eye):
+            raise MeasurementsNotCorrect("Right eye measurement is not correct")
+
+        if not self.validate_lip(measurement.lip):
             raise MeasurementsNotCorrect("Lip measurement is not correct")
             
-        if not self.validate_philtrum(measurement.eye):
+        if not self.validate_philtrum(measurement.philtrum):
             raise MeasurementsNotCorrect("Philtrum measurement is not correct")
 
     def validate_eye(self, eye: float) -> bool:

@@ -11,6 +11,7 @@ from download.validation.validate_file_content import FileContentNotValidExcepti
 from implementation.processing.measurement import Measurement
 from implementation.processing.measurement_handler import MeasurementsNotCorrect
 
+
 def main():
     file = "photo.png"
     validate_file = ValidateFile()
@@ -22,8 +23,6 @@ def main():
     except FileNotCorrectException:
         # handle exception
         pass
-
-
 
 
 if __name__ == "__main__":
