@@ -15,9 +15,16 @@ from implementation.processing.measurement_handler import MeasurementsNotCorrect
 def main():
     global measurement_results
     file = "photo.png"
-    validate_file = ValidateFile()
-    validate_file_content = ValidateFileContent()
-    measurement_handler = MeasurementHandler()
+    # dependency injection
+    # now it looks redundant, but as we write more implementations, this abstraction will come in handy
+    file_validator_impl = ValidateFile # impl = implementation
+    file_content_validator_impl = ValidateFileContent
+    measurement_handler_impl = MeasurementHandler
+
+    # proper code
+    validate_file = file_validator_impl()
+    validate_file_content = file_content_validator_impl()
+    measurement_handler = measurement_handler_impl()
 
     try:
         validate_file.validate(file)
