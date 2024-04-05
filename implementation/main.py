@@ -17,7 +17,7 @@ def main():
     file = "photo.png"
     # dependency injection
     # now it looks redundant, but as we write more implementations, this abstraction will come in handy
-    file_validator_impl = ValidateFile # impl = implementation
+    file_validator_impl = ValidateFile  # impl = implementation
     file_content_validator_impl = ValidateFileContent
     measurement_handler_impl = MeasurementHandler
 
