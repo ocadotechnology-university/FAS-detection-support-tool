@@ -1,4 +1,5 @@
 from implementation.download.validation.validate_file import FileNotCorrectException
+from implementation.download.validation.validate_file_content import FileContentNotValidException
 from implementation.processing.measurement_handler import MeasurementsNotCorrect
 
 
@@ -21,7 +22,7 @@ class Application():
 
         try:
             self.file_content_validator.validate(file)
-        except FileNotCorrectException:
+        except FileContentNotValidException:
             # handle exception
             pass
 
