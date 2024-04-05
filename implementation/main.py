@@ -9,7 +9,7 @@ from download.validation.validate_file import FileNotCorrectException
 from download.validation.validate_file_content import ValidateFileContent
 from download.validation.validate_file_content import FileContentNotValidException
 from implementation.processing.measurement import Measurement
-from implementation.processing.measurement_handler import MeasurementsNotCorrect, MeasurementHandler
+from implementation.processing.measurement_handler import MeasurementsNotCorrect, MeasureHandler
 
 
 def main():
@@ -19,7 +19,7 @@ def main():
     # now it looks redundant, but as we write more implementations, this abstraction will come in handy
     file_validator_impl = ValidateFile # impl = implementation
     file_content_validator_impl = ValidateFileContent
-    measurement_handler_impl = MeasurementHandler
+    measurement_handler_impl = MeasureHandler
 
     # proper code
     validate_file = file_validator_impl()
@@ -28,6 +28,11 @@ def main():
 
     try:
         validate_file.validate(file)
+    except FileNotCorrectException:
+        # handle exception
+        pass
+
+    try:
         validate_file_content.validate(file)
     except FileNotCorrectException:
         # handle exception
