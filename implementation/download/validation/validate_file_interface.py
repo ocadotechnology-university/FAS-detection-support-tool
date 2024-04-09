@@ -8,13 +8,18 @@ class ValidateFileInterface(ABC):
         ...
 
     @abstractmethod
+    def is_file_extension_valid(self, file) -> bool:
+        """Check if file extension is valid"""
+        ...
+
+    @abstractmethod
     def is_file_not_corrupted(self, file) -> bool:
         """Check if file is not corrupted"""
         ...
 
     @abstractmethod
-    def is_file_extension_valid(self, file) -> bool:
-        """Check if file extension is valid"""
+    def is_photo_dimension_valid(self, file) -> bool:
+        """Check if photo dimension is valid"""
         ...
 
     @abstractmethod
