@@ -1,4 +1,5 @@
-from interfaces.processing.measurement import MeasurementInterface
+from implementation.processing.measurement_interface import MeasurementInterface
+
 
 class Measurement(MeasurementInterface):
     """
@@ -9,6 +10,7 @@ class Measurement(MeasurementInterface):
         - lip (float): height of upper lip
         - philtrum (float): depth of philtrum
     """
+
     def __init__(self):
         self.eye = 0.0
         self.lip = 0.0

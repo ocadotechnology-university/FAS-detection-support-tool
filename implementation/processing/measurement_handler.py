@@ -1,12 +1,15 @@
-from interfaces.processing.measurement_handler import MeasureHandlerInterface
+from implementation.processing.measurement_handler_interface import MeasureHandlerInterface
 from implementation.processing.measurement import Measurement
+
 
 class MeasurementsNotCorrect(Exception):
     def __init__(self, message):
         super().__init__(message)
 
+
 class MeasureHandler(MeasureHandlerInterface):
     """Class for performing measure and validate measurement"""
+
     def measure(self, file):
         measurement = Measurement()
         return measurement
@@ -17,7 +20,7 @@ class MeasureHandler(MeasureHandlerInterface):
 
         if not self.validate_lip(measurement.eye):
             raise MeasurementsNotCorrect("Lip measurement is not correct")
-            
+
         if not self.validate_philtrum(measurement.eye):
             raise MeasurementsNotCorrect("Philtrum measurement is not correct")
 
@@ -29,7 +32,3 @@ class MeasureHandler(MeasureHandlerInterface):
 
     def validate_philtrum(self, philtrum: float) -> bool:
         return True
-
-       
-
-    
