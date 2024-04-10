@@ -1,3 +1,4 @@
+import os
 from PIL import Image
 from interfaces.download.validation.validate_file import ValidateFileInterface
 
@@ -8,7 +9,50 @@ class FileNotCorrectException(Exception):
 
 
 class ValidateFile(ValidateFileInterface):
+    def __init__(self, max_width, min_width, max_height, min_height, max_dpi, min_dpi):
+        """
+        Constructor for ValidateFile class.
+
+        Args:
+            max_width (int): Maximum width of the image.
+            min_width (int): Minimum width of the image.
+            max_height (int): Maximum height of the image.
+            min_height (int): Minimum height of the image.
+            max_dpi (int): Maximum DPI (dots per inch) of the image.
+            min_dpi (int): Minimum DPI (dots per inch) of the image.
+        """
+        self.max_width = max_width
+        self.min_width = min_width
+        self.max_height = max_height
+        self.min_height = min_height
+        self.max_dpi = max_dpi
+        self.min_dpi = min_dpi
+
     def validate(self, file):
+        """
+        Check if parameters of the file are correct
+
+        Args:
+            file (str): Path to the image file.
+
+        Raises:
+            FileNotCorrectException: If the file parameters are not correct.
+
+        Returns:
+            None
+        """
+        # Check if the file exists
+        if not os.path.exists(file):
+            raise FileNotCorrectException(f"File {file} does not exist.")
+
+        # Check if the path is a file
+        if not os.path.isfile(file):
+            raise FileNotCorrectException(f"{file} is not a file.")
+
+        # Check if the file is readable
+        if not os.access(file, os.R_OK):
+            raise FileNotCorrectException(f"File {file} is not readable.")
+
         # check file extension
         if not self.is_file_extension_valid(file):
             raise FileNotCorrectException("File extension not correct.")
@@ -43,6 +87,16 @@ class ValidateFile(ValidateFileInterface):
             return False
 
     def is_file_not_corrupted(self, file) -> bool:
+        """
+        Check if the image file is not corrupted.
+
+        Args:
+            file (str): Path to the image file.
+
+        Returns:
+            bool: True if the image file is not corrupted, False otherwise.
+        """
+
         try:
             with Image.open(file) as image:
                 # Perform image verification
@@ -74,11 +128,15 @@ class ValidateFile(ValidateFileInterface):
         try:
             with Image.open(file) as image:
                 width, height = image.size
-                # Checking image dimensions (example conditions)
-                if width >= 300 and height >= 300:
-                    return True
-                else:
+                if width < self.min_width:
                     return False
+                if width > self.max_width:
+                    return False
+                if height < self.min_height:
+                    return False
+                if height > self.max_height:
+                    return False
+                return True
         except Exception as e:
             print(f"Error checking photo dimensions: {str(e)}")
             return False
@@ -102,11 +160,11 @@ class ValidateFile(ValidateFileInterface):
                     if x_dpi != y_dpi:
                         print('Inconsistent DPI image data')
                         return False
-                    # Checking image resolution (example conditions)
-                    if x_dpi >= 72 and y_dpi >= 72:
-                        return True
-                    else:
+                    if x_dpi < self.min_dpi:
                         return False
+                    if x_dpi > self.max_dpi:
+                        return False
+                    return True
                 else:
                     # If dpi information is not available, consider resolution invalid
                     return False
