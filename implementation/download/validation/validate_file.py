@@ -1,5 +1,5 @@
 from PIL import Image
-from interfaces.download.validation.validate_file import ValidateFileInterface
+from implementation.download.validation.validate_file_interface import ValidateFileInterface
 
 
 class FileNotCorrectException(Exception):
