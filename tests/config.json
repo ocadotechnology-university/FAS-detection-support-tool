@@ -1,0 +1,22 @@
+{
+  "measurements": {
+    "correct": {
+      "eye": 20.0,
+      "lip": 15.0,
+      "philtrum": 3
+    },
+    "incorrect": {
+      "eye": 10000.0,
+      "lip": 10000.0,
+      "philtrum": 10000
+    }
+  },
+  "valid_extensions": ["png", "jpg", "jpeg"],
+  "invalid_extensions": ["pdf", "exe"],
+  "max_width": 500,
+  "min_width": 100,
+  "max_height": 500,
+  "min_height": 100,
+  "max_dpi": 300,
+  "min_dpi": 50
+}
