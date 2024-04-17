@@ -1,31 +1,51 @@
+import tempfile
+from PIL import Image
 import pytest
+import json
 import implementation.processing.measurement_handler as measurement_handler
 from implementation.processing.measurement import Measurement
 
 m_handler = measurement_handler.MeasureHandler()
 
+config = {}
+with open("../config.json") as config_file:
+    config = json.load(config_file)
+
+correct_measurement_values = config["measurements"]["correct"]
+incorrect_measurement_values = config["measurements"]["incorrect"]
+
 correct_measurement = Measurement()
-correct_measurement.eye = 20.0 # mm
-correct_measurement.lip = 15.0 # mm
-correct_measurement.philtrum = 3 # type
+correct_measurement.left_eye = correct_measurement_values["left_eye"]
+correct_measurement.right_eye = correct_measurement_values["right_eye"]
+correct_measurement.lip = correct_measurement_values["lip"]
+correct_measurement.philtrum = correct_measurement_values["philtrum"]
 
 incorrect_measurement = Measurement()
-incorrect_measurement.eye = 10000.0 # mm
-incorrect_measurement.lip = 10000.0 # mm
-incorrect_measurement.philtrum = 10000 # type
+correct_measurement.left_eye = correct_measurement_values["left_eye"]
+correct_measurement.right_eye = correct_measurement_values["right_eye"]
+incorrect_measurement.lip = incorrect_measurement_values["lip"]
+incorrect_measurement.philtrum = incorrect_measurement_values["philtrum"]
+
+def create_temp_image(width, height):
+    temp_image = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
+    with Image.new("RGB", (width, height)) as image:
+        image.save(temp_image.name)
+    return temp_image.name
 
 def test_measure():
-    correct_file = "test_correct.jpg"
+    correct_file = create_temp_image(500, 500)
     result = m_handler.measure(correct_file)
     assert isinstance(result, Measurement) == True
 
 
 def test_validate():
-    results = [
-        m_handler.validate(correct_measurement),
+    try:
+        m_handler.validate(correct_measurement)
+    except measurement_handler.MeasurementsNotCorrect:
+        pytest.fail("Not expected MeasurementNotCorrect exception for correct measurement")
+
+    with pytest.raises(measurement_handler.MeasurementsNotCorrect):
         m_handler.validate(incorrect_measurement)
-    ]
-    assert results == [True, False]
 
 
 def test_validate_eye():

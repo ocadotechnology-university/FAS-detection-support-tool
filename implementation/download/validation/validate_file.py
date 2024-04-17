@@ -103,13 +103,12 @@ class ValidateFile(ValidateFileInterface):
                 image.verify()
 
                 # Close and reload the image (if necessary)
-                image.close()
+                # image.close()
 
                 # Re-open the image (if necessary) to perform additional operations
                 with Image.open(file) as img:
                     # Try to apply an operation on the image (transposing)
                     img.transpose(Image.FLIP_LEFT_RIGHT)
-
             return True
         except Exception as e:
             print(f"Error checking file corruption: {str(e)}")
