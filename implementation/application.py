@@ -3,17 +3,13 @@ from implementation.download.validation.validate_file_content import FileContent
 from implementation.processing.measurement_handler import MeasurementsNotCorrect
 
 
-class Application():
-    global measurement_results
-
+class Application:
     def __init__(self, file_validator, file_content_validator, measurement_handler):
         self.file_validator = file_validator
         self.file_content_validator = file_content_validator
         self.measurement_handler = measurement_handler
 
     def run(self, file):
-        global measurement_results
-
         try:
             self.file_validator.validate(file)
         except FileNotCorrectException:
