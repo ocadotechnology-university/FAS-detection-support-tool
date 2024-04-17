@@ -12,7 +12,7 @@ from application import Application
 
 def main():
     file = "photo.png"
-    application = Application(ValidateFile(), ValidateFileContent(), MeasureHandler())
+    application = Application(ValidateFile(10000, 100, 10000, 100, 1000, 50), ValidateFileContent(), MeasureHandler())
     application.run(file)
 
 
