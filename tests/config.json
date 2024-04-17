@@ -1,12 +1,14 @@
 {
   "measurements": {
     "correct": {
-      "eye": 20.0,
+      "left_eye": 20.0,
+      "right_eye": 20.0,
       "lip": 15.0,
       "philtrum": 3
     },
     "incorrect": {
-      "eye": 10000.0,
+      "left_eye": 10000.0,
+      "right_eye": 10000.0,
       "lip": 10000.0,
       "philtrum": 10000
     }

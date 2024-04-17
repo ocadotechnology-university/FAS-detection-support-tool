@@ -15,12 +15,14 @@ correct_measurement_values = config["measurements"]["correct"]
 incorrect_measurement_values = config["measurements"]["incorrect"]
 
 correct_measurement = Measurement()
-correct_measurement.eye = correct_measurement_values["eye"]
+correct_measurement.left_eye = correct_measurement_values["left_eye"]
+correct_measurement.right_eye = correct_measurement_values["right_eye"]
 correct_measurement.lip = correct_measurement_values["lip"]
 correct_measurement.philtrum = correct_measurement_values["philtrum"]
 
 incorrect_measurement = Measurement()
-incorrect_measurement.eye = incorrect_measurement_values["eye"]
+correct_measurement.left_eye = correct_measurement_values["left_eye"]
+correct_measurement.right_eye = correct_measurement_values["right_eye"]
 incorrect_measurement.lip = incorrect_measurement_values["lip"]
 incorrect_measurement.philtrum = incorrect_measurement_values["philtrum"]
 
