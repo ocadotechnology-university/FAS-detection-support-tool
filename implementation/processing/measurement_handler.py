@@ -5,7 +5,7 @@ from implementation.processing.measurement import Measurement
 from implementation.download.image_handler import ImageHandler
 import cv2
 
-model_path = "../../resources/face_landmarker.task"
+model_path = "../resources/face_landmarker.task"
 
 
 class MeasurementsNotCorrect(Exception):
@@ -18,8 +18,10 @@ class MeasureHandler(MeasureHandlerInterface):
 
     def __init__(self):
         super().__init__()
-        base_options = mp.tasks.BaseOptions
         self.face_landmarker = mp.tasks.vision.FaceLandmarker
+
+        # these 3 variables will be used to create self.options
+        base_options = mp.tasks.BaseOptions
         face_landmarker_options = mp.tasks.vision.FaceLandmarkerOptions
         vision_running_mode = mp.tasks.vision.RunningMode
 
@@ -61,7 +63,6 @@ class MeasureHandler(MeasureHandlerInterface):
     def validate_philtrum(self, philtrum: float) -> bool:
         return True
 
-
-if __name__ == "__main__":
-    mh = MeasureHandler()
-    mh.measure(mp.Image.create_from_file("../../resources/adult.png"))
+    # if __name__ == "__main__":
+    #     mh = MeasureHandler()
+    #     mh.measure(mp.Image.create_from_file("../../resources/adult.png"))

@@ -1,6 +1,8 @@
 import os
 import sys
 
+from implementation.download.Image_manager import ImageManager
+
 # Append the project directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -11,9 +13,12 @@ from application import Application
 
 
 def main():
-    file = "photo.png"
-    application = Application(ValidateFile(10000, 100, 10000, 100, 1000, 50), ValidateFileContent(), MeasureHandler())
-    application.run(file)
+    application = Application(
+        MeasureHandler(),
+        ImageManager(
+            ValidateFile(10000, 100, 10000, 100, 1000, 50),
+            ValidateFileContent()))
+    application.run()
 
 
 if __name__ == "__main__":
