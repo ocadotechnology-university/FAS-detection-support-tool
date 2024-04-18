@@ -32,23 +32,25 @@ class ImageHandler(ImageHandlerInterface):
             mp.solutions.drawing_utils.draw_landmarks(
                 image=bgr_image,
                 landmark_list=face_landmarks_proto,
-                connections=mp.solutions.face_mesh.FACEMESH_TESSELATION,
-                landmark_drawing_spec=None,
-                connection_drawing_spec=mp.solutions.drawing_styles
-                .get_default_face_mesh_tesselation_style())
-            mp.solutions.drawing_utils.draw_landmarks(
-                image=bgr_image,
-                landmark_list=face_landmarks_proto,
-                connections=mp.solutions.face_mesh.FACEMESH_CONTOURS,
+                connections=mp.solutions.face_mesh.FACEMESH_RIGHT_EYE,
                 landmark_drawing_spec=None,
                 connection_drawing_spec=mp.solutions.drawing_styles
                 .get_default_face_mesh_contours_style())
+
             mp.solutions.drawing_utils.draw_landmarks(
                 image=bgr_image,
                 landmark_list=face_landmarks_proto,
-                connections=mp.solutions.face_mesh.FACEMESH_IRISES,
+                connections=mp.solutions.face_mesh.FACEMESH_LEFT_EYE,
                 landmark_drawing_spec=None,
                 connection_drawing_spec=mp.solutions.drawing_styles
-                .get_default_face_mesh_iris_connections_style())
+                .get_default_face_mesh_contours_style())
+
+            mp.solutions.drawing_utils.draw_landmarks(
+                image=bgr_image,
+                landmark_list=face_landmarks_proto,
+                connections=mp.solutions.face_mesh.FACEMESH_LIPS,
+                landmark_drawing_spec=None,
+                connection_drawing_spec=mp.solutions.drawing_styles
+                .get_default_face_mesh_contours_style())
 
         return bgr_image
