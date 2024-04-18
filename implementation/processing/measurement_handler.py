@@ -7,7 +7,7 @@ from implementation.processing.measurement import Measurement
 from implementation.download.image_handler import ImageHandler
 import cv2
 
-model_path = "../../resources/face_landmarker.task"
+model_path = "../resources/face_landmarker.task"
 
 
 class MeasurementsNotCorrect(Exception):
@@ -142,12 +142,3 @@ class MeasureHandler(MeasureHandlerInterface):
 
     def validate_philtrum(self, philtrum: float) -> bool:
         return True
-
-
-if __name__ == "__main__":
-    mh = MeasureHandler()
-    measure = mh.measure(mp.Image.create_from_file("../../resources/adult.png"))
-    print(measure.left_eye)
-    print(measure.right_eye)
-    print(measure.lip)
-    print(measure.philtrum)

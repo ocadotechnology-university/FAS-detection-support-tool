@@ -7,12 +7,22 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from download.validation.validate_file import ValidateFile
 from download.validation.validate_file_content import ValidateFileContent
 from implementation.processing.measurement_handler import MeasureHandler
+from implementation.download.image_handler import ImageHandler
 from application import Application
 
 
 def main():
-    file = "photo.png"
-    application = Application(ValidateFile(10000, 100, 10000, 100, 1000, 50), ValidateFileContent(), MeasureHandler())
+    file = "../resources/adult.png"
+    application = Application(
+        ImageHandler(),
+        ValidateFile(10000,
+                     100,
+                     10000,
+                     100,
+                     1000,
+                     50),
+        ValidateFileContent(),
+        MeasureHandler())
     application.run(file)
 
 
