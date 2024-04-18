@@ -13,6 +13,26 @@
       "philtrum": 10000
     }
   },
+  "normalized_cords": {
+    "correct": {
+      "normalized_x": 0.5,
+      "normalized_y": 0.5,
+      "image_width": 100,
+      "image_height": 100
+    },
+    "incorrect": {
+      "normalized_x": -0.1,
+      "normalized_y": 1.2,
+      "image_width": 100,
+      "image_height": 100
+    },
+    "edge": {
+      "normalized_x": 0,
+      "normalized_y": 1,
+      "image_width": 100,
+      "image_height": 100
+    }
+  },
   "valid_extensions": ["png", "jpg", "jpeg"],
   "invalid_extensions": ["pdf", "exe"],
   "max_width": 500,

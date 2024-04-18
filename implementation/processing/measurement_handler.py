@@ -1,13 +1,14 @@
 import math
 
 import mediapipe as mp
+import os
 from mediapipe.tasks import python
 from implementation.processing.measurement_handler_interface import MeasureHandlerInterface
 from implementation.processing.measurement import Measurement
 from implementation.download.image_handler import ImageHandler
 import cv2
 
-model_path = "../resources/face_landmarker.task"
+model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../resources/face_landmarker.task")
 
 
 class MeasurementsNotCorrect(Exception):
@@ -32,15 +33,17 @@ class MeasureHandler(MeasureHandlerInterface):
             output_face_blendshapes=True,
         )
 
-    def measure(self, image):
+    def measure(self, image, show_image):
         img_handler = ImageHandler()
         with self.face_landmarker.create_from_options(self.options) as landmarker:
             face_landmarker_result = landmarker.detect(image)
 
-        annotated_image = img_handler.draw_landmarks_on_image(image.numpy_view(), face_landmarker_result)
-        cv2.imshow('Annotated Image', annotated_image)
-        cv2.waitKey(0)  # Wait for any key press
-        cv2.destroyAllWindows()  # Close all OpenCV windows
+        if show_image:
+            annotated_image = img_handler.draw_landmarks_on_image(image.numpy_view(), face_landmarker_result)
+            cv2.imshow('Annotated Image', annotated_image)
+            cv2.waitKey(0)  # Wait for any key press
+            cv2.destroyAllWindows()  # Close all OpenCV windows
+
         # Number values of points on face landmark
         point_left_eye_l = 362
         point_left_eye_r = 263

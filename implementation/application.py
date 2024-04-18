@@ -26,13 +26,12 @@ class Application:
         img = self.image_handler.load_image(file)
 
         try:
-            measurement_results = self.measurement_handler.measure(img)
+            measurement_results = self.measurement_handler.measure(img, show_image=True)
             self.measurement_handler.validate(measurement_results)
+            print(f'right eye = {measurement_results.right_eye}px')
+            print(f'left eye = {measurement_results.left_eye}px')
+            print(f'lip = {measurement_results.lip}px')
+            print(f'philtrum = {measurement_results.philtrum}')
         except MeasurementsNotCorrect:
             # handle exception
             pass
-
-        print(f'{measurement_results.right_eye=}')
-        print(f'{measurement_results.left_eye=}')
-        print(f'{measurement_results.philtrum=}')
-        print(f'{measurement_results.lip=}')

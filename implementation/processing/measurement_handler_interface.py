@@ -6,11 +6,12 @@ class MeasureHandlerInterface(ABC):
     """Class for performing measure and validate measurement"""
 
     @abstractmethod
-    def measure(self, image) -> Measurement:
+    def measure(self, image, show_image) -> Measurement:
         """Measure size of face elements from image
 
         Args:
             image: image loaded by mediapipe
+            show_image (bool): boolean deciding to show result image or not
         Returns:
             Measurement
         """
