@@ -6,26 +6,14 @@ from implementation.processing.measurement_handler import MeasurementsNotCorrect
 
 
 class Application:
-    def __init__(self, file_validator, file_content_validator, measurement_handler):
-        self.file_validator = file_validator
-        self.file_content_validator = file_content_validator
+    def __init__(self, measurement_handler, image_manager):
         self.measurement_handler = measurement_handler
+        self.image_manager = image_manager
 
-    def run(self, file):
+    def run(self):
+        mp_image = self.image_manager.load()
         try:
-            self.file_validator.validate(file)
-        except FileNotCorrectException:
-            # handle exception
-            pass
-
-        try:
-            self.file_content_validator.validate(file)
-        except FileContentNotValidException:
-            # handle exception
-            pass
-
-        try:
-            measurement_results = self.measurement_handler.measure(mp.Image.create_from_file(file))
+            measurement_results = self.measurement_handler.measure(mp_image)
             self.measurement_handler.validate(measurement_results)
         except MeasurementsNotCorrect:
             # handle exception
