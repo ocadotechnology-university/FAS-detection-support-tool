@@ -18,8 +18,10 @@ class MeasureHandler(MeasureHandlerInterface):
 
     def __init__(self):
         super().__init__()
-        base_options = mp.tasks.BaseOptions
         self.face_landmarker = mp.tasks.vision.FaceLandmarker
+
+        # these 3 variables will be used to create self.options
+        base_options = mp.tasks.BaseOptions
         face_landmarker_options = mp.tasks.vision.FaceLandmarkerOptions
         vision_running_mode = mp.tasks.vision.RunningMode
 
