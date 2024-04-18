@@ -1,3 +1,5 @@
+import mediapipe as mp
+
 from implementation.download.validation.validate_file import FileNotCorrectException
 from implementation.download.validation.validate_file_content import FileContentNotValidException
 from implementation.processing.measurement_handler import MeasurementsNotCorrect
@@ -23,7 +25,7 @@ class Application:
             pass
 
         try:
-            measurement_results = self.measurement_handler.measure(file)
+            measurement_results = self.measurement_handler.measure(mp.Image.create_from_file(file))
             self.measurement_handler.validate(measurement_results)
         except MeasurementsNotCorrect:
             # handle exception
