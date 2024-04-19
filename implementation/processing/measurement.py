@@ -11,8 +11,13 @@ class Measurement(MeasurementInterface):
         - philtrum (float): depth of a philtrum
     """
 
-    def __init__(self):
-        self.left_eye = 0.0
-        self.right_eye = 0.0
-        self.lip = 0.0
-        self.philtrum = 0.0
+    def __init__(self, 
+                 left_eye,
+                 right_eye=0.0,
+                 lip=0.0,
+                 philtrum=0.0,
+    ):
+        self.left_eye = left_eye
+        self.right_eye = right_eye
+        self.lip = lip
+        self.philtrum = philtrum

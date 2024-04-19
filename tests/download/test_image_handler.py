@@ -1,4 +1,4 @@
 import pytest
-import implementation.download.image_handler as image_handler
+import implementation.download.image_manager as img_mng
 
-img_handler = image_handler.ImageHandler()
+img_manager = img_mng.ImageManager()
