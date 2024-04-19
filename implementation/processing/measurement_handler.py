@@ -1,12 +1,13 @@
-import math
-
-import mediapipe as mp
 import os
+import math
+import cv2
+import mediapipe as mp
+
 from mediapipe.tasks import python
+
 from implementation.processing.measurement_handler_interface import MeasureHandlerInterface
 from implementation.processing.measurement import Measurement
-from implementation.download.image_handler import ImageHandler
-import cv2
+from implementation.download.image_manager import ImageManager
 
 model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../resources/face_landmarker.task")
 
@@ -21,8 +22,10 @@ class MeasureHandler(MeasureHandlerInterface):
 
     def __init__(self):
         super().__init__()
-        base_options = mp.tasks.BaseOptions
         self.face_landmarker = mp.tasks.vision.FaceLandmarker
+
+        # these 3 variables will be used to create self.options
+        base_options = mp.tasks.BaseOptions
         face_landmarker_options = mp.tasks.vision.FaceLandmarkerOptions
         vision_running_mode = mp.tasks.vision.RunningMode
 
@@ -34,13 +37,13 @@ class MeasureHandler(MeasureHandlerInterface):
         )
 
     def measure(self, image, show_image):
-        img_handler = ImageHandler()
+        img_handler = ImageManager()
         with self.face_landmarker.create_from_options(self.options) as landmarker:
             face_landmarker_result = landmarker.detect(image)
 
         if show_image:
             annotated_image = img_handler.draw_landmarks_on_image(image.numpy_view(), face_landmarker_result)
-            cv2.imshow('Annotated Image', annotated_image)
+            cv2.imshow('Annotated image', annotated_image)
             cv2.waitKey(0)  # Wait for any key press
             cv2.destroyAllWindows()  # Close all OpenCV windows
 

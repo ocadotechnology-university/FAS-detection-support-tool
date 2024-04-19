@@ -44,7 +44,8 @@ def create_temp_image(width, height):
     return temp_image.name
 
 def test_measure():
-    image_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + "\\resources\\test_face.jpg"
+    image_path = (os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+                  + "\\resources\\test_face.jpg")
     result = m_handler.measure(mp.Image.create_from_file(image_path), show_image=False)
     assert isinstance(result, Measurement) is True
 

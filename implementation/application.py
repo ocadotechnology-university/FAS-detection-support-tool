@@ -1,32 +1,26 @@
-from implementation.download.validation.validate_file import FileNotCorrectException
-from implementation.download.validation.validate_file_content import FileContentNotValidException
+from implementation.download.validation.validate_file import ValidateFile
+from implementation.download.validation.validate_file_content import ValidateFileContent
 from implementation.processing.measurement_handler import MeasurementsNotCorrect
 
 
 class Application:
-    def __init__(self, image_handler, file_validator, file_content_validator, measurement_handler):
-        self.image_handler = image_handler
-        self.file_validator = file_validator
-        self.file_content_validator = file_content_validator
+    def __init__(self, measurement_handler, image_manager):
         self.measurement_handler = measurement_handler
+        self.image_manager = image_manager
 
-    def run(self, file):
+    def run(self):
+        mp_image = self.image_manager.load_image(
+            ValidateFile(10000,
+                         100,
+                         10000,
+                         100,
+                         1000,
+                         50
+                         ),
+            ValidateFileContent()
+        )
+        measurement_results = self.measurement_handler.measure(mp_image, show_image=True)
         try:
-            self.file_validator.validate(file)
-        except FileNotCorrectException:
-            # handle exception
-            pass
-
-        try:
-            self.file_content_validator.validate(file)
-        except FileContentNotValidException:
-            # handle exception
-            pass
-
-        img = self.image_handler.load_image(file)
-
-        try:
-            measurement_results = self.measurement_handler.measure(img, show_image=True)
             self.measurement_handler.validate(measurement_results)
             print(f'right eye = {measurement_results.right_eye}px')
             print(f'left eye = {measurement_results.left_eye}px')

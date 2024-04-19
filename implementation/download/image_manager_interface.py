@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 
 
-class ImageHandlerInterface(ABC):
+class ImageManagerInterface(ABC):
     @abstractmethod
-    def load_image(self, image_path):
-        """ Load an image and return it."""
+    def load_image(self, file_validator, file_content_validator):
+        """ Load and validate image and return it if validation pass"""
         ...
 
     @abstractmethod

@@ -1,20 +1,38 @@
 import cv2
+import easygui
 import mediapipe as mp
 import numpy as np
 
 from mediapipe.framework.formats import landmark_pb2
 
-from implementation.download.image_handler_interface import ImageHandlerInterface
+from implementation.download.image_manager_interface import ImageManagerInterface
+from implementation.download.validation.validate_file import FileNotCorrectException
+from implementation.download.validation.validate_file_content import FileContentNotValidException
 
 
-class ImageHandler(ImageHandlerInterface):
+class ImageManager(ImageManagerInterface):
+    """A class for maintaining image operations"""
+    def load_image(self, file_validator, file_content_validator):
+        file = easygui.fileopenbox()
+        # file = filedialog.askopenfilename()
 
-    def load_image(self, image_path):
-        return mp.Image.create_from_file(image_path)
+        if file:
+            print("Selected image:", file)
+            try:
+                file_validator.validate(file)
+            except FileNotCorrectException:
+                # handle exception
+                pass
+
+            try:
+                file_content_validator.validate(file)
+            except FileContentNotValidException:
+                # handle exception
+                pass
+            return mp.Image.create_from_file(file)
 
     def draw_landmarks_on_image(self, rgb_image, detection_result):
         face_landmarks_list = detection_result.face_landmarks
-        annotated_image = np.copy(rgb_image)
 
         # Convert RGB image to BGR format
         bgr_image = cv2.cvtColor(rgb_image, cv2.COLOR_RGB2BGR)

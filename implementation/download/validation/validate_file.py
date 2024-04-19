@@ -127,15 +127,9 @@ class ValidateFile(ValidateFileInterface):
         try:
             with Image.open(file) as image:
                 width, height = image.size
-                if width < self.min_width:
-                    return False
-                if width > self.max_width:
-                    return False
-                if height < self.min_height:
-                    return False
-                if height > self.max_height:
-                    return False
-                return True
+                if self.min_width < width < self.max_width and self.min_height < height < self.max_height:
+                    return True
+                return False
         except Exception as e:
             print(f"Error checking photo dimensions: {str(e)}")
             return False
