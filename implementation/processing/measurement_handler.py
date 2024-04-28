@@ -36,6 +36,30 @@ class MeasureHandler(MeasureHandlerInterface):
             output_face_blendshapes=True,
         )
 
+    def distance(self, point1, point2):
+        return math.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2)
+
+    def get_reference_position(self, image):
+        img = cv2.imread(image)
+        img_w, img_h, channels = img.shape
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        _, thresh = cv2.threshold(gray, 50, 255, 0)
+        # Find all countours
+        contours, _ = cv2.findContours(thresh, 1, 2)
+
+        for countour in contours:
+            approx = cv2.approxPolyDP(countour, 0.01 * cv2.arcLength(countour, True), True)
+            if len(approx) == 4:
+                x, y, w, h = cv2.boundingRect(countour)
+                # Consider only squares with at least 10px of width and height
+                if 10 < w < img_w and 10 < h < img_h:
+                    ratio = float(w) / h
+                    # Assuming squares have width to height ratio between 0.9 and 1.1
+                    if 0.9 <= ratio <= 1.1:
+                        img = cv2.drawContours(img, [countour], -1, (0, 255, 0), 2)
+                        return approx.reshape(-1, 2).tolist()
+
     def measure(self, image, show_image):
         img_handler = ImageManager()
         with self.face_landmarker.create_from_options(self.options) as landmarker:
@@ -54,6 +78,18 @@ class MeasureHandler(MeasureHandlerInterface):
         point_right_eye_r = 133
         point_upper_lip_up = 0
         point_upper_lip_down = 13
+
+        # Calibrating using reference
+        reference_pos = self.get_reference_position(image)
+        # UL UR
+        # DL DR
+        between_UL_UR = self.distance(reference_pos[3], reference_pos[0])
+        between_DL_DR = self.distance(reference_pos[2], reference_pos[1])
+        between_UL_DL = self.distance(reference_pos[3], reference_pos[2])
+        between_UR_DR = self.distance(reference_pos[0], reference_pos[1])
+
+        # Average distance (in pixels) between all reference vertices
+        average_dist = (between_UL_UR + between_DL_DR + between_UL_DL + between_UR_DR)/4
 
         left_eye_size = self.calculate_euclidean_distance_px(
             point1=self.normalized_to_pixel_coordinates(
