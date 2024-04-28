@@ -20,6 +20,14 @@ class MeasurementsNotCorrect(Exception):
 class MeasureHandler(MeasureHandlerInterface):
     """Class for performing measure and validate measurement"""
 
+    # Landmark values of points on face
+    LANDMARK_LEFT_EYE_L = 362
+    LANDMARK_LEFT_EYE_R = 263
+    LANDMARK_RIGHT_EYE_L = 33
+    LANDMARK_RIGHT_EYE_R = 133
+    LANDMARK_UPPER_LIP_UP = 0
+    LANDMARK_UPPER_LIP_DOWN = 13
+
     def __init__(self):
         super().__init__()
         self.face_landmarker = mp.tasks.vision.FaceLandmarker
@@ -71,14 +79,6 @@ class MeasureHandler(MeasureHandlerInterface):
             cv2.waitKey(0)  # Wait for any key press
             cv2.destroyAllWindows()  # Close all OpenCV windows
 
-        # Number values of points on face landmark
-        point_left_eye_l = 362
-        point_left_eye_r = 263
-        point_right_eye_l = 33
-        point_right_eye_r = 133
-        point_upper_lip_up = 0
-        point_upper_lip_down = 13
-
         # Calibrating using reference
         reference_pos = self.get_reference_position(image)
         # UL UR
@@ -93,42 +93,42 @@ class MeasureHandler(MeasureHandlerInterface):
 
         left_eye_size = self.calculate_euclidean_distance_px(
             point1=self.normalized_to_pixel_coordinates(
-                normalized_x=face_landmarker_result.face_landmarks[0][point_left_eye_l].x,
-                normalized_y=face_landmarker_result.face_landmarks[0][point_left_eye_l].y,
+                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].x,
+                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].y,
                 image_width=image.width,
                 image_height=image.height
             ),
             point2=self.normalized_to_pixel_coordinates(
-                normalized_x=face_landmarker_result.face_landmarks[0][point_left_eye_r].x,
-                normalized_y=face_landmarker_result.face_landmarks[0][point_left_eye_r].y,
+                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].x,
+                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].y,
                 image_width=image.width,
                 image_height=image.height
             ),
         )
         right_eye_size = self.calculate_euclidean_distance_px(
             point1=self.normalized_to_pixel_coordinates(
-                normalized_x=face_landmarker_result.face_landmarks[0][point_right_eye_l].x,
-                normalized_y=face_landmarker_result.face_landmarks[0][point_right_eye_l].y,
+                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].x,
+                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].y,
                 image_width=image.width,
                 image_height=image.height
             ),
             point2=self.normalized_to_pixel_coordinates(
-                normalized_x=face_landmarker_result.face_landmarks[0][point_right_eye_r].x,
-                normalized_y=face_landmarker_result.face_landmarks[0][point_right_eye_r].y,
+                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].x,
+                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].y,
                 image_width=image.width,
                 image_height=image.height
             ),
         )
         lip_size = self.calculate_euclidean_distance_px(
             point1=self.normalized_to_pixel_coordinates(
-                normalized_x=face_landmarker_result.face_landmarks[0][point_upper_lip_up].x,
-                normalized_y=face_landmarker_result.face_landmarks[0][point_upper_lip_up].y,
+                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].x,
+                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].y,
                 image_width=image.width,
                 image_height=image.height
             ),
             point2=self.normalized_to_pixel_coordinates(
-                normalized_x=face_landmarker_result.face_landmarks[0][point_upper_lip_down].x,
-                normalized_y=face_landmarker_result.face_landmarks[0][point_upper_lip_down].y,
+                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].x,
+                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].y,
                 image_width=image.width,
                 image_height=image.height
             ),
