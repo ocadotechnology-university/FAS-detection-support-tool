@@ -1,7 +1,10 @@
 import os
+import tempfile
+
 import math
 import cv2
 import mediapipe as mp
+import numpy as np
 
 from mediapipe.tasks import python
 
@@ -39,8 +42,8 @@ class MeasureHandler(MeasureHandlerInterface):
     def distance(self, point1, point2):
         return math.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2)
 
-    def get_reference_position(self, image):
-        img = cv2.imread(image)
+    def get_reference_position(self, file_path):
+        img = cv2.imread(file_path)
         img_w, img_h, channels = img.shape
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -60,7 +63,7 @@ class MeasureHandler(MeasureHandlerInterface):
                         img = cv2.drawContours(img, [countour], -1, (0, 255, 0), 2)
                         return approx.reshape(-1, 2).tolist()
 
-    def measure(self, image, show_image):
+    def measure(self, file_path, image, show_image):
         img_handler = ImageManager()
         with self.face_landmarker.create_from_options(self.options) as landmarker:
             face_landmarker_result = landmarker.detect(image)
@@ -80,7 +83,8 @@ class MeasureHandler(MeasureHandlerInterface):
         point_upper_lip_down = 13
 
         # Calibrating using reference
-        reference_pos = self.get_reference_position(image)
+        reference_pos = self.get_reference_position(file_path)
+        print(f"reference_pos = {reference_pos}")
         # UL UR
         # DL DR
         between_UL_UR = self.distance(reference_pos[3], reference_pos[0])
@@ -90,6 +94,7 @@ class MeasureHandler(MeasureHandlerInterface):
 
         # Average distance (in pixels) between all reference vertices
         average_dist = (between_UL_UR + between_DL_DR + between_UL_DL + between_UR_DR)/4
+        print(f"average_dist = {average_dist}px")
 
         left_eye_size = self.calculate_euclidean_distance_px(
             point1=self.normalized_to_pixel_coordinates(
@@ -135,9 +140,10 @@ class MeasureHandler(MeasureHandlerInterface):
         )
 
         return Measurement(
-            left_eye=left_eye_size,
-            right_eye=right_eye_size,
-            lip=lip_size,
+            # times 10mm divided by average dist in px
+            left_eye=left_eye_size*10/average_dist,
+            right_eye=right_eye_size*10/average_dist,
+            lip=lip_size*10/average_dist,
         )
 
     def calculate_euclidean_distance_px(self, point1, point2):

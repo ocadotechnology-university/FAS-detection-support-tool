@@ -6,6 +6,31 @@ class MeasureHandlerInterface(ABC):
     """Class for performing measure and validate measurement"""
 
     @abstractmethod
+    def distance(self, point1, point2):
+        """Calculate Euclidean distance between 2 given points
+
+        Args:
+            point1: list [x1, y1]
+            point2: list [x2, y2]
+
+        Returns:
+            Distance as a float
+        """
+        ...
+
+    @abstractmethod
+    def get_reference_position(self, file_path):
+        """Get position of reference vertices
+
+        Args:
+            file_path: path to image (str)
+
+        Returns:
+            A list of points [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]
+        """
+        ...
+
+    @abstractmethod
     def measure(self, image, show_image) -> Measurement:
         """Measure size of face elements from image
 
