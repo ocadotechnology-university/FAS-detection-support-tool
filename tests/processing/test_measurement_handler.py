@@ -1,8 +1,12 @@
+import cv2
 import math
 import os
 import tempfile
+
+import numpy as np
 from PIL import Image
 import pytest
+import unittest
 import json
 import implementation.processing.measurement_handler as measurement_handler
 import mediapipe as mp
@@ -43,11 +47,21 @@ def create_temp_image(width, height):
 
     return temp_image.name
 
+
+def test_get_reference_position():
+    img = np.zeros((100, 100, 3), dtype=np.uint8)
+    cv2.rectangle(img, (10, 10), (30, 30), (255, 255, 255), -1)
+    cv2.imwrite("test_image.png", img)
+
+    reference_position = m_handler.get_reference_position("test_image.png")
+    assert reference_position == [[10, 10], [10, 30], [30, 30], [30, 10]]
+
 def test_measure():
     image_path = (os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
                   + "\\resources\\test_face.jpg")
     result = m_handler.measure(mp.Image.create_from_file(image_path), show_image=False)
     assert isinstance(result, Measurement) is True
+
 
 def test_calculate_euclidean_distance_px():
     # Test for two points with positive coordinates
@@ -74,6 +88,7 @@ def test_calculate_euclidean_distance_px():
     expected_result = 0
     assert m_handler.calculate_euclidean_distance_px(point1, point2) == expected_result
 
+
 def test_valid_normalized_coordinates():
     result = m_handler.normalized_to_pixel_coordinates(
         correct_cords_values["normalized_x"],
@@ -82,6 +97,7 @@ def test_valid_normalized_coordinates():
         correct_cords_values["image_height"]
     )
     assert result == (50.0, 50.0)
+
 
 def test_invalid_normalized_coordinates():
     result = m_handler.normalized_to_pixel_coordinates(
@@ -92,6 +108,7 @@ def test_invalid_normalized_coordinates():
     )
     assert result is None
 
+
 def test_edge_normalized_coordinates():
     result = m_handler.normalized_to_pixel_coordinates(
         edge_cords_values["normalized_x"],
@@ -100,7 +117,6 @@ def test_edge_normalized_coordinates():
         edge_cords_values["image_height"]
     )
     assert result == (0.0, 99.0)
-
 
 
 def test_validate():
@@ -136,4 +152,3 @@ def test_validate_lip():
 def test_validate_philtrum():
     # TODO when philtrum type established
     pass
-

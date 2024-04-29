@@ -1,3 +1,5 @@
+from tkinter import filedialog
+
 import cv2
 import easygui
 import mediapipe as mp
@@ -29,7 +31,7 @@ class ImageManager(ImageManagerInterface):
             except FileContentNotValidException:
                 # handle exception
                 pass
-            return mp.Image.create_from_file(file)
+            return file, mp.Image.create_from_file(file)
 
     def draw_landmarks_on_image(self, rgb_image, detection_result):
         face_landmarks_list = detection_result.face_landmarks

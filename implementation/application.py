@@ -9,7 +9,7 @@ class Application:
         self.image_manager = image_manager
 
     def run(self):
-        mp_image = self.image_manager.load_image(
+        file_path, mp_image = self.image_manager.load_image(
             ValidateFile(10000,
                          100,
                          10000,
@@ -19,12 +19,12 @@ class Application:
                          ),
             ValidateFileContent()
         )
-        measurement_results = self.measurement_handler.measure(mp_image, show_image=True)
+        measurement_results = self.measurement_handler.measure(file_path, mp_image, show_image=True)
         try:
             self.measurement_handler.validate(measurement_results)
-            print(f'right eye = {measurement_results.right_eye}px')
-            print(f'left eye = {measurement_results.left_eye}px')
-            print(f'lip = {measurement_results.lip}px')
+            print(f'right eye = {measurement_results.right_eye}mm')
+            print(f'left eye = {measurement_results.left_eye}mm')
+            print(f'lip = {measurement_results.lip}mm')
             print(f'philtrum = {measurement_results.philtrum}')
         except MeasurementsNotCorrect:
             # handle exception
