@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class ImageManagerInterface(ABC):
     @abstractmethod
-    def load_image(self, file_validator, file_content_validator):
+    def load_image(self, file_validator, file_content_validator, file_path):
         """ Load and validate image and return it if validation pass"""
         ...
 

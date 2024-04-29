@@ -1,7 +1,5 @@
-from tkinter import filedialog
-
 import cv2
-import easygui
+
 import mediapipe as mp
 import numpy as np
 
@@ -14,24 +12,26 @@ from implementation.download.validation.validate_file_content import FileContent
 
 class ImageManager(ImageManagerInterface):
     """A class for maintaining image operations"""
-    def load_image(self, file_validator, file_content_validator):
-        file = easygui.fileopenbox()
-        # file = filedialog.askopenfilename()
 
-        if file:
-            print("Selected image:", file)
-            try:
-                file_validator.validate(file)
-            except FileNotCorrectException:
-                # handle exception
-                pass
+    def load_image(self, file_validator, file_content_validator, file_path):
+        if file_path is None:
+            return # no file_path, no worries
 
-            try:
-                file_content_validator.validate(file)
-            except FileContentNotValidException:
-                # handle exception
-                pass
-            return file, mp.Image.create_from_file(file)
+        # "there is a file_path" execution branch
+
+        print("Selected image:", file_path)
+        try:
+            file_validator.validate(file_path)
+        except FileNotCorrectException:
+            # handle exception
+            pass
+
+        try:
+            file_content_validator.validate(file_path)
+        except FileContentNotValidException:
+            # handle exception
+            pass
+        return mp.Image.create_from_file(file_path)
 
     def draw_landmarks_on_image(self, rgb_image, detection_result):
         face_landmarks_list = detection_result.face_landmarks
