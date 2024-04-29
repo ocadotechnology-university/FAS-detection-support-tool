@@ -4,7 +4,6 @@ import tempfile
 import math
 import cv2
 import mediapipe as mp
-import numpy as np
 
 from mediapipe.tasks import python
 
@@ -38,9 +37,6 @@ class MeasureHandler(MeasureHandlerInterface):
             output_facial_transformation_matrixes=True,
             output_face_blendshapes=True,
         )
-
-    def distance(self, point1, point2):
-        return math.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2)
 
     def get_reference_position(self, file_path):
         img = cv2.imread(file_path)
@@ -87,13 +83,13 @@ class MeasureHandler(MeasureHandlerInterface):
         print(f"reference_pos = {reference_pos}")
         # UL UR
         # DL DR
-        between_UL_UR = self.distance(reference_pos[3], reference_pos[0])
-        between_DL_DR = self.distance(reference_pos[2], reference_pos[1])
-        between_UL_DL = self.distance(reference_pos[3], reference_pos[2])
-        between_UR_DR = self.distance(reference_pos[0], reference_pos[1])
+        between_UL_UR = self.calculate_euclidean_distance_px(reference_pos[3], reference_pos[0])
+        between_DL_DR = self.calculate_euclidean_distance_px(reference_pos[2], reference_pos[1])
+        between_UL_DL = self.calculate_euclidean_distance_px(reference_pos[3], reference_pos[2])
+        between_UR_DR = self.calculate_euclidean_distance_px(reference_pos[0], reference_pos[1])
 
         # Average distance (in pixels) between all reference vertices
-        average_dist = (between_UL_UR + between_DL_DR + between_UL_DL + between_UR_DR)/4
+        average_dist = (between_UL_UR + between_DL_DR + between_UL_DL + between_UR_DR) / 4
         print(f"average_dist = {average_dist}px")
 
         left_eye_size = self.calculate_euclidean_distance_px(
@@ -141,9 +137,9 @@ class MeasureHandler(MeasureHandlerInterface):
 
         return Measurement(
             # times 10mm divided by average dist in px
-            left_eye=left_eye_size*10/average_dist,
-            right_eye=right_eye_size*10/average_dist,
-            lip=lip_size*10/average_dist,
+            left_eye=left_eye_size * 10 / average_dist,
+            right_eye=right_eye_size * 10 / average_dist,
+            lip=lip_size * 10 / average_dist,
         )
 
     def calculate_euclidean_distance_px(self, point1, point2):

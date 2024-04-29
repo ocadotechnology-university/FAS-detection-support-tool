@@ -48,18 +48,6 @@ def create_temp_image(width, height):
     return temp_image.name
 
 
-def test_distance():
-    test_cases = [
-        ((0, 0), (3, 4), 5.0),  # should be 5.0
-        ((-1, -1), (2, 3), 5.0),  # should be 5.0
-        ((0, 0), (0, 0), 0.0),  # should be 0.0
-        ((3, 4), (0, 0), 5.0),  # should be 5.0
-    ]
-    for point1, point2, expected in test_cases:
-        distance_result = m_handler.distance(point1, point2)
-        assert distance_result == expected
-
-
 def test_get_reference_position():
     img = np.zeros((100, 100, 3), dtype=np.uint8)
     cv2.rectangle(img, (10, 10), (30, 30), (255, 255, 255), -1)
