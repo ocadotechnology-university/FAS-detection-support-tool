@@ -1,0 +1,10 @@
+pip~=23.3
+attrs~=23.2.0
+pillow~=10.3.0
+setuptools~=65.5.1
+packaging~=24.0
+pyparsing~=3.1.2
+pytest~=8.1.1
+numpy~=1.26.3
+mediapipe~=0.10.11
+easygui~=0.98.3
