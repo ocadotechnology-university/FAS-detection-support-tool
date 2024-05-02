@@ -1,5 +1,6 @@
-from implementation.download.validation.validate_file import FileNotCorrectException
-from implementation.download.validation.validate_file_content import FileContentNotValidException
+import implementation.download.validation.validate_file_content
+from download.validation.validate_file import FileNotCorrectException
+from download.validation.validate_file_content import FileContentNotValidException
 from implementation.processing.measurement_handler import MeasurementsNotCorrect
 
 from tools.image import load_image, mediapipe_load_image
@@ -19,16 +20,18 @@ class Application:
         # Validate file
         try:
             self.file_validator.validate(file_path)
-        except FileNotCorrectException:
-            pass
+        except FileNotCorrectException as e:
+            print("Error in file validation:", e)
+            raise
         # Load image
         mp_image = mediapipe_load_image(file_path)
         image = load_image(file_path)
         # Validate image content
         try:
-            self.file_content_validator.validate(image)
-        except FileContentNotValidException:
-            pass
+            self.file_content_validator.validate(image, mp_image)
+        except FileContentNotValidException as e:
+            print("Error in image content validation:", e)
+            raise
         # Measure
         measurement_results = self.measurement_handler.measure(image, mp_image, show_image=True)
         # Validate measurement

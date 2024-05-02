@@ -58,7 +58,7 @@ def test_get_reference_position():
 
 def test_measure():
     image_path = (os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-                  + "\\resources\\test_face.jpg")
+                  + "\\resources\\test_no_reference.jpg")
     result = m_handler.measure(mp.Image.create_from_file(image_path), show_image=False)
     assert isinstance(result, Measurement) is True
 

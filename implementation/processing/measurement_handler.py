@@ -12,8 +12,6 @@ from implementation.processing.measurement import Measurement
 
 from tools.image import draw_landmarks_on_image, get_reference_position, detect_landmarks
 
-model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../resources/face_landmarker.task")
-
 
 class MeasurementsNotCorrect(Exception):
     def __init__(self, message):
@@ -33,10 +31,10 @@ class MeasureHandler(MeasureHandlerInterface):
 
     def measure(self, image, mp_image, show_image):
 
-        face_landmarker_result = detect_landmarks(mp_image, model_path)
+        face_landmarker_result = detect_landmarks(mp_image)
 
         if show_image:
-            annotated_image = draw_landmarks_on_image(image.numpy_view(), face_landmarker_result)
+            annotated_image = draw_landmarks_on_image(mp_image.numpy_view(), face_landmarker_result)
             cv2.imshow('Annotated image', annotated_image)
             cv2.waitKey(0)  # Wait for any key press
             cv2.destroyAllWindows()  # Close all OpenCV windows

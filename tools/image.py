@@ -1,5 +1,6 @@
 """Functions used for images"""
 
+import os
 import cv2
 import mediapipe as mp
 import numpy as np
@@ -60,15 +61,15 @@ def get_reference_position(img: np.ndarray) -> list[list[float]] | None:
     return None
 
 
-def detect_landmarks(mp_image: mp.Image, model_path: str) -> FaceLandmarkerResult:
+def detect_landmarks(mp_image: mp.Image) -> FaceLandmarkerResult:
     """Detect landmarks in image using mediapipe and returns them in variable
 
     Args:
         mp_image (mp.Image): image loaded using mediapipe
-        model_path (string): path to mediapipe model
     Returns:
         landmarks (FaceLandmarkerResult): detected landmarks
     """
+    model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../resources/face_landmarker.task")
     face_landmarker = mp.tasks.vision.FaceLandmarker
 
     # these 3 variables will be used to create self.options
