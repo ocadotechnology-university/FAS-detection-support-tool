@@ -9,7 +9,8 @@ from mediapipe.tasks import python
 
 from implementation.processing.measurement_handler_interface import MeasureHandlerInterface
 from implementation.processing.measurement import Measurement
-from implementation.download.image_manager import ImageManager
+
+from tools.image import draw_landmarks_on_image, get_reference_position, detect_landmarks
 
 model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../resources/face_landmarker.task")
 
@@ -30,56 +31,18 @@ class MeasureHandler(MeasureHandlerInterface):
     LANDMARK_UPPER_LIP_UP = 0
     LANDMARK_UPPER_LIP_DOWN = 13
 
-    def __init__(self):
-        super().__init__()
-        self.face_landmarker = mp.tasks.vision.FaceLandmarker
+    def measure(self, image, mp_image, show_image):
 
-        # these 3 variables will be used to create self.options
-        base_options = mp.tasks.BaseOptions
-        face_landmarker_options = mp.tasks.vision.FaceLandmarkerOptions
-        vision_running_mode = mp.tasks.vision.RunningMode
-
-        self.options = face_landmarker_options(
-            base_options=base_options(model_asset_path=model_path),
-            running_mode=vision_running_mode.IMAGE,
-            output_facial_transformation_matrixes=True,
-            output_face_blendshapes=True,
-        )
-
-    def get_reference_position(self, file_path):
-        img = cv2.imread(file_path)
-        img_w, img_h, channels = img.shape
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-        _, thresh = cv2.threshold(gray, 50, 255, 0)
-        # Find all countours
-        contours, _ = cv2.findContours(thresh, 1, 2)
-
-        for countour in contours:
-            approx = cv2.approxPolyDP(countour, 0.01 * cv2.arcLength(countour, True), True)
-            if len(approx) == 4:
-                x, y, w, h = cv2.boundingRect(countour)
-                # Consider only squares with at least 10px of width and height
-                if 10 < w < img_w and 10 < h < img_h:
-                    ratio = float(w) / h
-                    # Assuming squares have width to height ratio between 0.9 and 1.1
-                    if 0.9 <= ratio <= 1.1:
-                        img = cv2.drawContours(img, [countour], -1, (0, 255, 0), 2)
-                        return approx.reshape(-1, 2).tolist()
-
-    def measure(self, file_path, image, show_image):
-        img_handler = ImageManager()
-        with self.face_landmarker.create_from_options(self.options) as landmarker:
-            face_landmarker_result = landmarker.detect(image)
+        face_landmarker_result = detect_landmarks(mp_image, model_path)
 
         if show_image:
-            annotated_image = img_handler.draw_landmarks_on_image(image.numpy_view(), face_landmarker_result)
+            annotated_image = draw_landmarks_on_image(image.numpy_view(), face_landmarker_result)
             cv2.imshow('Annotated image', annotated_image)
             cv2.waitKey(0)  # Wait for any key press
             cv2.destroyAllWindows()  # Close all OpenCV windows
 
         # Calibrating using reference
-        reference_pos = self.get_reference_position(file_path)
+        reference_pos = get_reference_position(image)
         print(f"reference_pos = {reference_pos}")
         # UL UR
         # DL DR
@@ -96,42 +59,42 @@ class MeasureHandler(MeasureHandlerInterface):
             point1=self.normalized_to_pixel_coordinates(
                 normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].x,
                 normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].y,
-                image_width=image.width,
-                image_height=image.height
+                image_width=mp_image.width,
+                image_height=mp_image.height
             ),
             point2=self.normalized_to_pixel_coordinates(
                 normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].x,
                 normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].y,
-                image_width=image.width,
-                image_height=image.height
+                image_width=mp_image.width,
+                image_height=mp_image.height
             ),
         )
         right_eye_size = self.calculate_euclidean_distance_px(
             point1=self.normalized_to_pixel_coordinates(
                 normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].x,
                 normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].y,
-                image_width=image.width,
-                image_height=image.height
+                image_width=mp_image.width,
+                image_height=mp_image.height
             ),
             point2=self.normalized_to_pixel_coordinates(
                 normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].x,
                 normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].y,
-                image_width=image.width,
-                image_height=image.height
+                image_width=mp_image.width,
+                image_height=mp_image.height
             ),
         )
         lip_size = self.calculate_euclidean_distance_px(
             point1=self.normalized_to_pixel_coordinates(
                 normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].x,
                 normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].y,
-                image_width=image.width,
-                image_height=image.height
+                image_width=mp_image.width,
+                image_height=mp_image.height
             ),
             point2=self.normalized_to_pixel_coordinates(
                 normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].x,
                 normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].y,
-                image_width=image.width,
-                image_height=image.height
+                image_width=mp_image.width,
+                image_height=mp_image.height
             ),
         )
 
@@ -149,7 +112,7 @@ class MeasureHandler(MeasureHandlerInterface):
                                         normalized_x: float,
                                         normalized_y: float,
                                         image_width: int,
-                                        image_height: int) -> tuple[float, float] | None:
+                                        image_height: int) -> list[float] | None:
 
         # Checks if the float value is between 0 and 1.
         def is_valid_normalized_value(value: float) -> bool:
@@ -163,7 +126,7 @@ class MeasureHandler(MeasureHandlerInterface):
         x_px = float(min(normalized_x * image_width, image_width - 1))
         y_px = float(min(normalized_y * image_width, image_height - 1))
 
-        return x_px, y_px
+        return [x_px, y_px]
 
     def validate(self, measurement):
         if not self.validate_eye(measurement.left_eye):
