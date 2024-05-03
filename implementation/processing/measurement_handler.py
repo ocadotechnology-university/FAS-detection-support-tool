@@ -32,7 +32,7 @@ class MeasureHandler(MeasureHandlerInterface):
     def __init__(self, reference_in_mm):
         self.reference_in_mm = reference_in_mm
 
-    def measure(self, image, mp_image, show_image):
+    def measure_px(self, mp_image, show_image):
         face_landmarker_result = detect_landmarks(mp_image)
 
         if show_image:

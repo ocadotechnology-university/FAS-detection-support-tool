@@ -6,15 +6,14 @@ class MeasureHandlerInterface(ABC):
     """Class for performing measure and validate measurement"""
 
     @abstractmethod
-    def measure(self, image, mp_image, show_image) -> Measurement:
-        """Measure size of face elements from image
+    def measure_px(self, mp_image, show_image) -> Measurement:
+        """Measure size of face elements from image in pixels
 
         Args:
-            image (np.ndarray): image loaded by OpenCV
             mp_image (mp.Image): image loaded by MediaPipe
             show_image (bool): boolean deciding to show result image or not
         Returns:
-            Measurement
+            Measurement with px values
         """
         ...
 
