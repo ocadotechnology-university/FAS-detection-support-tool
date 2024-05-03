@@ -14,9 +14,18 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 def main():
     reference_in_mm = int(input("Długość boku referencji w mm")) # this line is temporary, there's  no use validating this user input
 
+
     application = Application(
-        MeasureHandler(reference_in_mm),
-        ImageManager()
+        measurement_handler=MeasureHandler(reference_in_mm),
+        file_validator=ValidateFile(
+            10000,
+            100,
+            10000,
+            100,
+            1000,
+            50
+        ),
+        file_content_validator=ValidateFileContent()
     )
     application.run()
 

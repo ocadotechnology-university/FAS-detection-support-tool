@@ -6,23 +6,12 @@ class MeasureHandlerInterface(ABC):
     """Class for performing measure and validate measurement"""
 
     @abstractmethod
-    def get_reference_position(self, file_path):
-        """Get position of reference vertices
-
-        Args:
-            file_path: path to image (str)
-
-        Returns:
-            A list of points [[x1, y1], [x2, y2], [x3, y3], [x4, y4]]
-        """
-        ...
-
-    @abstractmethod
-    def measure(self,file_path,  image, show_image) -> Measurement:
+    def measure(self, image, mp_image, show_image) -> Measurement:
         """Measure size of face elements from image
 
         Args:
-            image: image loaded by mediapipe
+            image (np.ndarray): image loaded by OpenCV
+            mp_image (mp.Image): image loaded by MediaPipe
             show_image (bool): boolean deciding to show result image or not
         Returns:
             Measurement
@@ -34,8 +23,8 @@ class MeasureHandlerInterface(ABC):
         """Calculate Euclidean distance between two points
 
         Args:
-            point1 (tuple[float, float]): First point coordinates in px
-            point2 (tuple[float, float]): Second point coordinates in px
+            point1 (list[float]): First point coordinates in px
+            point2 (list[float]): Second point coordinates in px
         Returns:
             result (float): Euclidean distance in px
         """
@@ -46,7 +35,7 @@ class MeasureHandlerInterface(ABC):
                                         normalized_x: float,
                                         normalized_y: float,
                                         image_width: int,
-                                        image_height: int) -> tuple[float, float] | None:
+                                        image_height: int) -> tuple[float] | None:
         """Converts normalized value pair to pixel coordinates."""
         ...
 
