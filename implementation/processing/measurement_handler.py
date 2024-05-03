@@ -1,11 +1,5 @@
-import os
-import tempfile
-
 import math
 import cv2
-import mediapipe as mp
-
-from mediapipe.tasks import python
 
 from implementation.processing.measurement_handler_interface import MeasureHandlerInterface
 from implementation.processing.measurement import Measurement

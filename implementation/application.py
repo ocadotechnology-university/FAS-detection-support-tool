@@ -1,4 +1,3 @@
-import implementation.download.validation.validate_file_content
 from download.validation.validate_file import FileNotCorrectException
 from download.validation.validate_file_content import FileContentNotValidException
 from implementation.processing.measurement_handler import MeasurementsNotCorrect
