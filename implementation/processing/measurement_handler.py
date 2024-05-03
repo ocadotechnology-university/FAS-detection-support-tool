@@ -29,6 +29,9 @@ class MeasureHandler(MeasureHandlerInterface):
     LANDMARK_UPPER_LIP_UP = 0
     LANDMARK_UPPER_LIP_DOWN = 13
 
+    def __init__(self, reference_in_mm):
+        self.reference_in_mm = reference_in_mm
+
     def measure(self, image, mp_image, show_image):
 
         face_landmarker_result = detect_landmarks(mp_image)
@@ -98,9 +101,9 @@ class MeasureHandler(MeasureHandlerInterface):
 
         return Measurement(
             # times 10mm divided by average dist in px
-            left_eye=left_eye_size * 10 / average_dist,
-            right_eye=right_eye_size * 10 / average_dist,
-            lip=lip_size * 10 / average_dist,
+            left_eye=self.px_to_mm(left_eye_size, average_dist),
+            right_eye=self.px_to_mm(right_eye_size, average_dist),
+            lip=self.px_to_mm(lip_size, average_dist),
         )
 
     def calculate_euclidean_distance_px(self, point1, point2):
@@ -147,3 +150,6 @@ class MeasureHandler(MeasureHandlerInterface):
 
     def validate_philtrum(self, philtrum: float) -> bool:
         return True
+
+    def px_to_mm(self, obj_px, ref_in_px):
+        return obj_px * self.reference_in_mm / ref_in_px

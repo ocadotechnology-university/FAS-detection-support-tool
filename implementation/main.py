@@ -11,8 +11,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 def main():
+    ref_in_mm = int(input("Długość referencji w mm"))
     application = Application(
-        measurement_handler=MeasureHandler(),
+        measurement_handler=MeasureHandler(ref_in_mm),
         file_validator=ValidateFile(
             10000,
             100,
