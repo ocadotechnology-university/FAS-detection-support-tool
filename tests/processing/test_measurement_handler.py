@@ -12,7 +12,7 @@ import implementation.processing.measurement_handler as measurement_handler
 import mediapipe as mp
 from implementation.processing.measurement import Measurement
 
-m_handler = measurement_handler.MeasureHandler()
+m_handler = measurement_handler.MeasureHandler(10)
 
 config = {}
 with open("../config.json") as config_file:
@@ -152,3 +152,7 @@ def test_validate_lip():
 def test_validate_philtrum():
     # TODO when philtrum type established
     pass
+
+def test_px_to_mm():
+    assert m_handler.px_to_mm(9,17) == 9 * m_handler.reference_in_mm / 17
+    # it's a simple proportion, no further testing needed imo
