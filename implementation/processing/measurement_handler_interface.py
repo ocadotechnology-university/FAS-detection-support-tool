@@ -18,7 +18,7 @@ class MeasureHandlerInterface(ABC):
         ...
 
     @abstractmethod
-    def measure(self, image, show_image) -> Measurement:
+    def measure(self,file_path,  image, show_image) -> Measurement:
         """Measure size of face elements from image
 
         Args:
