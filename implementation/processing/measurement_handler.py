@@ -30,10 +30,10 @@ class MeasureHandler(MeasureHandlerInterface):
     LANDMARK_UPPER_LIP_UP = 0
     LANDMARK_UPPER_LIP_DOWN = 13
 
-    REFERENCE_IN_MM = 10
-
-    def __init__(self):
+    def __init__(self, reference_in_mm):
         super().__init__()
+        self.reference_in_mm = reference_in_mm
+
         self.face_landmarker = mp.tasks.vision.FaceLandmarker
 
         # these 3 variables will be used to create self.options
@@ -139,13 +139,13 @@ class MeasureHandler(MeasureHandlerInterface):
 
         return Measurement(
             # times 10mm divided by average dist in px
-            left_eye= self.px_to_mm(left_eye_size, self.REFERENCE_IN_MM, average_dist),
-            right_eye=self.px_to_mm(right_eye_size, self.REFERENCE_IN_MM, average_dist),
-            lip=self.px_to_mm(lip_size, self.REFERENCE_IN_MM, average_dist),
+            left_eye= self.px_to_mm(left_eye_size, average_dist),
+            right_eye=self.px_to_mm(right_eye_size, average_dist),
+            lip=self.px_to_mm(lip_size, average_dist),
         )
 
-    def px_to_mm(self, value_for_conversion, reference_in_mm, reference_in_px):
-        return value_for_conversion * reference_in_mm / reference_in_px
+    def px_to_mm(self, value_for_conversion, reference_in_px):
+        return value_for_conversion * self.reference_in_mm / reference_in_px
 
     def calculate_euclidean_distance_px(self, point1, point2):
         return math.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2)

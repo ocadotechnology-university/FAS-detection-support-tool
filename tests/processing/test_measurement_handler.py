@@ -12,7 +12,7 @@ import implementation.processing.measurement_handler as measurement_handler
 import mediapipe as mp
 from implementation.processing.measurement import Measurement
 
-m_handler = measurement_handler.MeasureHandler()
+m_handler = measurement_handler.MeasureHandler("10")
 
 config = {}
 with open("../config.json") as config_file:
@@ -119,7 +119,7 @@ def test_edge_normalized_coordinates():
     assert result == (0.0, 99.0)
 
 def test_px_to_mm():
-    assert m_handler.px_to_mm(13,17,19) == 13*17/19
+    assert m_handler.px_to_mm(13,19) == 13*m_handler.reference_in_mm/19
     #  it's a simple proportion, so idk if it needs to be tested further
 
 
