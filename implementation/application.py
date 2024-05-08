@@ -1,4 +1,3 @@
-import implementation.download.validation.validate_file_content
 from download.validation.validate_file import FileNotCorrectException
 from download.validation.validate_file_content import FileContentNotValidException
 from implementation.processing.measurement_handler import MeasurementsNotCorrect
@@ -33,7 +32,8 @@ class Application:
             print("Error in image content validation:", e)
             raise
         # Measure
-        measurement_results = self.measurement_handler.measure(image, mp_image, show_image=True)
+        measurement_results_px = self.measurement_handler.measure_px(mp_image, show_image=True)
+        measurement_results = self.measurement_handler.scale_measurement_with_reference(image, measurement_results_px)
         # Validate measurement
         try:
             self.measurement_handler.validate(measurement_results)

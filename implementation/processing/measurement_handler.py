@@ -1,11 +1,5 @@
-import os
-import tempfile
-
 import math
 import cv2
-import mediapipe as mp
-
-from mediapipe.tasks import python
 
 from implementation.processing.measurement_handler_interface import MeasureHandlerInterface
 from implementation.processing.measurement import Measurement
@@ -32,8 +26,7 @@ class MeasureHandler(MeasureHandlerInterface):
     def __init__(self, reference_in_mm):
         self.reference_in_mm = reference_in_mm
 
-    def measure(self, image, mp_image, show_image):
-
+    def measure_px(self, mp_image, show_image):
         face_landmarker_result = detect_landmarks(mp_image)
 
         if show_image:
@@ -41,20 +34,6 @@ class MeasureHandler(MeasureHandlerInterface):
             cv2.imshow('Annotated image', annotated_image)
             cv2.waitKey(0)  # Wait for any key press
             cv2.destroyAllWindows()  # Close all OpenCV windows
-
-        # Calibrating using reference
-        reference_pos = get_reference_position(image)
-        print(f"reference_pos = {reference_pos}")
-        # UL UR
-        # DL DR
-        between_UL_UR = self.calculate_euclidean_distance_px(reference_pos[3], reference_pos[0])
-        between_DL_DR = self.calculate_euclidean_distance_px(reference_pos[2], reference_pos[1])
-        between_UL_DL = self.calculate_euclidean_distance_px(reference_pos[3], reference_pos[2])
-        between_UR_DR = self.calculate_euclidean_distance_px(reference_pos[0], reference_pos[1])
-
-        # Average distance (in pixels) between all reference vertices
-        average_dist = (between_UL_UR + between_DL_DR + between_UL_DL + between_UR_DR) / 4
-        print(f"average_dist = {average_dist}px")
 
         left_eye_size = self.calculate_euclidean_distance_px(
             point1=self.normalized_to_pixel_coordinates(
@@ -99,12 +78,13 @@ class MeasureHandler(MeasureHandlerInterface):
             ),
         )
 
-        return Measurement(
-            # times 10mm divided by average dist in px
-            left_eye=self.px_to_mm(left_eye_size, average_dist),
-            right_eye=self.px_to_mm(right_eye_size, average_dist),
-            lip=self.px_to_mm(lip_size, average_dist),
+        measurement = Measurement(
+            left_eye=left_eye_size,
+            right_eye=right_eye_size,
+            lip=lip_size
         )
+
+        return measurement
 
     def calculate_euclidean_distance_px(self, point1, point2):
         return math.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2)
@@ -128,6 +108,28 @@ class MeasureHandler(MeasureHandlerInterface):
         y_px = float(min(normalized_y * image_width, image_height - 1))
 
         return [x_px, y_px]
+
+    def scale_measurement_with_reference(self, image, measurement: Measurement) -> Measurement:
+        # Calibrating using reference
+        reference_pos = get_reference_position(image)
+        print(f"reference_pos = {reference_pos}")
+        # UL UR
+        # DL DR
+        between_UL_UR = self.calculate_euclidean_distance_px(reference_pos[3], reference_pos[0])
+        between_DL_DR = self.calculate_euclidean_distance_px(reference_pos[2], reference_pos[1])
+        between_UL_DL = self.calculate_euclidean_distance_px(reference_pos[3], reference_pos[2])
+        between_UR_DR = self.calculate_euclidean_distance_px(reference_pos[0], reference_pos[1])
+
+        # Average distance (in pixels) between all reference vertices
+        average_dist = (between_UL_UR + between_DL_DR + between_UL_DL + between_UR_DR) / 4
+        print(f"average_dist = {average_dist}px")
+
+        measurement.left_eye = self.px_to_mm(measurement.left_eye, average_dist),
+        measurement.right_eye = self.px_to_mm(measurement.right_eye, average_dist),
+        measurement.lip = self.px_to_mm(measurement.lip, average_dist),
+
+        return measurement
+
 
     def validate(self, measurement):
         if not self.validate_eye(measurement.left_eye):
