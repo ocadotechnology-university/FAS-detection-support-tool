@@ -77,14 +77,19 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         # self.updatePhoto()
 
     def detect_reference(self):
+        if self.image_path is None:
+            self.message("Nie wybrano obrazu")
+            return
         self.reference_coords = self.backend.detect_reference(self.image_path)
-        self.draw_reference()
+
+        if self.reference_coords != None:
+            self.draw_reference()
+        else:
+            self.message("Nie wykryto referencji")
+
 
     def draw_reference(self):
-        if self.reference_coords == None:
-            return
-
-        for i in range(4):
+         for i in range(4):
             next_i = (i + 1) % 4
             x1 = self.reference_coords[i][0]
             y1 = self.reference_coords[i][1]
@@ -95,3 +100,6 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
             pen.setColor(qtg.QColor(0xFF0000))
             pen.setWidth(1)
             self.scene.addLine(x1, y1, x2, y2, pen)
+
+    def message(self, text):
+        self.lb_Message.setText(text)

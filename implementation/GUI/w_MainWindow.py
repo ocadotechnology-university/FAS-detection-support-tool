@@ -38,13 +38,16 @@ class Ui_w_MainWindow(object):
 
         self.pb_RotateRight = QPushButton(w_MainWindow)
         self.pb_RotateRight.setObjectName(u"pb_RotateRight")
+        font = QFont()
+        font.setStrikeOut(True)
+        self.pb_RotateRight.setFont(font)
 
         self.gridLayout_2.addWidget(self.pb_RotateRight, 0, 2, 1, 1)
 
-        self.label_5 = QLabel(w_MainWindow)
-        self.label_5.setObjectName(u"label_5")
+        self.lb_Message = QLabel(w_MainWindow)
+        self.lb_Message.setObjectName(u"lb_Message")
 
-        self.gridLayout_2.addWidget(self.label_5, 3, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.lb_Message, 3, 0, 1, 1)
 
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
@@ -55,8 +58,6 @@ class Ui_w_MainWindow(object):
 
         self.pushButton_6 = QPushButton(w_MainWindow)
         self.pushButton_6.setObjectName(u"pushButton_6")
-        font = QFont()
-        font.setStrikeOut(True)
         self.pushButton_6.setFont(font)
 
         self.gridLayout.addWidget(self.pushButton_6, 6, 0, 1, 1)
@@ -155,6 +156,7 @@ class Ui_w_MainWindow(object):
 
         self.pb_RotateLeft = QPushButton(w_MainWindow)
         self.pb_RotateLeft.setObjectName(u"pb_RotateLeft")
+        self.pb_RotateLeft.setFont(font)
 
         self.gridLayout_2.addWidget(self.pb_RotateLeft, 0, 1, 1, 1)
 
@@ -171,7 +173,7 @@ class Ui_w_MainWindow(object):
     def retranslateUi(self, w_MainWindow):
         w_MainWindow.setWindowTitle(QCoreApplication.translate("w_MainWindow", u"Wspomaganie Diagnostyki FAS", None))
         self.pb_RotateRight.setText(QCoreApplication.translate("w_MainWindow", u"Obr\u00f3t w prawo", None))
-        self.label_5.setText(QCoreApplication.translate("w_MainWindow", u"TextLabel", None))
+        self.lb_Message.setText(QCoreApplication.translate("w_MainWindow", u"Komunikaty", None))
         self.pb_ChooseImage.setText(QCoreApplication.translate("w_MainWindow", u"Wyb\u00f3r zdj\u0119cia", None))
         self.pushButton_6.setText(QCoreApplication.translate("w_MainWindow", u"Zaznacz lewe oko", None))
         self.groupBox_2.setTitle("")
