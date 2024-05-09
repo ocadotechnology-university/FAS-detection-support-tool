@@ -4,20 +4,24 @@ import cv2
 from PySide6 import QtCore as qtc
 from PySide6 import QtWidgets as qtw
 from PySide6 import QtGui as qtg
+
+from implementation.Backend import Backend
 from implementation.GUI.w_MainWindow import Ui_w_MainWindow
 from PIL import Image
 
 
 class GUI(qtw.QWidget, Ui_w_MainWindow):
-    def __init__(self,         backend):
+    def __init__(self, backend):
         super().__init__()
         self.setupUi(self)
 
         self.backend = backend
+        self.reference_coords = None
 
         self.pb_ChooseImage.clicked.connect(self.open_image_dialog)
         self.pb_RotateLeft.clicked.connect(self.rotate_the_image_left)
         self.pb_RotateLeft.clicked.connect(self.rotate_the_image_right)
+        self.pb_DetectReference.clicked.connect(self.detect_reference)
 
         int_validator = qtg.QIntValidator()
         self.le_referenceMM.setValidator(int_validator)
@@ -31,9 +35,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.graphicsView.setResizeAnchor(qtw.QGraphicsView.ViewportAnchor.AnchorViewCenter)
         self.graphicsView.setTransformationAnchor(qtw.QGraphicsView.ViewportAnchor.AnchorViewCenter)
 
-        self.image_path =None
+        self.image_path = None
         self.image = None
-        self.scene.addLine(0, 0, 30, 30, qtg.QPen(qtg.qRed(255)))
 
     @qtc.Slot()
     def open_image_dialog(self):
@@ -66,7 +69,6 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         # cv2.imwrite(self.image_path, rotated_img)
         # self.updatePhoto()
 
-
     def rotate_the_image_right(self):
         pass
         # img = cv2.imread(self.image_path)
@@ -74,9 +76,22 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         # cv2.imwrite(self.image_path, rotated_img)
         # self.updatePhoto()
 
+    def detect_reference(self):
+        self.reference_coords = self.backend.detect_reference(self.image_path)
+        self.draw_reference()
 
-if __name__ == "__main__":
-    app = qtw.QApplication(sys.argv)
-    window = GUI()
-    window.show()
-    sys.exit(app.exec())
+    def draw_reference(self):
+        if self.reference_coords == None:
+            return
+
+        for i in range(4):
+            next_i = (i + 1) % 4
+            x1 = self.reference_coords[i][0]
+            y1 = self.reference_coords[i][1]
+            x2 = self.reference_coords[next_i][0]
+            y2 = self.reference_coords[next_i][1]
+
+            pen = qtg.QPen()
+            pen.setColor(qtg.QColor(0xFF0000))
+            pen.setWidth(1)
+            self.scene.addLine(x1, y1, x2, y2, pen)
