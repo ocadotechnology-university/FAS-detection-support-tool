@@ -50,7 +50,12 @@ class Backend:
         #     pass
 
     def detect_reference(self, filepath):
-        self.load_and_validate(filepath)
         image, mp_image = self.load_and_validate(filepath)
         reference_pos = get_reference_position(image)
         return reference_pos
+
+    def detect_facial_landmarks(self,filepath):
+        self.load_and_validate(filepath)
+        image, mp_image = self.load_and_validate(filepath)
+        result_dict = self.measurement_handler.get_facial_landmarks_coords(mp_image)
+        return result_dict

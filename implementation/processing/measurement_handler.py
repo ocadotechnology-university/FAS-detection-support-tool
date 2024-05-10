@@ -26,6 +26,56 @@ class MeasureHandler(MeasureHandlerInterface):
     def __init__(self, reference_in_mm):
         self.reference_in_mm = reference_in_mm
 
+    def get_facial_landmarks_coords(self, mp_image):
+        face_landmarker_result = detect_landmarks(mp_image)
+
+        dict = {
+            "left_eye": {},
+            "right_eye": {},
+            "upper_lip": {}
+        }
+
+        dict["left_eye"]["left"] = self.normalized_to_pixel_coordinates(
+            normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].x,
+            normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].y,
+            image_width=mp_image.width,
+            image_height=mp_image.height
+        )
+        dict["left_eye"]["right"] = self.normalized_to_pixel_coordinates(
+            normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].x,
+            normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].y,
+            image_width=mp_image.width,
+            image_height=mp_image.height
+        )
+        dict["right_eye"]["left"] = self.normalized_to_pixel_coordinates(
+            normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_L].x,
+            normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_L].y,
+            image_width=mp_image.width,
+            image_height=mp_image.height
+        )
+        dict["right_eye"]["right"] = self.normalized_to_pixel_coordinates(
+            normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_R].x,
+            normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_R].y,
+            image_width=mp_image.width,
+            image_height=mp_image.height
+        )
+
+        dict["upper_lip"]["up"] = self.normalized_to_pixel_coordinates(
+            normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].x,
+            normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].y,
+            image_width=mp_image.width,
+            image_height=mp_image.height
+        )
+
+        dict["upper_lip"]["down"] = self.normalized_to_pixel_coordinates(
+            normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].x,
+            normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].y,
+            image_width=mp_image.width,
+            image_height=mp_image.height
+        )
+
+        return dict
+
     def measure_px(self, mp_image, show_image):
         face_landmarker_result = detect_landmarks(mp_image)
 
@@ -129,7 +179,6 @@ class MeasureHandler(MeasureHandlerInterface):
         measurement.lip = self.px_to_mm(measurement.lip, average_dist),
 
         return measurement
-
 
     def validate(self, measurement):
         if not self.validate_eye(measurement.left_eye):
