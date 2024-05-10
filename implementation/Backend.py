@@ -35,8 +35,7 @@ class Backend:
 
     def run(self):
         pass
-        # # Measure
-        # measurement_results_px = self.measurement_handler.measure_px(mp_image, show_image=True)
+        # Measure
         # measurement_results = self.measurement_handler.scale_measurement_with_reference(image, measurement_results_px)
         # # Validate measurement
         # try:
@@ -59,3 +58,9 @@ class Backend:
         image, mp_image = self.load_and_validate(filepath)
         result_dict = self.measurement_handler.get_facial_landmarks_coords(mp_image)
         return result_dict
+
+    def measure(self, facial_landmarks_coords, reference_coords, reference_in_mm):
+        px_per_mm = self.measurement_handler.calculate_mm_per_px(reference_coords, reference_in_mm)
+        result = self.measurement_handler.facial_landmarks_in_mm(facial_landmarks_coords,px_per_mm)
+        return result
+

@@ -23,56 +23,51 @@ class MeasureHandler(MeasureHandlerInterface):
     LANDMARK_UPPER_LIP_UP = 0
     LANDMARK_UPPER_LIP_DOWN = 13
 
-    def __init__(self, reference_in_mm):
-        self.reference_in_mm = reference_in_mm
+    def __init__(self):
+        pass
 
     def get_facial_landmarks_coords(self, mp_image):
         face_landmarker_result = detect_landmarks(mp_image)
 
-        dict = {
-            "left_eye": {},
-            "right_eye": {},
-            "upper_lip": {}
-        }
+        dict = {}
 
-        dict["left_eye"]["left"] = self.normalized_to_pixel_coordinates(
+        dict["left_eye"] = [self.normalized_to_pixel_coordinates(
             normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].x,
             normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].y,
             image_width=mp_image.width,
             image_height=mp_image.height
         )
-        dict["left_eye"]["right"] = self.normalized_to_pixel_coordinates(
-            normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].x,
-            normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].y,
-            image_width=mp_image.width,
-            image_height=mp_image.height
-        )
-        dict["right_eye"]["left"] = self.normalized_to_pixel_coordinates(
+            , self.normalized_to_pixel_coordinates(
+                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].x,
+                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].y,
+                image_width=mp_image.width,
+                image_height=mp_image.height
+            )
+        ]
+        dict["right_eye"] = [self.normalized_to_pixel_coordinates(
             normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_L].x,
             normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_L].y,
             image_width=mp_image.width,
             image_height=mp_image.height
         )
-        dict["right_eye"]["right"] = self.normalized_to_pixel_coordinates(
-            normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_R].x,
-            normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_R].y,
-            image_width=mp_image.width,
-            image_height=mp_image.height
-        )
+            , self.normalized_to_pixel_coordinates(
+                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_R].x,
+                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_R].y,
+                image_width=mp_image.width,
+                image_height=mp_image.height
+            )]
 
-        dict["upper_lip"]["up"] = self.normalized_to_pixel_coordinates(
+        dict["upper_lip"] = [self.normalized_to_pixel_coordinates(
             normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].x,
             normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].y,
             image_width=mp_image.width,
-            image_height=mp_image.height
-        )
-
-        dict["upper_lip"]["down"] = self.normalized_to_pixel_coordinates(
-            normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].x,
-            normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].y,
-            image_width=mp_image.width,
-            image_height=mp_image.height
-        )
+            image_height=mp_image.height),
+            self.normalized_to_pixel_coordinates(
+                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].x,
+                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].y,
+                image_width=mp_image.width,
+                image_height=mp_image.height
+            )]
 
         return dict
 
@@ -155,30 +150,40 @@ class MeasureHandler(MeasureHandlerInterface):
             return None
 
         x_px = float(min(normalized_x * image_width, image_width - 1))
-        y_px = float(min(normalized_y * image_width, image_height - 1))
+        y_px = float(min(normalized_y * image_height, image_height - 1))
 
         return [x_px, y_px]
 
-    def scale_measurement_with_reference(self, image, measurement: Measurement) -> Measurement:
+    def calculate_mm_per_px(self, reference_coords, reference_in_mm):
         # Calibrating using reference
-        reference_pos = get_reference_position(image)
-        print(f"reference_pos = {reference_pos}")
         # UL UR
         # DL DR
-        between_UL_UR = self.calculate_euclidean_distance_px(reference_pos[3], reference_pos[0])
-        between_DL_DR = self.calculate_euclidean_distance_px(reference_pos[2], reference_pos[1])
-        between_UL_DL = self.calculate_euclidean_distance_px(reference_pos[3], reference_pos[2])
-        between_UR_DR = self.calculate_euclidean_distance_px(reference_pos[0], reference_pos[1])
+        between_UL_UR = self.calculate_euclidean_distance_px(reference_coords[3], reference_coords[0])
+        between_DL_DR = self.calculate_euclidean_distance_px(reference_coords[2], reference_coords[1])
+        between_UL_DL = self.calculate_euclidean_distance_px(reference_coords[3], reference_coords[2])
+        between_UR_DR = self.calculate_euclidean_distance_px(reference_coords[0], reference_coords[1])
 
         # Average distance (in pixels) between all reference vertices
         average_dist = (between_UL_UR + between_DL_DR + between_UL_DL + between_UR_DR) / 4
         print(f"average_dist = {average_dist}px")
+        return reference_in_mm / average_dist
 
-        measurement.left_eye = self.px_to_mm(measurement.left_eye, average_dist),
-        measurement.right_eye = self.px_to_mm(measurement.right_eye, average_dist),
-        measurement.lip = self.px_to_mm(measurement.lip, average_dist),
+    def facial_landmarks_in_mm(self, facial_landmarks, mm_per_px):
+        left_eye_width = self.calculate_euclidean_distance_px(facial_landmarks["left_eye"][0],
+                                                              facial_landmarks["left_eye"][1]) * mm_per_px
+        right_eye_width = self.calculate_euclidean_distance_px(facial_landmarks["right_eye"][0],
+                                                               facial_landmarks["right_eye"][1]) * mm_per_px
+        upper_lip_width = self.calculate_euclidean_distance_px(facial_landmarks["upper_lip"][0],
+                                                               facial_landmarks["upper_lip"][1]) * mm_per_px
+        return Measurement(left_eye_width, right_eye_width, upper_lip_width)
 
-        return measurement
+    # def scale_measurement_with_reference(self, measurement: Measurement) -> Measurement:
+    #
+    #     measurement.left_eye = self.px_to_mm(measurement.left_eye, average_dist),
+    #     measurement.right_eye = self.px_to_mm(measurement.right_eye, average_dist),
+    #     measurement.lip = self.px_to_mm(measurement.lip, average_dist),
+    #
+    #     return measurement
 
     def validate(self, measurement):
         if not self.validate_eye(measurement.left_eye):

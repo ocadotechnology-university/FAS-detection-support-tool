@@ -26,7 +26,7 @@ def main():
 
     ref_in_mm = 23456
     backend = Backend(
-        measurement_handler=MeasureHandler(ref_in_mm),
+        measurement_handler=MeasureHandler(),
         file_validator=ValidateFile(
             10000,
             100,

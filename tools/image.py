@@ -43,7 +43,7 @@ def get_reference_position(img: np.ndarray) -> list[list[float]] | None:
     img_w, img_h, channels = img.shape
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    _, thresh = cv2.threshold(gray, 50, 255, 0)
+    _, thresh = cv2.threshold(gray, 100, 255, 0)
     # Find all countours
     contours, _ = cv2.findContours(thresh, 1, 2)
 

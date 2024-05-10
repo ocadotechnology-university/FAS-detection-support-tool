@@ -38,10 +38,10 @@ class MeasureHandlerInterface(ABC):
         """Converts normalized value pair to pixel coordinates."""
         ...
 
-    @abstractmethod
-    def scale_measurement_with_reference(self, image, measurement: Measurement) -> Measurement:
-        """Scale the measurement by a reference size"""
-        ...
+    # @abstractmethod
+    # def scale_measurement_with_reference(self, image, measurement: Measurement) -> Measurement:
+    #     """Scale the measurement by a reference size"""
+    #     ...
 
     @abstractmethod
     def validate(self, file):

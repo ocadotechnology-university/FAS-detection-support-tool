@@ -20,7 +20,7 @@ class Point(qtw.QGraphicsEllipseItem):
         print(scene)
         if scene:
             print("xd")
-            scene.draw_reference_lines()
+            scene.draw_lines()
             print(f"{self.x()=}")
             print(f"{self.pos().x()=}")
             print(f"{self.rect().x()=}")
@@ -33,6 +33,8 @@ class Point(qtw.QGraphicsEllipseItem):
     def real_y(self):
         return self.rect().center().y()+self.y()
 
+    def get_real_coords(self):
+        return [self.real_x(),self.real_y()]
 
 
 

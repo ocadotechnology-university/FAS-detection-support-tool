@@ -30,34 +30,17 @@ class Ui_w_MainWindow(object):
         w_MainWindow.setWindowIcon(icon)
         self.gridLayout_2 = QGridLayout(w_MainWindow)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.graphicsView = QGraphicsView(w_MainWindow)
-        self.graphicsView.setObjectName(u"graphicsView")
-        self.graphicsView.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
-
-        self.gridLayout_2.addWidget(self.graphicsView, 1, 1, 3, 2)
-
-        self.pb_RotateRight = QPushButton(w_MainWindow)
-        self.pb_RotateRight.setObjectName(u"pb_RotateRight")
-        font = QFont()
-        font.setStrikeOut(True)
-        self.pb_RotateRight.setFont(font)
-
-        self.gridLayout_2.addWidget(self.pb_RotateRight, 0, 2, 1, 1)
-
-        self.lb_Message = QLabel(w_MainWindow)
-        self.lb_Message.setObjectName(u"lb_Message")
-
-        self.gridLayout_2.addWidget(self.lb_Message, 3, 0, 1, 1)
-
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
-        self.pb_ChooseImage = QPushButton(w_MainWindow)
-        self.pb_ChooseImage.setObjectName(u"pb_ChooseImage")
+        self.pb_measure = QPushButton(w_MainWindow)
+        self.pb_measure.setObjectName(u"pb_measure")
 
-        self.gridLayout.addWidget(self.pb_ChooseImage, 0, 0, 1, 2)
+        self.gridLayout.addWidget(self.pb_measure, 10, 0, 1, 2)
 
         self.pushButton_6 = QPushButton(w_MainWindow)
         self.pushButton_6.setObjectName(u"pushButton_6")
+        font = QFont()
+        font.setStrikeOut(True)
         self.pushButton_6.setFont(font)
 
         self.gridLayout.addWidget(self.pushButton_6, 6, 0, 1, 1)
@@ -66,15 +49,15 @@ class Ui_w_MainWindow(object):
         self.groupBox_2.setObjectName(u"groupBox_2")
         self.formLayout_2 = QFormLayout(self.groupBox_2)
         self.formLayout_2.setObjectName(u"formLayout_2")
-        self.label_3 = QLabel(self.groupBox_2)
-        self.label_3.setObjectName(u"label_3")
-
-        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.label_3)
-
         self.le_referenceMM = QLineEdit(self.groupBox_2)
         self.le_referenceMM.setObjectName(u"le_referenceMM")
 
         self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.le_referenceMM)
+
+        self.label_3 = QLabel(self.groupBox_2)
+        self.label_3.setObjectName(u"label_3")
+
+        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.label_3)
 
 
         self.gridLayout.addWidget(self.groupBox_2, 1, 0, 1, 2)
@@ -114,7 +97,12 @@ class Ui_w_MainWindow(object):
         self.formLayout.setWidget(2, QFormLayout.FieldRole, self.le_UpperLipMM)
 
 
-        self.gridLayout.addWidget(self.groupBox, 10, 0, 1, 2)
+        self.gridLayout.addWidget(self.groupBox, 11, 0, 1, 2)
+
+        self.pb_DetectReference = QPushButton(w_MainWindow)
+        self.pb_DetectReference.setObjectName(u"pb_DetectReference")
+
+        self.gridLayout.addWidget(self.pb_DetectReference, 4, 0, 1, 1)
 
         self.pushButton = QPushButton(w_MainWindow)
         self.pushButton.setObjectName(u"pushButton")
@@ -122,11 +110,6 @@ class Ui_w_MainWindow(object):
         self.pushButton.setFlat(False)
 
         self.gridLayout.addWidget(self.pushButton, 4, 1, 1, 1)
-
-        self.pb_DetectReference = QPushButton(w_MainWindow)
-        self.pb_DetectReference.setObjectName(u"pb_DetectReference")
-
-        self.gridLayout.addWidget(self.pb_DetectReference, 4, 0, 1, 1)
 
         self.pushButton_7 = QPushButton(w_MainWindow)
         self.pushButton_7.setObjectName(u"pushButton_7")
@@ -151,18 +134,48 @@ class Ui_w_MainWindow(object):
 
         self.gridLayout.addWidget(self.pushButton_5, 6, 1, 1, 1)
 
+        self.pb_ChooseImage = QPushButton(w_MainWindow)
+        self.pb_ChooseImage.setObjectName(u"pb_ChooseImage")
+
+        self.gridLayout.addWidget(self.pb_ChooseImage, 0, 0, 1, 2)
+
 
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 2, 1)
+
+        self.pb_RotateRight = QPushButton(w_MainWindow)
+        self.pb_RotateRight.setObjectName(u"pb_RotateRight")
+        self.pb_RotateRight.setFont(font)
+
+        self.gridLayout_2.addWidget(self.pb_RotateRight, 0, 3, 1, 1)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout_2.addItem(self.horizontalSpacer_2, 0, 4, 1, 1)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.gridLayout_2.addItem(self.verticalSpacer, 2, 0, 1, 1)
+
+        self.graphicsView = QGraphicsView(w_MainWindow)
+        self.graphicsView.setObjectName(u"graphicsView")
+        self.graphicsView.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+
+        self.gridLayout_2.addWidget(self.graphicsView, 1, 1, 3, 4)
+
+        self.lb_Message = QLabel(w_MainWindow)
+        self.lb_Message.setObjectName(u"lb_Message")
+
+        self.gridLayout_2.addWidget(self.lb_Message, 3, 0, 1, 1)
 
         self.pb_RotateLeft = QPushButton(w_MainWindow)
         self.pb_RotateLeft.setObjectName(u"pb_RotateLeft")
         self.pb_RotateLeft.setFont(font)
 
-        self.gridLayout_2.addWidget(self.pb_RotateLeft, 0, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.pb_RotateLeft, 0, 2, 1, 1)
 
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout_2.addItem(self.verticalSpacer, 2, 0, 1, 1)
+        self.gridLayout_2.addItem(self.horizontalSpacer, 0, 1, 1, 1)
 
 
         self.retranslateUi(w_MainWindow)
@@ -172,9 +185,7 @@ class Ui_w_MainWindow(object):
 
     def retranslateUi(self, w_MainWindow):
         w_MainWindow.setWindowTitle(QCoreApplication.translate("w_MainWindow", u"Wspomaganie Diagnostyki FAS", None))
-        self.pb_RotateRight.setText(QCoreApplication.translate("w_MainWindow", u"Obr\u00f3t w prawo", None))
-        self.lb_Message.setText(QCoreApplication.translate("w_MainWindow", u"Komunikaty", None))
-        self.pb_ChooseImage.setText(QCoreApplication.translate("w_MainWindow", u"Wyb\u00f3r zdj\u0119cia", None))
+        self.pb_measure.setText(QCoreApplication.translate("w_MainWindow", u"Dokonaj pomiar\u00f3w", None))
         self.pushButton_6.setText(QCoreApplication.translate("w_MainWindow", u"Zaznacz lewe oko", None))
         self.groupBox_2.setTitle("")
         self.label_3.setText(QCoreApplication.translate("w_MainWindow", u"Rozmiar referencji w mm", None))
@@ -182,12 +193,15 @@ class Ui_w_MainWindow(object):
         self.label.setText(QCoreApplication.translate("w_MainWindow", u"Szeroko\u015b\u0107 lewego oka", None))
         self.label_2.setText(QCoreApplication.translate("w_MainWindow", u"Szeroko\u015b\u0107 prawego oka", None))
         self.label_4.setText(QCoreApplication.translate("w_MainWindow", u"Wysoko\u015b\u0107 g\u00f3rnej wargii", None))
-        self.pushButton.setText(QCoreApplication.translate("w_MainWindow", u"Zaznacz referencj\u0119", None))
         self.pb_DetectReference.setText(QCoreApplication.translate("w_MainWindow", u"Wykryj referencj\u0119", None))
+        self.pushButton.setText(QCoreApplication.translate("w_MainWindow", u"Zaznacz referencj\u0119", None))
         self.pushButton_7.setText(QCoreApplication.translate("w_MainWindow", u"Wyb\u00f3r rynienki podnosowej", None))
         self.pb_DetectFacialLandmarks.setText(QCoreApplication.translate("w_MainWindow", u"Wykryj elementy twarzy", None))
         self.pushButton_8.setText(QCoreApplication.translate("w_MainWindow", u"Zaznacz g\u00f3rn\u0105 warg\u0119", None))
         self.pushButton_5.setText(QCoreApplication.translate("w_MainWindow", u"Zaznacz prawe oko", None))
+        self.pb_ChooseImage.setText(QCoreApplication.translate("w_MainWindow", u"Wyb\u00f3r zdj\u0119cia", None))
+        self.pb_RotateRight.setText(QCoreApplication.translate("w_MainWindow", u"Obr\u00f3t w prawo", None))
+        self.lb_Message.setText(QCoreApplication.translate("w_MainWindow", u"Komunikaty", None))
         self.pb_RotateLeft.setText(QCoreApplication.translate("w_MainWindow", u"Obr\u00f3t w lewo", None))
     # retranslateUi
 

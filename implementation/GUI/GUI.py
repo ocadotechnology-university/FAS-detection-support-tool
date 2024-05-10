@@ -49,6 +49,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.pb_RotateLeft.clicked.connect(self.scene.rotate_the_image_right)
         self.pb_DetectReference.clicked.connect(self.detect_reference)
         self.pb_DetectFacialLandmarks.clicked.connect(self.detect_facial_landmarks)
+        self.pb_measure.clicked.connect(self.measure)
 
     @qtc.Slot()
     def open_image_dialog(self):
@@ -60,10 +61,12 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def updatePhoto(self):
         self.scene.clear()
+        self.scene.clear_canva_state()
         self.image = qtg.QPixmap(self.image_path)
         self.scene.addPixmap(self.image)
         self.scene.setSceneRect(self.image.rect())
         self.updateView()
+
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
@@ -85,10 +88,48 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         else:
             self.message("Nie wykryto referencji")
 
-        # TODO funkcja clear_state() po zmianie obrazka
-
     def message(self, text):
         self.lb_Message.setText(text)
 
     def detect_facial_landmarks(self):
         facial_landmarks_coords = self.backend.detect_facial_landmarks(self.image_path)
+        print(facial_landmarks_coords)
+
+        self.scene.draw_left_eye(facial_landmarks_coords['left_eye'])
+        self.scene.draw_right_eye(facial_landmarks_coords['right_eye'])
+        self.scene.draw_upper_lip(facial_landmarks_coords['upper_lip'])
+
+        xd = {'left_eye': [[1484.0957736968994, 1487.6388130187988], [1801.3362464904785, 1464.7445755004883]],
+              'right_eye': [[783.3786163330078, 1473.4267015457153], [1086.4893321990967, 1491.7679557800293]],
+              'upper_lip': [[1262.3708367347717, 2086.371036529541], [1264.303966999054, 2129.9199571609497]]}
+
+    def measure(self):
+        if self.not_ready_to_measure():
+            self.message(
+                "Brakuje danych do pomiarów (referencji, punktów elementów na twarzy lub wielkości referencji w mm")
+            return
+
+        facial_landmark_coord_dict = {'left_eye': [self.scene.left_eye_points[i].get_real_coords() for i in range(2)],
+                                      'right_eye': [self.scene.right_eye_points[i].get_real_coords() for i in range(2)],
+                                      'upper_lip': [self.scene.lip_points[i].get_real_coords() for i in range(2)]}
+
+        reference_coords = [self.scene.reference_points[i].get_real_coords() for i in range(4)]
+
+        ref_in_mm = int(self.le_referenceMM.text())
+
+        results = self.backend.measure(facial_landmark_coord_dict, reference_coords, ref_in_mm)
+
+        self.update_measurement_le(results)
+
+    def not_ready_to_measure(self):
+        return (len(self.scene.lip_points) != 2
+                or len(self.scene.left_eye_points) != 2
+                or len(self.scene.right_eye_points) != 2
+                or len(self.scene.reference_points) != 4
+                or int(self.le_referenceMM.text()) < 1
+                )
+
+    def update_measurement_le(self, measurement):
+        self.le_LeftEyeMM.setText(str(round(measurement.left_eye, 2)))
+        self.le_RightEyeMM.setText(str(round(measurement.right_eye, 2)))
+        self.le_UpperLipMM.setText(str(round(measurement.lip, 2)))
