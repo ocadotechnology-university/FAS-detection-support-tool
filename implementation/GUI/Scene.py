@@ -127,7 +127,6 @@ class Scene(qtw.QGraphicsScene):
             self.left_eye_points.append(point)
         self.draw_lines()
 
-
     def draw_right_eye(self, coords):
         self.reset(self.right_eye_points)
         # draw points
@@ -152,7 +151,7 @@ class Scene(qtw.QGraphicsScene):
             self.lip_points.append(point)
         self.draw_lines()
 
-    def clear_canva_state(self): #wyczyść kanwę
+    def clear_canva_state(self):  # wyczyść kanwę
         self.reference_points = []
         self.reference_lines = []
         self.lip_points = []
@@ -161,4 +160,3 @@ class Scene(qtw.QGraphicsScene):
         self.left_eye_line = None
         self.right_eye_points = []
         self.right_eye_line = None
-

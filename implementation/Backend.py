@@ -1,12 +1,9 @@
-
 from download.validation.validate_file import FileNotCorrectException
 
 from download.validation.validate_file_content import FileContentNotValidException
-from implementation.processing.measurement_handler import MeasurementsNotCorrect
 
 from tools.image import load_image, mediapipe_load_image, get_reference_position
 
-import easygui
 
 
 class Backend:
@@ -15,8 +12,7 @@ class Backend:
         self.file_validator = file_validator
         self.file_content_validator = file_content_validator
 
-
-    def load_and_validate(self,file_path):
+    def load_and_validate(self, file_path):
         try:
             self.file_validator.validate(file_path)
         except FileNotCorrectException as e:
@@ -53,7 +49,7 @@ class Backend:
         reference_pos = get_reference_position(image)
         return reference_pos
 
-    def detect_facial_landmarks(self,filepath):
+    def detect_facial_landmarks(self, filepath):
         self.load_and_validate(filepath)
         image, mp_image = self.load_and_validate(filepath)
         result_dict = self.measurement_handler.get_facial_landmarks_coords(mp_image)
@@ -61,6 +57,5 @@ class Backend:
 
     def measure(self, facial_landmarks_coords, reference_coords, reference_in_mm):
         px_per_mm = self.measurement_handler.calculate_mm_per_px(reference_coords, reference_in_mm)
-        result = self.measurement_handler.facial_landmarks_in_mm(facial_landmarks_coords,px_per_mm)
+        result = self.measurement_handler.facial_landmarks_in_mm(facial_landmarks_coords, px_per_mm)
         return result
-

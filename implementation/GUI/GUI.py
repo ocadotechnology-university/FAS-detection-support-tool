@@ -1,15 +1,9 @@
-import sys
-
-import cv2
 from PySide6 import QtCore as qtc
 from PySide6 import QtWidgets as qtw
 from PySide6 import QtGui as qtg
 
-from implementation.Backend import Backend
-from implementation.GUI.Point import Point
 from implementation.GUI.Scene import Scene
 from implementation.GUI.w_MainWindow import Ui_w_MainWindow
-from PIL import Image
 
 
 class GUI(qtw.QWidget, Ui_w_MainWindow):
@@ -67,13 +61,12 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.scene.setSceneRect(self.image.rect())
         self.updateView()
 
-
     def resizeEvent(self, event):
         super().resizeEvent(event)
         self.updateView()
 
     def updateView(self):
-        if self.image == None:
+        if self.image is None:
             return
         self.graphicsView.fitInView(self.scene.sceneRect(), qtc.Qt.KeepAspectRatio)
 
@@ -83,7 +76,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
             return
         reference_coords = self.backend.detect_reference(self.image_path)
 
-        if reference_coords != None:
+        if reference_coords is not None:
             self.scene.draw_reference(reference_coords)
         else:
             self.message("Nie wykryto referencji")
@@ -99,9 +92,9 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.scene.draw_right_eye(facial_landmarks_coords['right_eye'])
         self.scene.draw_upper_lip(facial_landmarks_coords['upper_lip'])
 
-        xd = {'left_eye': [[1484.0957736968994, 1487.6388130187988], [1801.3362464904785, 1464.7445755004883]],
-              'right_eye': [[783.3786163330078, 1473.4267015457153], [1086.4893321990967, 1491.7679557800293]],
-              'upper_lip': [[1262.3708367347717, 2086.371036529541], [1264.303966999054, 2129.9199571609497]]}
+        # xd = {'left_eye': [[1484.0957736968994, 1487.6388130187988], [1801.3362464904785, 1464.7445755004883]],
+        #       'right_eye': [[783.3786163330078, 1473.4267015457153], [1086.4893321990967, 1491.7679557800293]],
+        #       'upper_lip': [[1262.3708367347717, 2086.371036529541], [1264.303966999054, 2129.9199571609497]]}
 
     def measure(self):
         if self.not_ready_to_measure():

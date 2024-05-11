@@ -4,7 +4,7 @@ import cv2
 from implementation.processing.measurement_handler_interface import MeasureHandlerInterface
 from implementation.processing.measurement import Measurement
 
-from tools.image import draw_landmarks_on_image, get_reference_position, detect_landmarks
+from tools.image import draw_landmarks_on_image, detect_landmarks
 
 
 class MeasurementsNotCorrect(Exception):
@@ -29,9 +29,9 @@ class MeasureHandler(MeasureHandlerInterface):
     def get_facial_landmarks_coords(self, mp_image):
         face_landmarker_result = detect_landmarks(mp_image)
 
-        dict = {}
+        facial_landmarks_dict = {}
 
-        dict["left_eye"] = [self.normalized_to_pixel_coordinates(
+        facial_landmarks_dict["left_eye"] = [self.normalized_to_pixel_coordinates(
             normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].x,
             normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].y,
             image_width=mp_image.width,
@@ -44,7 +44,8 @@ class MeasureHandler(MeasureHandlerInterface):
                 image_height=mp_image.height
             )
         ]
-        dict["right_eye"] = [self.normalized_to_pixel_coordinates(
+
+        facial_landmarks_dict["right_eye"] = [self.normalized_to_pixel_coordinates(
             normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_L].x,
             normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_L].y,
             image_width=mp_image.width,
@@ -57,7 +58,7 @@ class MeasureHandler(MeasureHandlerInterface):
                 image_height=mp_image.height
             )]
 
-        dict["upper_lip"] = [self.normalized_to_pixel_coordinates(
+        facial_landmarks_dict["upper_lip"] = [self.normalized_to_pixel_coordinates(
             normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].x,
             normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].y,
             image_width=mp_image.width,
@@ -69,7 +70,7 @@ class MeasureHandler(MeasureHandlerInterface):
                 image_height=mp_image.height
             )]
 
-        return dict
+        return facial_landmarks_dict
 
     def measure_px(self, mp_image, show_image):
         face_landmarker_result = detect_landmarks(mp_image)
@@ -207,5 +208,3 @@ class MeasureHandler(MeasureHandlerInterface):
     def validate_philtrum(self, philtrum: float) -> bool:
         return True
 
-    def px_to_mm(self, obj_px, ref_in_px):
-        return obj_px * self.reference_in_mm / ref_in_px

@@ -6,13 +6,12 @@ import tempfile
 import numpy as np
 from PIL import Image
 import pytest
-import unittest
 import json
 import implementation.processing.measurement_handler as measurement_handler
 import mediapipe as mp
 from implementation.processing.measurement import Measurement
 
-m_handler = measurement_handler.MeasureHandler(10)
+m_handler = measurement_handler.MeasureHandler()
 
 config = {}
 with open("../config.json") as config_file:
@@ -55,6 +54,7 @@ def test_get_reference_position():
 
     reference_position = m_handler.get_reference_position("test_image.png")
     assert reference_position == [[10, 10], [10, 30], [30, 30], [30, 10]]
+
 
 def test_measure():
     image_path = (os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -153,6 +153,7 @@ def test_validate_philtrum():
     # TODO when philtrum type established
     pass
 
+
 def test_px_to_mm():
-    assert m_handler.px_to_mm(9,17) == 9 * m_handler.reference_in_mm / 17
+    assert m_handler.px_to_mm(9, 17) == 9 * m_handler.reference_in_mm / 17
     # it's a simple proportion, no further testing needed imo

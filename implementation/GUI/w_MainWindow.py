@@ -9,16 +9,17 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFormLayout, QGraphicsView,
-    QGridLayout, QGroupBox, QLabel, QLineEdit,
-    QPushButton, QSizePolicy, QSpacerItem, QWidget)
+                               QGridLayout, QGroupBox, QLabel, QLineEdit,
+                               QPushButton, QSizePolicy, QSpacerItem, QWidget)
 from resources import GUI_resources_rc
+
 
 class Ui_w_MainWindow(object):
     def setupUi(self, w_MainWindow):
@@ -59,7 +60,6 @@ class Ui_w_MainWindow(object):
 
         self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.label_3)
 
-
         self.gridLayout.addWidget(self.groupBox_2, 1, 0, 1, 2)
 
         self.groupBox = QGroupBox(w_MainWindow)
@@ -95,7 +95,6 @@ class Ui_w_MainWindow(object):
         self.le_UpperLipMM.setObjectName(u"le_UpperLipMM")
 
         self.formLayout.setWidget(2, QFormLayout.FieldRole, self.le_UpperLipMM)
-
 
         self.gridLayout.addWidget(self.groupBox, 11, 0, 1, 2)
 
@@ -139,7 +138,6 @@ class Ui_w_MainWindow(object):
 
         self.gridLayout.addWidget(self.pb_ChooseImage, 0, 0, 1, 2)
 
-
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 2, 1)
 
         self.pb_RotateRight = QPushButton(w_MainWindow)
@@ -177,10 +175,10 @@ class Ui_w_MainWindow(object):
 
         self.gridLayout_2.addItem(self.horizontalSpacer, 0, 1, 1, 1)
 
-
         self.retranslateUi(w_MainWindow)
 
         QMetaObject.connectSlotsByName(w_MainWindow)
+
     # setupUi
 
     def retranslateUi(self, w_MainWindow):
@@ -196,12 +194,13 @@ class Ui_w_MainWindow(object):
         self.pb_DetectReference.setText(QCoreApplication.translate("w_MainWindow", u"Wykryj referencj\u0119", None))
         self.pushButton.setText(QCoreApplication.translate("w_MainWindow", u"Zaznacz referencj\u0119", None))
         self.pushButton_7.setText(QCoreApplication.translate("w_MainWindow", u"Wyb\u00f3r rynienki podnosowej", None))
-        self.pb_DetectFacialLandmarks.setText(QCoreApplication.translate("w_MainWindow", u"Wykryj elementy twarzy", None))
-        self.pushButton_8.setText(QCoreApplication.translate("w_MainWindow", u"Zaznacz g\u00f3rn\u0105 warg\u0119", None))
+        self.pb_DetectFacialLandmarks.setText(
+            QCoreApplication.translate("w_MainWindow", u"Wykryj elementy twarzy", None))
+        self.pushButton_8.setText(
+            QCoreApplication.translate("w_MainWindow", u"Zaznacz g\u00f3rn\u0105 warg\u0119", None))
         self.pushButton_5.setText(QCoreApplication.translate("w_MainWindow", u"Zaznacz prawe oko", None))
         self.pb_ChooseImage.setText(QCoreApplication.translate("w_MainWindow", u"Wyb\u00f3r zdj\u0119cia", None))
         self.pb_RotateRight.setText(QCoreApplication.translate("w_MainWindow", u"Obr\u00f3t w prawo", None))
         self.lb_Message.setText(QCoreApplication.translate("w_MainWindow", u"Komunikaty", None))
         self.pb_RotateLeft.setText(QCoreApplication.translate("w_MainWindow", u"Obr\u00f3t w lewo", None))
     # retranslateUi
-
