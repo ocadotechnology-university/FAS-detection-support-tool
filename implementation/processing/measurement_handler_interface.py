@@ -5,17 +5,17 @@ from implementation.processing.measurement import Measurement
 class MeasureHandlerInterface(ABC):
     """Class for performing measure and validate measurement"""
 
-    @abstractmethod
-    def measure_px(self, mp_image, show_image) -> Measurement:
-        """Measure size of face elements from image in pixels
-
-        Args:
-            mp_image (mp.Image): image loaded by MediaPipe
-            show_image (bool): boolean deciding to show result image or not
-        Returns:
-            Measurement with px values
-        """
-        ...
+    # @abstractmethod
+    # def measure_px(self, mp_image, show_image) -> Measurement:
+    #     """Measure size of face elements from image in pixels
+    #
+    #     Args:
+    #         mp_image (mp.Image): image loaded by MediaPipe
+    #         show_image (bool): boolean deciding to show result image or not
+    #     Returns:
+    #         Measurement with px values
+    #     """
+    #     ...
 
     @abstractmethod
     def calculate_euclidean_distance_px(self, point1, point2) -> float:

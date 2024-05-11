@@ -4,7 +4,7 @@ import cv2
 from implementation.processing.measurement_handler_interface import MeasureHandlerInterface
 from implementation.processing.measurement import Measurement
 
-from tools.image import draw_landmarks_on_image, detect_landmarks
+from tools.image import  detect_landmarks
 
 
 class MeasurementsNotCorrect(Exception):
@@ -72,66 +72,6 @@ class MeasureHandler(MeasureHandlerInterface):
 
         return facial_landmarks_dict
 
-    def measure_px(self, mp_image, show_image):
-        face_landmarker_result = detect_landmarks(mp_image)
-
-        if show_image:
-            annotated_image = draw_landmarks_on_image(mp_image.numpy_view(), face_landmarker_result)
-            cv2.imshow('Annotated image', annotated_image)
-            cv2.waitKey(0)  # Wait for any key press
-            cv2.destroyAllWindows()  # Close all OpenCV windows
-
-        left_eye_size = self.calculate_euclidean_distance_px(
-            point1=self.normalized_to_pixel_coordinates(
-                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].x,
-                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].y,
-                image_width=mp_image.width,
-                image_height=mp_image.height
-            ),
-            point2=self.normalized_to_pixel_coordinates(
-                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].x,
-                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].y,
-                image_width=mp_image.width,
-                image_height=mp_image.height
-            ),
-        )
-        right_eye_size = self.calculate_euclidean_distance_px(
-            point1=self.normalized_to_pixel_coordinates(
-                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].x,
-                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].y,
-                image_width=mp_image.width,
-                image_height=mp_image.height
-            ),
-            point2=self.normalized_to_pixel_coordinates(
-                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].x,
-                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].y,
-                image_width=mp_image.width,
-                image_height=mp_image.height
-            ),
-        )
-        lip_size = self.calculate_euclidean_distance_px(
-            point1=self.normalized_to_pixel_coordinates(
-                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].x,
-                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].y,
-                image_width=mp_image.width,
-                image_height=mp_image.height
-            ),
-            point2=self.normalized_to_pixel_coordinates(
-                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].x,
-                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].y,
-                image_width=mp_image.width,
-                image_height=mp_image.height
-            ),
-        )
-
-        measurement = Measurement(
-            left_eye=left_eye_size,
-            right_eye=right_eye_size,
-            lip=lip_size
-        )
-
-        return measurement
-
     def calculate_euclidean_distance_px(self, point1, point2):
         return math.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2)
 
@@ -178,13 +118,6 @@ class MeasureHandler(MeasureHandlerInterface):
                                                                facial_landmarks["upper_lip"][1]) * mm_per_px
         return Measurement(left_eye_width, right_eye_width, upper_lip_width)
 
-    # def scale_measurement_with_reference(self, measurement: Measurement) -> Measurement:
-    #
-    #     measurement.left_eye = self.px_to_mm(measurement.left_eye, average_dist),
-    #     measurement.right_eye = self.px_to_mm(measurement.right_eye, average_dist),
-    #     measurement.lip = self.px_to_mm(measurement.lip, average_dist),
-    #
-    #     return measurement
 
     def validate(self, measurement):
         if not self.validate_eye(measurement.left_eye):
