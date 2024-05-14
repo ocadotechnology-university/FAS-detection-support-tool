@@ -1,32 +1,32 @@
-from download.validation.validate_file import FileNotCorrectException
+import numpy as np
+import mediapipe as mp
 
-from download.validation.validate_file_content import FileContentNotValidException
+from download.validation.validate_file import FileNotCorrectException, ValidateFile
+
+from download.validation.validate_file_content import FileContentNotValidException, ValidateFileContent
+from implementation.processing.measurement_handler import MeasureHandler
 
 from tools.image import load_image, mediapipe_load_image, get_reference_position
 
 
 
 class Backend:
-    def __init__(self, measurement_handler, file_validator, file_content_validator):
+    def __init__(self,
+                 measurement_handler: MeasureHandler,
+                 file_validator: ValidateFile,
+                 file_content_validator: ValidateFileContent):
         self.measurement_handler = measurement_handler
         self.file_validator = file_validator
         self.file_content_validator = file_content_validator
 
-    def load_and_validate(self, file_path):
+    def load_and_validate(self, file_path: str):
         try:
             self.file_validator.validate(file_path)
         except FileNotCorrectException as e:
-            print("Error in file validation:", e)
-            raise
+            return f"Błąd walidacji pliku: {e}"
         # Load image
         mp_image = mediapipe_load_image(file_path)
         image = load_image(file_path)
-        # Validate image content
-        try:
-            self.file_content_validator.validate(image, mp_image)
-        except FileContentNotValidException as e:
-            print("Error in image content validation:", e)
-            raise
         return image, mp_image
 
     def run(self):
@@ -44,14 +44,21 @@ class Backend:
         #     # handle exception
         #     pass
 
-    def detect_reference(self, filepath):
-        image, mp_image = self.load_and_validate(filepath)
+    def detect_reference(self, image: np.ndarray):
+        # Validate reference presence
+        try:
+            self.file_content_validator.validate_reference_presence(image)
+        except FileContentNotValidException as e:
+            return f"Błąd walidacji zawartości pliku: {e}"
         reference_pos = get_reference_position(image)
         return reference_pos
 
-    def detect_facial_landmarks(self, filepath):
-        self.load_and_validate(filepath)
-        image, mp_image = self.load_and_validate(filepath)
+    def detect_facial_landmarks(self, mp_image: mp.Image):
+        # Validate face presence
+        try:
+            self.file_content_validator.validate_face_presence(mp_image)
+        except FileContentNotValidException as e:
+            return f"Błąd walidacji zawartości pliku: {e}"
         result_dict = self.measurement_handler.get_facial_landmarks_coords(mp_image)
         return result_dict
 

@@ -8,21 +8,13 @@ class FileContentNotValidException(Exception):
 
 
 class ValidateFileContent(ValidateFileContentInterface):
-    def validate(self, image, mp_image):
-        if not self.is_face_present(mp_image):
-            raise FileContentNotValidException("A face was not detected.")
 
-        if not self.is_reference_present(image):
-            raise FileContentNotValidException("A reference was not detected.")
-
-    def is_face_present(self, image) -> bool:
+    def validate_face_presence(self, image) -> None:
         result = detect_landmarks(image)
-        if result.face_landmarks:
-            return True
-        return False
+        if not result.face_landmarks:
+            raise FileContentNotValidException("Twarz nie została wykryta")
 
-    def is_reference_present(self, image) -> bool:
+    def validate_reference_presence(self, image) -> None:
         result = get_reference_position(image)
-        if result:
-            return True
-        return False
+        if not result:
+            raise FileContentNotValidException("Referencja nie została wykryta")

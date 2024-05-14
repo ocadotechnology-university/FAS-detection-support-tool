@@ -106,7 +106,6 @@ class MeasureHandler(MeasureHandlerInterface):
 
         # Average distance (in pixels) between all reference vertices
         average_dist = (between_UL_UR + between_DL_DR + between_UL_DL + between_UR_DR) / 4
-        print(f"average_dist = {average_dist}px")
         return reference_in_mm / average_dist
 
     def facial_landmarks_in_mm(self, facial_landmarks, mm_per_px):
