@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'w_MainWindow.ui'
+## Form generated from reading UI file 'w_main_window.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.0
 ##
@@ -18,7 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFormLayout, QGraphicsView,
                                QGridLayout, QGroupBox, QLabel, QLineEdit,
                                QPushButton, QSizePolicy, QSpacerItem, QWidget)
-from resources import GUI_resources_rc
+from resources import gui_resources_rc
 
 
 class Ui_w_MainWindow(object):

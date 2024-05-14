@@ -3,12 +3,12 @@ import sys
 
 from download.validation.validate_file import ValidateFile
 from download.validation.validate_file_content import ValidateFileContent
-from implementation.GUI.GUI import GUI
+from implementation.GUI.gui import GUI
 from implementation.processing.measurement_handler import MeasureHandler
 
 from PySide6 import QtWidgets as qtw
 
-from implementation.Backend import Backend
+from implementation.backend import Backend
 
 # Append the project directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

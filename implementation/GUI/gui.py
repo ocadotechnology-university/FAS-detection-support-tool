@@ -2,8 +2,8 @@ from PySide6 import QtCore as qtc
 from PySide6 import QtWidgets as qtw
 from PySide6 import QtGui as qtg
 
-from implementation.GUI.Scene import Scene
-from implementation.GUI.w_MainWindow import Ui_w_MainWindow
+from implementation.GUI.scene import Scene
+from implementation.GUI.w_main_window import Ui_w_MainWindow
 
 
 class GUI(qtw.QWidget, Ui_w_MainWindow):
