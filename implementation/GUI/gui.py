@@ -82,7 +82,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.graphicsView.fitInView(self.scene.sceneRect(), qtc.Qt.KeepAspectRatio)
 
     def detect_reference(self):
-        if self.image_path is None:
+        if self.np_image is None:
             self.message("Nie wybrano obrazu", "red")
             return
         reference_coords = self.backend.detect_reference(self.np_image)
@@ -97,7 +97,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.lb_Message.setStyleSheet(f"color: {color}")
 
     def detect_facial_landmarks(self):
-        if self.image_path is None:
+        if self.mp_image is None:
             self.message("Nie wybrano obrazu", "red")
             return
         facial_landmarks_coords = self.backend.detect_facial_landmarks(self.mp_image)
