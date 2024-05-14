@@ -31,13 +31,14 @@ class MeasureHandler(MeasureHandlerInterface):
 
         facial_landmarks_dict = {}
 
-        facial_landmarks_dict["left_eye"] = [self.normalized_to_pixel_coordinates(
-            normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].x,
-            normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].y,
-            image_width=mp_image.width,
-            image_height=mp_image.height
-        )
-            , self.normalized_to_pixel_coordinates(
+        facial_landmarks_dict["left_eye"] = [
+            self.normalized_to_pixel_coordinates(
+                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].x,
+                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_L].y,
+                image_width=mp_image.width,
+                image_height=mp_image.height
+            ),
+            self.normalized_to_pixel_coordinates(
                 normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].x,
                 normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_LEFT_EYE_R].y,
                 image_width=mp_image.width,
@@ -45,24 +46,27 @@ class MeasureHandler(MeasureHandlerInterface):
             )
         ]
 
-        facial_landmarks_dict["right_eye"] = [self.normalized_to_pixel_coordinates(
-            normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_L].x,
-            normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_L].y,
-            image_width=mp_image.width,
-            image_height=mp_image.height
-        )
-            , self.normalized_to_pixel_coordinates(
+        facial_landmarks_dict["right_eye"] = [
+            self.normalized_to_pixel_coordinates(
+                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_L].x,
+                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_L].y,
+                image_width=mp_image.width,
+                image_height=mp_image.height
+            ),
+            self.normalized_to_pixel_coordinates(
                 normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_R].x,
                 normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_RIGHT_EYE_R].y,
                 image_width=mp_image.width,
                 image_height=mp_image.height
             )]
 
-        facial_landmarks_dict["upper_lip"] = [self.normalized_to_pixel_coordinates(
-            normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].x,
-            normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].y,
-            image_width=mp_image.width,
-            image_height=mp_image.height),
+        facial_landmarks_dict["upper_lip"] = [
+            self.normalized_to_pixel_coordinates(
+                normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].x,
+                normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_UP].y,
+                image_width=mp_image.width,
+                image_height=mp_image.height
+            ),
             self.normalized_to_pixel_coordinates(
                 normalized_x=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].x,
                 normalized_y=face_landmarker_result.face_landmarks[0][self.LANDMARK_UPPER_LIP_DOWN].y,
