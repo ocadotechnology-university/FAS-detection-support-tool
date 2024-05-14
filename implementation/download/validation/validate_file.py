@@ -66,8 +66,8 @@ class ValidateFile(ValidateFileInterface):
             raise FileNotCorrectException("Photo dimension not valid.")
 
         # check photo resolution
-        if not self.is_photo_resolution_valid(file):
-            raise FileNotCorrectException("Photo resolution not valid.")
+        # if not self.is_photo_resolution_valid(file):
+        #     raise FileNotCorrectException("Photo resolution not valid.")
 
     def is_file_extension_valid(self, file) -> bool:
         """
