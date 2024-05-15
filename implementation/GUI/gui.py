@@ -22,10 +22,6 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         # things in the graphics area
         self.image = None  # qtg.QPixmap
 
-        # two types of images
-        self.np_image = None
-        self.mp_image = None
-
         # VALIDATING INPUT
         int_validator = qtg.QIntValidator()
         self.le_referenceMM.setValidator(int_validator)
@@ -64,7 +60,6 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
             self.message(load_result, "red")
         else:
             self.message()
-            self.np_image, self.mp_image = load_result
             self.scene.clear()
             self.scene.clear_canva_state()
             self.image = qtg.QPixmap(self.image_path)
@@ -82,10 +77,10 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.graphicsView.fitInView(self.scene.sceneRect(), qtc.Qt.KeepAspectRatio)
 
     def detect_reference(self):
-        if self.np_image is None:
+        if self.backend.np_image is None:
             self.message("Nie wybrano obrazu", "red")
             return
-        reference_coords = self.backend.detect_reference(self.np_image)
+        reference_coords = self.backend.detect_reference()
         if isinstance(reference_coords, str):
             self.message(reference_coords, "red")
         else:
@@ -97,10 +92,10 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.lb_Message.setStyleSheet(f"color: {color}")
 
     def detect_facial_landmarks(self):
-        if self.mp_image is None:
+        if self.backend.mp_image is None:
             self.message("Nie wybrano obrazu", "red")
             return
-        facial_landmarks_coords = self.backend.detect_facial_landmarks(self.mp_image)
+        facial_landmarks_coords = self.backend.detect_facial_landmarks()
         if isinstance(facial_landmarks_coords, str):
             self.message(facial_landmarks_coords, "red")
         else:

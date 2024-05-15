@@ -18,6 +18,9 @@ class Backend:
         self.measurement_handler = measurement_handler
         self.file_validator = file_validator
         self.file_content_validator = file_content_validator
+        # two types of images
+        self.np_image = None
+        self.mp_image = None
 
     def load_and_validate(self, file_path: str):
         try:
@@ -25,9 +28,8 @@ class Backend:
         except FileNotCorrectException as e:
             return f"Błąd walidacji pliku: {e}"
         # Load image
-        mp_image = mediapipe_load_image(file_path)
-        image = load_image(file_path)
-        return image, mp_image
+        self.np_image = load_image(file_path)
+        self.mp_image = mediapipe_load_image(file_path)
 
     def run(self):
         pass
@@ -44,22 +46,22 @@ class Backend:
         #     # handle exception
         #     pass
 
-    def detect_reference(self, image: np.ndarray):
+    def detect_reference(self):
         # Validate reference presence
         try:
-            self.file_content_validator.validate_reference_presence(image)
+            self.file_content_validator.validate_reference_presence(self.np_image)
         except FileContentNotValidException as e:
             return f"Błąd walidacji zawartości pliku: {e}"
-        reference_pos = get_reference_position(image)
+        reference_pos = get_reference_position(self.np_image)
         return reference_pos
 
-    def detect_facial_landmarks(self, mp_image: mp.Image):
+    def detect_facial_landmarks(self):
         # Validate face presence
         try:
-            self.file_content_validator.validate_face_presence(mp_image)
+            self.file_content_validator.validate_face_presence(self.mp_image)
         except FileContentNotValidException as e:
             return f"Błąd walidacji zawartości pliku: {e}"
-        result_dict = self.measurement_handler.get_facial_landmarks_coords(mp_image)
+        result_dict = self.measurement_handler.get_facial_landmarks_coords(self.mp_image)
         return result_dict
 
     def measure(self, facial_landmarks_coords, reference_coords, reference_in_mm):
