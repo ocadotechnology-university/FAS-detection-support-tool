@@ -129,11 +129,13 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.update_measurement_le(results)
 
     def not_ready_to_measure(self):
-        return (len(self.scene.lip_points) != 2
-                or len(self.scene.left_eye_points) != 2
-                or len(self.scene.right_eye_points) != 2
-                or len(self.scene.reference_points) != 4
-                or len(self.le_referenceMM.text()) < 1
+        return (
+                len(self.scene.lip_points) != 2             # upper lip not detected
+                or len(self.scene.left_eye_points) != 2     # left eye not detected
+                or len(self.scene.right_eye_points) != 2    # right eye not detected
+                or len(self.scene.reference_points) != 4    # reference not detected
+                or len(self.le_referenceMM.text()) < 1      # empty reference size
+                or int(self.le_referenceMM.text()) < 1      # negative reference size
         )
 
     def update_measurement_le(self, measurement):
