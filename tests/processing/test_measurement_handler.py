@@ -63,7 +63,7 @@ def test_valid_normalized_coordinates():
         correct_cords_values["image_width"],
         correct_cords_values["image_height"]
     )
-    assert result == (50.0, 50.0)
+    assert result == [50.0, 50.0]
 
 
 def test_invalid_normalized_coordinates():
@@ -83,7 +83,7 @@ def test_edge_normalized_coordinates():
         edge_cords_values["image_width"],
         edge_cords_values["image_height"]
     )
-    assert result == (0.0, 99.0)
+    assert result == [0.0, 99.0]
 
 
 def test_calculate_mm_per_px():
