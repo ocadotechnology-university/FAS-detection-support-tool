@@ -4,7 +4,7 @@ import cv2
 from implementation.processing.measurement_handler_interface import MeasureHandlerInterface
 from implementation.processing.measurement import Measurement
 
-from tools.image import  detect_landmarks
+from tools.image import detect_landmarks
 
 
 class MeasurementsNotCorrect(Exception):
@@ -120,27 +120,3 @@ class MeasureHandler(MeasureHandlerInterface):
         upper_lip_width = self.calculate_euclidean_distance_px(facial_landmarks["upper_lip"][0],
                                                                facial_landmarks["upper_lip"][1]) * mm_per_px
         return Measurement(left_eye_width, right_eye_width, upper_lip_width)
-
-
-    def validate(self, measurement):
-        if not self.validate_eye(measurement.left_eye):
-            raise MeasurementsNotCorrect("Left eye measurement is not correct")
-
-        if not self.validate_eye(measurement.right_eye):
-            raise MeasurementsNotCorrect("Right eye measurement is not correct")
-
-        if not self.validate_lip(measurement.lip):
-            raise MeasurementsNotCorrect("Lip measurement is not correct")
-
-        if not self.validate_philtrum(measurement.philtrum):
-            raise MeasurementsNotCorrect("Philtrum measurement is not correct")
-
-    def validate_eye(self, eye: float) -> bool:
-        return True
-
-    def validate_lip(self, lip: float) -> bool:
-        return True
-
-    def validate_philtrum(self, philtrum: float) -> bool:
-        return True
-

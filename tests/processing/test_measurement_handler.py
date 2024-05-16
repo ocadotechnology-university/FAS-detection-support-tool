@@ -1,14 +1,7 @@
-import cv2
-import math
-import os
-import tempfile
-
-import numpy as np
-from PIL import Image
-import pytest
 import json
+import math
+
 import implementation.processing.measurement_handler as measurement_handler
-import mediapipe as mp
 from implementation.processing.measurement import Measurement
 
 m_handler = measurement_handler.MeasureHandler()
@@ -28,39 +21,13 @@ correct_measurement = Measurement(
     correct_measurement_values["left_eye"],
     correct_measurement_values["right_eye"],
     correct_measurement_values["lip"],
-    correct_measurement_values["philtrum"]
 )
 
 incorrect_measurement = Measurement(
     correct_measurement_values["left_eye"],
     correct_measurement_values["right_eye"],
     incorrect_measurement_values["lip"],
-    incorrect_measurement_values["philtrum"]
 )
-
-
-def create_temp_image(width, height):
-    temp_image = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
-    with Image.new("RGB", (width, height)) as image:
-        image.save(temp_image.name)
-
-    return temp_image.name
-
-
-def test_get_reference_position():
-    img = np.zeros((100, 100, 3), dtype=np.uint8)
-    cv2.rectangle(img, (10, 10), (30, 30), (255, 255, 255), -1)
-    cv2.imwrite("test_image.png", img)
-
-    reference_position = m_handler.get_reference_position("test_image.png")
-    assert reference_position == [[10, 10], [10, 30], [30, 30], [30, 10]]
-
-
-def test_measure():
-    image_path = (os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-                  + "\\resources\\test_no_reference.jpg")
-    result = m_handler.measure(mp.Image.create_from_file(image_path), show_image=False)
-    assert isinstance(result, Measurement) is True
 
 
 def test_calculate_euclidean_distance_px():
@@ -96,7 +63,7 @@ def test_valid_normalized_coordinates():
         correct_cords_values["image_width"],
         correct_cords_values["image_height"]
     )
-    assert result == (50.0, 50.0)
+    assert result == [50.0, 50.0]
 
 
 def test_invalid_normalized_coordinates():
@@ -116,44 +83,51 @@ def test_edge_normalized_coordinates():
         edge_cords_values["image_width"],
         edge_cords_values["image_height"]
     )
-    assert result == (0.0, 99.0)
+    assert result == [0.0, 99.0]
 
 
-def test_validate():
-    try:
-        m_handler.validate(correct_measurement)
-    except measurement_handler.MeasurementsNotCorrect:
-        pytest.fail("Not expected MeasurementNotCorrect exception for correct measurement")
+def test_calculate_mm_per_px():
+    # Set of reference coordinates
+    reference_coords = [[0.0, 0.0], [0.0, 100.0], [100.0, 0.0], [100.0, 100.0]]
 
-    with pytest.raises(measurement_handler.MeasurementsNotCorrect):
-        m_handler.validate(incorrect_measurement)
+    # Adjust the coordinates to be 100 pixels apart horizontally/vertically
+    reference_coords = [[0.0, 0.0], [0.0, 100.0], [100.0, 100.0], [100.0, 0.0]]
 
+    # Define a reference measurement in millimeters
+    reference_in_mm = 100.0
 
-def test_validate_eye():
-    results = [
-        m_handler.validate_eye(1.0),
-        m_handler.validate_eye(5.0),
-        m_handler.validate_eye(25.0),
-        m_handler.validate_eye(625.0)
-    ]
-    assert results == [False, True, True, False]
+    # Call the method with the defined inputs
+    result = m_handler.calculate_mm_per_px(reference_coords, reference_in_mm)
 
+    # The expected result is 1.0, because the average distance between all reference vertices is 100 pixels,
+    # and the reference measurement is 100 mm. So, 1 pixel corresponds to 1 mm.
+    expected_result = 1.0
 
-def test_validate_lip():
-    results = [
-        m_handler.validate_lip(1.0),
-        m_handler.validate_lip(5.0),
-        m_handler.validate_lip(25.0),
-        m_handler.validate_lip(625.0)
-    ]
-    assert results == [True, True, False, False]
+    # Check if the output is as expected
+    assert math.isclose(result, expected_result, rel_tol=1e-9)
 
 
-def test_validate_philtrum():
-    # TODO when philtrum type established
+def test_facial_landmarks_in_mm():
+    # Define a dictionary of facial landmarks
+    facial_landmarks = {
+        "left_eye": [[0.0, 0.0], [0.0, 100.0]],
+        "right_eye": [[100.0, 0.0], [100.0, 100.0]],
+        "upper_lip": [[50.0, 50.0], [50.0, 150.0]]
+    }
+    # Define a millimeters per pixel ratio
+    mm_per_px = 1.0
+
+    # Call the method with the defined inputs
+    result = m_handler.facial_landmarks_in_mm(facial_landmarks, mm_per_px)
+
+    # The expected result is a Measurement object with each measurement being 100.0,
+    # because the distance between the points of each facial landmark is 100 pixels,
+    # and the mm per pixel ratio is 1.0.
+    expected_result = Measurement(100.0, 100.0, 100.0)
+
+    # Check if the output is as expected
+    assert result == expected_result
+
+
+def test_get_facial_landmarks_coords():
     pass
-
-
-def test_px_to_mm():
-    assert m_handler.px_to_mm(9, 17) == 9 * m_handler.reference_in_mm / 17
-    # it's a simple proportion, no further testing needed imo

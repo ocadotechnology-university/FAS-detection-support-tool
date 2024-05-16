@@ -22,6 +22,14 @@ class Measurement(MeasurementInterface):
         self.lip = lip
         self.philtrum = philtrum
 
+    def __eq__(self, other):
+        if isinstance(other, Measurement):
+            return (self.left_eye == other.left_eye and
+                    self.right_eye == other.right_eye and
+                    self.lip == other.lip and
+                    self.philtrum == other.philtrum)
+        return False
+
     def __str__(self):
         return f"{self.left_eye=}\n \
         {self.right_eye=}\n\

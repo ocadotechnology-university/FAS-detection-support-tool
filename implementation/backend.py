@@ -9,7 +9,6 @@ from implementation.processing.measurement_handler import MeasureHandler
 from tools.image import load_image, mediapipe_load_image, get_reference_position
 
 
-
 class Backend:
     def __init__(self,
                  measurement_handler: MeasureHandler,
