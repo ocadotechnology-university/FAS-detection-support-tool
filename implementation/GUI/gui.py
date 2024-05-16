@@ -4,10 +4,11 @@ from PySide6 import QtGui as qtg
 
 from implementation.GUI.scene import Scene
 from implementation.GUI.w_main_window import Ui_w_MainWindow
+from implementation.backend import Backend
 
 
 class GUI(qtw.QWidget, Ui_w_MainWindow):
-    def __init__(self, backend):
+    def __init__(self, backend: Backend):
 
         # startup
         super().__init__()
@@ -54,12 +55,17 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.updatePhoto()
 
     def updatePhoto(self):
-        self.scene.clear()
-        self.scene.clear_canva_state()
-        self.image = qtg.QPixmap(self.image_path)
-        self.scene.addPixmap(self.image)
-        self.scene.setSceneRect(self.image.rect())
-        self.updateView()
+        load_result = self.backend.load_and_validate(self.image_path)
+        if isinstance(load_result, str):
+            self.message(load_result, "red")
+        else:
+            self.message()
+            self.scene.clear()
+            self.scene.clear_canva_state()
+            self.image = qtg.QPixmap(self.image_path)
+            self.scene.addPixmap(self.image)
+            self.scene.setSceneRect(self.image.rect())
+            self.updateView()
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
@@ -71,26 +77,32 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.graphicsView.fitInView(self.scene.sceneRect(), qtc.Qt.KeepAspectRatio)
 
     def detect_reference(self):
-        if self.image_path is None:
-            self.message("Nie wybrano obrazu")
+        if self.backend.np_image is None:
+            self.message("Nie wybrano obrazu", "red")
             return
-        reference_coords = self.backend.detect_reference(self.image_path)
-
-        if reference_coords is not None:
-            self.scene.draw_reference(reference_coords)
+        reference_coords = self.backend.detect_reference()
+        if isinstance(reference_coords, str):
+            self.message(reference_coords, "red")
         else:
-            self.message("Nie wykryto referencji")
+            self.message()
+            self.scene.draw_reference(reference_coords)
 
-    def message(self, text):
+    def message(self, text: str = "", color: str = "white"):
         self.lb_Message.setText(text)
+        self.lb_Message.setStyleSheet(f"color: {color}")
 
     def detect_facial_landmarks(self):
-        facial_landmarks_coords = self.backend.detect_facial_landmarks(self.image_path)
-        print(facial_landmarks_coords)
-
-        self.scene.draw_left_eye(facial_landmarks_coords['left_eye'])
-        self.scene.draw_right_eye(facial_landmarks_coords['right_eye'])
-        self.scene.draw_upper_lip(facial_landmarks_coords['upper_lip'])
+        if self.backend.mp_image is None:
+            self.message("Nie wybrano obrazu", "red")
+            return
+        facial_landmarks_coords = self.backend.detect_facial_landmarks()
+        if isinstance(facial_landmarks_coords, str):
+            self.message(facial_landmarks_coords, "red")
+        else:
+            self.message()
+            self.scene.draw_left_eye(facial_landmarks_coords['left_eye'])
+            self.scene.draw_right_eye(facial_landmarks_coords['right_eye'])
+            self.scene.draw_upper_lip(facial_landmarks_coords['upper_lip'])
 
         # xd = {'left_eye': [[1484.0957736968994, 1487.6388130187988], [1801.3362464904785, 1464.7445755004883]],
         #       'right_eye': [[783.3786163330078, 1473.4267015457153], [1086.4893321990967, 1491.7679557800293]],
@@ -99,9 +111,11 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
     def measure(self):
         if self.not_ready_to_measure():
             self.message(
-                "Brakuje danych do pomiarów (referencji, punktów elementów na twarzy lub wielkości referencji w mm")
+                "Brakuje danych do pomiarów (referencji, punktów elementów na twarzy lub wielkości referencji w mm",
+                "red"
+            )
             return
-
+        self.message()
         facial_landmark_coord_dict = {'left_eye': [self.scene.left_eye_points[i].get_real_coords() for i in range(2)],
                                       'right_eye': [self.scene.right_eye_points[i].get_real_coords() for i in range(2)],
                                       'upper_lip': [self.scene.lip_points[i].get_real_coords() for i in range(2)]}
@@ -115,12 +129,14 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.update_measurement_le(results)
 
     def not_ready_to_measure(self):
-        return (len(self.scene.lip_points) != 2
-                or len(self.scene.left_eye_points) != 2
-                or len(self.scene.right_eye_points) != 2
-                or len(self.scene.reference_points) != 4
-                or int(self.le_referenceMM.text()) < 1
-                )
+        return (
+                len(self.scene.lip_points) != 2             # upper lip not detected
+                or len(self.scene.left_eye_points) != 2     # left eye not detected
+                or len(self.scene.right_eye_points) != 2    # right eye not detected
+                or len(self.scene.reference_points) != 4    # reference not detected
+                or len(self.le_referenceMM.text()) < 1      # empty reference size
+                or int(self.le_referenceMM.text()) < 1      # negative reference size
+        )
 
     def update_measurement_le(self, measurement):
         self.le_LeftEyeMM.setText(str(round(measurement.left_eye, 2)))

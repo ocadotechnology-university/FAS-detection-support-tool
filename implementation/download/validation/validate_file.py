@@ -43,27 +43,27 @@ class ValidateFile(ValidateFileInterface):
         """
         # Check if the file exists
         if not os.path.exists(file):
-            raise FileNotCorrectException(f"File {file} does not exist.")
+            raise FileNotCorrectException(f"Plik {file} nie istnieje.")
 
         # Check if the path is a file
         if not os.path.isfile(file):
-            raise FileNotCorrectException(f"{file} is not a file.")
+            raise FileNotCorrectException(f"{file} nie jest plikiem.")
 
         # Check if the file is readable
         if not os.access(file, os.R_OK):
-            raise FileNotCorrectException(f"File {file} is not readable.")
+            raise FileNotCorrectException(f"Plik {file} nie ma prawa do odczytu.")
 
         # check file extension
         if not self.is_file_extension_valid(file):
-            raise FileNotCorrectException("File extension not correct.")
+            raise FileNotCorrectException("Rozszerzenie pliku jest niepoprawne")
 
         # check if file not corrupted
         if not self.is_file_not_corrupted(file):
-            raise FileNotCorrectException("File corrupted.")
+            raise FileNotCorrectException("Plik uszkodzony")
 
         # check photo dimensions
         if not self.is_photo_dimension_valid(file):
-            raise FileNotCorrectException("Photo dimension not valid.")
+            raise FileNotCorrectException("Wymiary zdjęcia są niepoprawne")
 
         # check photo resolution
         # if not self.is_photo_resolution_valid(file):

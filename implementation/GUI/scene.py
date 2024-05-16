@@ -64,17 +64,19 @@ class Scene(qtw.QGraphicsScene):
     def draw_lines(self):
         # reference lines
         self.reset(self.reference_lines)
-        for i in range(4):
-            next_i = (i + 1) % 4
-            x1 = self.reference_points[i].real_x()
-            y1 = self.reference_points[i].real_y()
-            x2 = self.reference_points[next_i].real_x()
-            y2 = self.reference_points[next_i].real_y()
 
-            line = qtw.QGraphicsLineItem(x1, y1, x2, y2)
-            line.setPen(self.line_pen)
-            self.addItem(line)
-            self.reference_lines.append(line)
+        if self.reference_points:
+            for i in range(4):
+                next_i = (i + 1) % 4
+                x1 = self.reference_points[i].real_x()
+                y1 = self.reference_points[i].real_y()
+                x2 = self.reference_points[next_i].real_x()
+                y2 = self.reference_points[next_i].real_y()
+
+                line = qtw.QGraphicsLineItem(x1, y1, x2, y2)
+                line.setPen(self.line_pen)
+                self.addItem(line)
+                self.reference_lines.append(line)
 
         # left eye
         if len(self.left_eye_points) == 2:

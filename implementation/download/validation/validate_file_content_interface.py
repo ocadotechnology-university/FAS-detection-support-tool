@@ -3,16 +3,11 @@ from abc import ABC, abstractmethod
 
 class ValidateFileContentInterface(ABC):
     @abstractmethod
-    def validate(self, image, mp_image):
-        """Check if file content is correct"""
-        ...
-
-    @abstractmethod
-    def is_face_present(self, image) -> bool:
+    def validate_face_presence(self, image) -> None:
         """Check if face is present on an image"""
         ...
 
     @abstractmethod
-    def is_reference_present(self, image) -> bool:
+    def validate_reference_presence(self, image) -> None:
         """Check if reference is present on an image"""
         ...

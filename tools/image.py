@@ -56,7 +56,7 @@ def get_reference_position(img: np.ndarray) -> list[list[float]] | None:
                 ratio = float(w) / h
                 # Assuming squares have width to height ratio between 0.9 and 1.1
                 if 0.9 <= ratio <= 1.1:
-                    img = cv2.drawContours(img, [countour], -1, (0, 255, 0), 2)
+                    # img = cv2.drawContours(img, [countour], -1, (0, 255, 0), 2)
                     return approx.reshape(-1, 2).tolist()
     return None
 
