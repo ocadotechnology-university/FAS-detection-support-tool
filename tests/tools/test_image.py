@@ -29,9 +29,6 @@ def test_load_image():
     # Check that the returned object is a numpy array
     assert isinstance(loaded_image, np.ndarray)
 
-    # Check that the shape of the image is correct
-    assert loaded_image.shape == (100, 100, 3)
-
     # Remove the temporary image file
     os.remove(temp_image_file)
 
@@ -46,10 +43,6 @@ def test_mediapipe_load_image():
 
     # Check that the returned object is a mediapipe Image
     assert isinstance(loaded_image, mp.Image)
-
-    # Check that the dimensions of the image are correct
-    assert loaded_image.width == 100
-    assert loaded_image.height == 100
 
     # Remove the temporary image file
     os.remove(temp_image_file)

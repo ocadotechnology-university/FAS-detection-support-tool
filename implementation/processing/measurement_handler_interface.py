@@ -34,46 +34,6 @@ class MeasureHandlerInterface(ABC):
         ...
 
     @abstractmethod
-    def validate(self, measurement: Measurement):
-        """Check if measurements are correct
-        Args:
-            measurement (Measurement): The measurement to validate
-        Raises:
-            MeasurementsNotCorrect: If any of the measurements are not correct
-        """
-        ...
-
-    @abstractmethod
-    def validate_eye(self, eye: float) -> bool:
-        """Check if eye measurement is correct
-        Args:
-            eye (float): The eye measurement to validate
-        Returns:
-            result (bool): True if the measurement is correct, False otherwise
-        """
-        ...
-
-    @abstractmethod
-    def validate_lip(self, lip: float) -> bool:
-        """Check if lip measurement is correct
-        Args:
-            lip (float): The lip measurement to validate
-        Returns:
-            result (bool): True if the measurement is correct, False otherwise
-        """
-        ...
-
-    @abstractmethod
-    def validate_philtrum(self, philtrum: float) -> bool:
-        """Check if philtrum measurement is correct
-        Args:
-            philtrum (float): The philtrum measurement to validate
-        Returns:
-            result (bool): True if the measurement is correct, False otherwise
-        """
-        ...
-
-    @abstractmethod
     def get_facial_landmarks_coords(self, mp_image) -> dict:
         """Get facial landmarks coordinates
         Args:

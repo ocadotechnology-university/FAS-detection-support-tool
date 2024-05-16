@@ -120,19 +120,3 @@ class MeasureHandler(MeasureHandlerInterface):
         upper_lip_width = self.calculate_euclidean_distance_px(facial_landmarks["upper_lip"][0],
                                                                facial_landmarks["upper_lip"][1]) * mm_per_px
         return Measurement(left_eye_width, right_eye_width, upper_lip_width)
-
-    # def validate(self, measurement):
-    #     if not self.validate_eye(measurement.left_eye):
-    #         raise MeasurementsNotCorrect("Left eye measurement is not correct")
-    #
-    #     if not self.validate_eye(measurement.right_eye):
-    #         raise MeasurementsNotCorrect("Right eye measurement is not correct")
-    #
-    #     if not self.validate_lip(measurement.lip):
-    #         raise MeasurementsNotCorrect("Lip measurement is not correct")
-    #
-    # def validate_eye(self, eye: float) -> bool:
-    #     return 1.0 <= eye <= 50.0
-    #
-    # def validate_lip(self, lip: float) -> bool:
-    #     return 1.0 <= lip <= 50.0
