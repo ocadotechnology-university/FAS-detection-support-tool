@@ -5,7 +5,6 @@ from download.validation.validate_file_content import FileContentNotValidExcepti
 from tools.image import load_image, mediapipe_load_image, get_reference_position
 
 
-
 class Backend:
     def __init__(self, measurement_handler, file_validator, file_content_validator):
         self.measurement_handler = measurement_handler

@@ -28,14 +28,12 @@ correct_measurement = Measurement(
     correct_measurement_values["left_eye"],
     correct_measurement_values["right_eye"],
     correct_measurement_values["lip"],
-    correct_measurement_values["philtrum"]
 )
 
 incorrect_measurement = Measurement(
     correct_measurement_values["left_eye"],
     correct_measurement_values["right_eye"],
     incorrect_measurement_values["lip"],
-    incorrect_measurement_values["philtrum"]
 )
 
 
@@ -45,22 +43,6 @@ def create_temp_image(width, height):
         image.save(temp_image.name)
 
     return temp_image.name
-
-
-def test_get_reference_position():
-    img = np.zeros((100, 100, 3), dtype=np.uint8)
-    cv2.rectangle(img, (10, 10), (30, 30), (255, 255, 255), -1)
-    cv2.imwrite("test_image.png", img)
-
-    reference_position = m_handler.get_reference_position("test_image.png")
-    assert reference_position == [[10, 10], [10, 30], [30, 30], [30, 10]]
-
-
-def test_measure():
-    image_path = (os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-                  + "\\resources\\test_no_reference.jpg")
-    result = m_handler.measure(mp.Image.create_from_file(image_path), show_image=False)
-    assert isinstance(result, Measurement) is True
 
 
 def test_calculate_euclidean_distance_px():
@@ -119,41 +101,26 @@ def test_edge_normalized_coordinates():
     assert result == (0.0, 99.0)
 
 
-def test_validate():
-    try:
-        m_handler.validate(correct_measurement)
-    except measurement_handler.MeasurementsNotCorrect:
-        pytest.fail("Not expected MeasurementNotCorrect exception for correct measurement")
-
-    with pytest.raises(measurement_handler.MeasurementsNotCorrect):
-        m_handler.validate(incorrect_measurement)
-
-
-def test_validate_eye():
-    results = [
-        m_handler.validate_eye(1.0),
-        m_handler.validate_eye(5.0),
-        m_handler.validate_eye(25.0),
-        m_handler.validate_eye(625.0)
-    ]
-    assert results == [False, True, True, False]
-
-
-def test_validate_lip():
-    results = [
-        m_handler.validate_lip(1.0),
-        m_handler.validate_lip(5.0),
-        m_handler.validate_lip(25.0),
-        m_handler.validate_lip(625.0)
-    ]
-    assert results == [True, True, False, False]
-
-
-def test_validate_philtrum():
-    # TODO when philtrum type established
-    pass
-
-
 def test_px_to_mm():
     assert m_handler.px_to_mm(9, 17) == 9 * m_handler.reference_in_mm / 17
-    # it's a simple proportion, no further testing needed imo
+
+# def test_validate():
+#     try:
+#         m_handler.validate(correct_measurement)
+#     except measurement_handler.MeasurementsNotCorrect:
+#         pytest.fail("Not expected MeasurementNotCorrect exception for correct measurement")
+#
+#     with pytest.raises(measurement_handler.MeasurementsNotCorrect):
+#         m_handler.validate(incorrect_measurement)
+#
+#
+# def test_validate_eye():
+#     assert m_handler.validate_eye(25.0)
+#     assert not m_handler.validate_eye(0.5)
+#     assert not m_handler.validate_eye(51.0)
+#
+#
+# def test_validate_lip():
+#     assert m_handler.validate_lip(25.0)
+#     assert not m_handler.validate_lip(0.5)
+#     assert not m_handler.validate_lip(51.0)

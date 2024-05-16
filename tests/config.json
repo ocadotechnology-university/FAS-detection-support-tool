@@ -3,14 +3,12 @@
     "correct": {
       "left_eye": 20.0,
       "right_eye": 20.0,
-      "lip": 15.0,
-      "philtrum": 3
+      "lip": 15.0
     },
     "incorrect": {
       "left_eye": 10000.0,
       "right_eye": 10000.0,
-      "lip": 10000.0,
-      "philtrum": 10000
+      "lip": 10000.0
     }
   },
   "normalized_cords": {
