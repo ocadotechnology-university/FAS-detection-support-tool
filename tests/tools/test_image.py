@@ -1,15 +1,10 @@
 import cv2
-import math
-import os
 import tempfile
-
 import numpy as np
-from PIL import Image
-import pytest
-import json
 import mediapipe as mp
 
-from tools.image import get_reference_position
+import os
+import tools.image as image_tools
 
 
 def test_get_reference_position():
@@ -17,5 +12,44 @@ def test_get_reference_position():
     cv2.rectangle(img, (10, 10), (30, 30), (255, 255, 255), -1)
     cv2.imwrite("test_image.png", img)
 
-    reference_position = get_reference_position("test_image.png")
+    loaded_image = image_tools.load_image("test_image.png")
+    reference_position = image_tools.get_reference_position(loaded_image)
+
     assert reference_position == [[10, 10], [10, 30], [30, 30], [30, 10]]
+
+
+def test_load_image():
+    # Create a temporary image file
+    temp_image_file = tempfile.NamedTemporaryFile(suffix=".png").name
+    cv2.imwrite(temp_image_file, np.zeros((100, 100, 3), np.uint8))
+
+    # Load the image using the function
+    loaded_image = image_tools.load_image(temp_image_file)
+
+    # Check that the returned object is a numpy array
+    assert isinstance(loaded_image, np.ndarray)
+
+    # Check that the shape of the image is correct
+    assert loaded_image.shape == (100, 100, 3)
+
+    # Remove the temporary image file
+    os.remove(temp_image_file)
+
+
+def test_mediapipe_load_image():
+    # Create a temporary image file
+    temp_image_file = tempfile.NamedTemporaryFile(suffix=".png").name
+    cv2.imwrite(temp_image_file, np.zeros((100, 100, 3), np.uint8))
+
+    # Load the image using the function
+    loaded_image = image_tools.mediapipe_load_image(temp_image_file)
+
+    # Check that the returned object is a mediapipe Image
+    assert isinstance(loaded_image, mp.Image)
+
+    # Check that the dimensions of the image are correct
+    assert loaded_image.width == 100
+    assert loaded_image.height == 100
+
+    # Remove the temporary image file
+    os.remove(temp_image_file)
