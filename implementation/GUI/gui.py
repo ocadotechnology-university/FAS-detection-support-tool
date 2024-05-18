@@ -45,6 +45,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.pb_DetectReference.clicked.connect(self.detect_reference)
         self.pb_DetectFacialLandmarks.clicked.connect(self.detect_facial_landmarks)
         self.pb_measure.clicked.connect(self.measure)
+        self.pb_generate_raport.clicked.connect(self.generate_raport)
 
     @qtc.Slot()
     def open_image_dialog(self):
@@ -142,3 +143,6 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.le_LeftEyeMM.setText(str(round(measurement.left_eye, 2)))
         self.le_RightEyeMM.setText(str(round(measurement.right_eye, 2)))
         self.le_UpperLipMM.setText(str(round(measurement.lip, 2)))
+
+    def generate_raport(self):
+        self.backend.generate_raport()

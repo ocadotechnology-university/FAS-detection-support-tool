@@ -5,6 +5,7 @@ from download.validation.validate_file import ValidateFile
 from download.validation.validate_file_content import ValidateFileContent
 from implementation.GUI.gui import GUI
 from implementation.processing.measurement_handler import MeasureHandler
+from raport.generator.raport_generator import RaportGenerator
 
 from PySide6 import QtWidgets as qtw
 
@@ -27,7 +28,8 @@ def main():
             1000,
             50
         ),
-        file_content_validator=ValidateFileContent()
+        file_content_validator=ValidateFileContent(),
+        raport_generator=RaportGenerator()
     )
 
     window = GUI(backend)
