@@ -5,6 +5,7 @@ from download.validation.validate_file import FileNotCorrectException, ValidateF
 
 from download.validation.validate_file_content import FileContentNotValidException, ValidateFileContent
 from implementation.processing.measurement_handler import MeasureHandler
+from raport.generator.raport_generator import RaportGenerator
 
 from tools.image import load_image, mediapipe_load_image, get_reference_position
 
@@ -13,10 +14,12 @@ class Backend:
     def __init__(self,
                  measurement_handler: MeasureHandler,
                  file_validator: ValidateFile,
-                 file_content_validator: ValidateFileContent):
+                 file_content_validator: ValidateFileContent,
+                 raport_generator: RaportGenerator):
         self.measurement_handler = measurement_handler
         self.file_validator = file_validator
         self.file_content_validator = file_content_validator
+        self.raport_generator = raport_generator
         # two types of images
         self.np_image = None
         self.mp_image = None
@@ -67,3 +70,6 @@ class Backend:
         px_per_mm = self.measurement_handler.calculate_mm_per_px(reference_coords, reference_in_mm)
         result = self.measurement_handler.facial_landmarks_in_mm(facial_landmarks_coords, px_per_mm)
         return result
+
+    def generate_raport(self):
+        self.raport_generator.generate()

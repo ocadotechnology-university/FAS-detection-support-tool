@@ -175,6 +175,11 @@ class Ui_w_MainWindow(object):
 
         self.gridLayout_2.addItem(self.horizontalSpacer, 0, 1, 1, 1)
 
+        self.pb_generate_raport = QPushButton(w_MainWindow)
+        self.pb_generate_raport.setObjectName(u"pb_generate_raport")
+        self.pb_generate_raport.setText(QCoreApplication.translate("w_MainWindow", u"Generuj raport", None));
+        self.gridLayout.addWidget(self.pb_generate_raport, 12, 0, 1, 2)
+
         self.retranslateUi(w_MainWindow)
 
         QMetaObject.connectSlotsByName(w_MainWindow)
