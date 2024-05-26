@@ -5,8 +5,9 @@ import cv2
 import mediapipe as mp
 import numpy as np
 
-from mediapipe.framework.formats import landmark_pb2
 from mediapipe.tasks.python.vision.face_landmarker import FaceLandmarkerResult
+from matplotlib import pyplot as plt
+
 
 
 def load_image(file_path: str) -> np.ndarray:
@@ -42,9 +43,11 @@ def get_reference_position(img: np.ndarray) -> list[list[float]] | None:
     """
     img_w, img_h, channels = img.shape
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    result_img = cv2.equalizeHist(gray)     # equalize histogram
 
-    _, thresh = cv2.threshold(gray, 100, 255, 0)
-    # Find all countours
+    _, thresh = cv2.threshold(result_img, 100, 255, 0)
+    thresh = thresh.astype(np.uint8)
+    # Find all contours
     contours, _ = cv2.findContours(thresh, 1, 2)
 
     for countour in contours:
