@@ -40,12 +40,21 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
         # BINDING BUTTONS
         self.pb_ChooseImage.clicked.connect(self.open_image_dialog)
-        self.pb_RotateLeft.clicked.connect(self.scene.rotate_the_image_left)
-        self.pb_RotateLeft.clicked.connect(self.scene.rotate_the_image_right)
+        self.pb_RotateLeft.clicked.connect(self.rotate_graphics_view_left)
+        self.pb_RotateRight.clicked.connect(self.rotate_graphics_view_right)
         self.pb_DetectReference.clicked.connect(self.detect_reference)
         self.pb_DetectFacialLandmarks.clicked.connect(self.detect_facial_landmarks)
         self.pb_measure.clicked.connect(self.measure)
-        self.pb_generate_raport.clicked.connect(self.generate_raport)
+        # self.pb_generate_raport.clicked.connect(self.generate_raport)
+
+    def rotate_graphics_view_right(self):
+        self.graphicsView.rotate(90)
+        self.updateView()
+
+    def rotate_graphics_view_left(self):
+        self.graphicsView.rotate(-90)
+        self.updateView()
+
 
     @qtc.Slot()
     def open_image_dialog(self):

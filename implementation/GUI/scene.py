@@ -28,20 +28,6 @@ class Scene(qtw.QGraphicsScene):
         self.line_pen.setColor(qtg.QColor(0xFF0000))
         self.line_pen.setWidth(self.stroke_width)
 
-    def rotate_the_image_left(self):
-        pass
-        # img = cv2.imread(self.image_path)
-        # rotated_img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
-        # cv2.imwrite(self.image_path, rotated_img)
-        # self.updatePhoto()
-
-    def rotate_the_image_right(self):
-        pass
-        # img = cv2.imread(self.image_path)
-        # rotated_img = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)
-        # cv2.imwrite(self.image_path, rotated_img)
-        # self.updatePhoto()
-
     def reset(self, items):
         # if a user clicks multiple times "detect reference" we need to make sure we don't draw excessive points
         for item in items:
