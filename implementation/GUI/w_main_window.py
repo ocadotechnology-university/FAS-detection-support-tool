@@ -167,10 +167,10 @@ class Ui_w_MainWindow(object):
         self.groupBox_4.setSizePolicy(sizePolicy1)
         self.gridLayout_3 = QGridLayout(self.groupBox_4)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.radioButton_5 = QRadioButton(self.groupBox_4)
-        self.radioButton_5.setObjectName(u"radioButton_5")
+        self.rb3 = QRadioButton(self.groupBox_4)
+        self.rb3.setObjectName(u"rb3")
 
-        self.gridLayout_3.addWidget(self.radioButton_5, 3, 2, 1, 1)
+        self.gridLayout_3.addWidget(self.rb3, 3, 2, 1, 1)
 
         self.label_5 = QLabel(self.groupBox_4)
         self.label_5.setObjectName(u"label_5")
@@ -190,25 +190,25 @@ class Ui_w_MainWindow(object):
 
         self.gridLayout_3.addWidget(self.label_5, 1, 1, 5, 1)
 
-        self.radioButton_4 = QRadioButton(self.groupBox_4)
-        self.radioButton_4.setObjectName(u"radioButton_4")
+        self.rb2 = QRadioButton(self.groupBox_4)
+        self.rb2.setObjectName(u"rb2")
 
-        self.gridLayout_3.addWidget(self.radioButton_4, 4, 2, 1, 1)
+        self.gridLayout_3.addWidget(self.rb2, 4, 2, 1, 1)
 
-        self.radioButton_2 = QRadioButton(self.groupBox_4)
-        self.radioButton_2.setObjectName(u"radioButton_2")
+        self.rb5 = QRadioButton(self.groupBox_4)
+        self.rb5.setObjectName(u"rb5")
 
-        self.gridLayout_3.addWidget(self.radioButton_2, 1, 2, 1, 1)
+        self.gridLayout_3.addWidget(self.rb5, 1, 2, 1, 1)
 
-        self.radioButton_3 = QRadioButton(self.groupBox_4)
-        self.radioButton_3.setObjectName(u"radioButton_3")
+        self.rb4 = QRadioButton(self.groupBox_4)
+        self.rb4.setObjectName(u"rb4")
 
-        self.gridLayout_3.addWidget(self.radioButton_3, 2, 2, 1, 2)
+        self.gridLayout_3.addWidget(self.rb4, 2, 2, 1, 2)
 
-        self.radioButton = QRadioButton(self.groupBox_4)
-        self.radioButton.setObjectName(u"radioButton")
+        self.rb1 = QRadioButton(self.groupBox_4)
+        self.rb1.setObjectName(u"rb1")
 
-        self.gridLayout_3.addWidget(self.radioButton, 5, 2, 1, 1)
+        self.gridLayout_3.addWidget(self.rb1, 5, 2, 1, 1)
 
 
         self.gridLayout.addWidget(self.groupBox_4, 19, 0, 1, 5)
@@ -439,12 +439,12 @@ class Ui_w_MainWindow(object):
         QWidget.setTabOrder(self.pb_measure, self.le_LeftEyeMM)
         QWidget.setTabOrder(self.le_LeftEyeMM, self.le_RightEyeMM)
         QWidget.setTabOrder(self.le_RightEyeMM, self.le_UpperLipMM)
-        QWidget.setTabOrder(self.le_UpperLipMM, self.radioButton_2)
-        QWidget.setTabOrder(self.radioButton_2, self.radioButton_3)
-        QWidget.setTabOrder(self.radioButton_3, self.radioButton_5)
-        QWidget.setTabOrder(self.radioButton_5, self.radioButton_4)
-        QWidget.setTabOrder(self.radioButton_4, self.radioButton)
-        QWidget.setTabOrder(self.radioButton, self.tabWidget)
+        QWidget.setTabOrder(self.le_UpperLipMM, self.rb5)
+        QWidget.setTabOrder(self.rb5, self.rb4)
+        QWidget.setTabOrder(self.rb4, self.rb3)
+        QWidget.setTabOrder(self.rb3, self.rb2)
+        QWidget.setTabOrder(self.rb2, self.rb1)
+        QWidget.setTabOrder(self.rb1, self.tabWidget)
         QWidget.setTabOrder(self.tabWidget, self.le_LeftEyeMMChart)
         QWidget.setTabOrder(self.le_LeftEyeMMChart, self.le_RightEyeMMChart)
         QWidget.setTabOrder(self.le_RightEyeMMChart, self.pb_chart1)
@@ -484,12 +484,12 @@ class Ui_w_MainWindow(object):
         self.label_2.setText(QCoreApplication.translate("w_MainWindow", u"Szeroko\u015b\u0107 prawego oka [mm]", None))
         self.label_4.setText(QCoreApplication.translate("w_MainWindow", u"Wysoko\u015b\u0107 g\u00f3rnej wargi [mm]", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("w_MainWindow", u"Wyb\u00f3r rynienki podnosowej", None))
-        self.radioButton_5.setText(QCoreApplication.translate("w_MainWindow", u"3", None))
+        self.rb3.setText(QCoreApplication.translate("w_MainWindow", u"3", None))
         self.label_5.setText("")
-        self.radioButton_4.setText(QCoreApplication.translate("w_MainWindow", u"2", None))
-        self.radioButton_2.setText(QCoreApplication.translate("w_MainWindow", u"5", None))
-        self.radioButton_3.setText(QCoreApplication.translate("w_MainWindow", u"4", None))
-        self.radioButton.setText(QCoreApplication.translate("w_MainWindow", u"1", None))
+        self.rb2.setText(QCoreApplication.translate("w_MainWindow", u"2", None))
+        self.rb5.setText(QCoreApplication.translate("w_MainWindow", u"5", None))
+        self.rb4.setText(QCoreApplication.translate("w_MainWindow", u"4", None))
+        self.rb1.setText(QCoreApplication.translate("w_MainWindow", u"1", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Pomiary), QCoreApplication.translate("w_MainWindow", u"Pomiary", None))
         self.groupBox_3.setTitle("")
         self.pb_chart1.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 1", None))

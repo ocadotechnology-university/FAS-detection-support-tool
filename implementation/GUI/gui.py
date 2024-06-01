@@ -20,6 +20,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.reference_points = []
         self.image_path = None
 
+        # self.rotation = 0  # indicates graphicsview rotation in degrees; it's needed for placeholder points
+
         # things in the graphics area
         self.image = None  # qtg.QPixmap
 
@@ -88,10 +90,12 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def rotate_graphics_view_right(self):
         self.photoGraphicsView.rotate(90)
+        self.rotation += 90
         self.updatePhotoView()
 
     def rotate_graphics_view_left(self):
         self.photoGraphicsView.rotate(-90)
+        self.rotation -= 90
         self.updatePhotoView()
 
     @qtc.Slot()
@@ -176,6 +180,14 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
     def placeholder_facial_landmarks(self):
         width = self.photoScene.width()
         height = self.photoScene.height()
+
+        # rotation = self.rotation % 360
+        # if rotation==0:
+        #     width = self.photoScene.width()
+        #     height = self.photoScene.height()
+        # if rotation==90:
+        #     width = self.photoScene.height()
+        #     height = self.photoScene.width()
 
         eye_y = height * 0.3
         right_eye_x1 = width * 0.1
@@ -269,3 +281,15 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def export_charts(self):
         pass
+
+    def get_philtrum_depth_class(self):
+        if self.rb1.isChecked():
+            return 1
+        if self.rb2.isChecked():
+            return 2
+        if self.rb3.isChecked():
+            return 3
+        if self.rb4.isChecked():
+            return 4
+        if self.rb5.isChecked():
+            return 5

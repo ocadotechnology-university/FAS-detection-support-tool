@@ -229,7 +229,7 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_3">
             <item row="3" column="2">
-             <widget class="QRadioButton" name="radioButton_5">
+             <widget class="QRadioButton" name="rb3">
               <property name="text">
                <string>3</string>
               </property>
@@ -279,28 +279,28 @@
              </widget>
             </item>
             <item row="4" column="2">
-             <widget class="QRadioButton" name="radioButton_4">
+             <widget class="QRadioButton" name="rb2">
               <property name="text">
                <string>2</string>
               </property>
              </widget>
             </item>
             <item row="1" column="2">
-             <widget class="QRadioButton" name="radioButton_2">
+             <widget class="QRadioButton" name="rb5">
               <property name="text">
                <string>5</string>
               </property>
              </widget>
             </item>
             <item row="2" column="2" colspan="2">
-             <widget class="QRadioButton" name="radioButton_3">
+             <widget class="QRadioButton" name="rb4">
               <property name="text">
                <string>4</string>
               </property>
              </widget>
             </item>
             <item row="5" column="2">
-             <widget class="QRadioButton" name="radioButton">
+             <widget class="QRadioButton" name="rb1">
               <property name="text">
                <string>1</string>
               </property>
@@ -667,11 +667,11 @@
   <tabstop>le_LeftEyeMM</tabstop>
   <tabstop>le_RightEyeMM</tabstop>
   <tabstop>le_UpperLipMM</tabstop>
-  <tabstop>radioButton_2</tabstop>
-  <tabstop>radioButton_3</tabstop>
-  <tabstop>radioButton_5</tabstop>
-  <tabstop>radioButton_4</tabstop>
-  <tabstop>radioButton</tabstop>
+  <tabstop>rb5</tabstop>
+  <tabstop>rb4</tabstop>
+  <tabstop>rb3</tabstop>
+  <tabstop>rb2</tabstop>
+  <tabstop>rb1</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>le_LeftEyeMMChart</tabstop>
   <tabstop>le_RightEyeMMChart</tabstop>
