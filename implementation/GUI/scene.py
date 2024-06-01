@@ -31,7 +31,7 @@ class Scene(qtw.QGraphicsScene):
             self.removeItem(item)
         items.clear()
 
-    def draw_points(self, points_list, new_coords):
+    def draw_points(self, points_list, new_coords, tooltip):
         self.reset(points_list)
         for i in range(len(new_coords)):
             x = new_coords[i][0]
@@ -40,20 +40,20 @@ class Scene(qtw.QGraphicsScene):
             point.setPen(self.point_pen)
             self.addItem(point)
             points_list.append(point)
-            point.setToolTip("XD")
+            point.setToolTip(tooltip)
         self.draw_lines()
 
     def draw_reference(self, reference_coords):
-        self.draw_points(self.reference_points, reference_coords)
+        self.draw_points(self.reference_points, reference_coords, "Referencja")
 
     def draw_left_eye(self, coords):
-        self.draw_points(self.left_eye_points, coords)
+        self.draw_points(self.left_eye_points, coords, "Lewe oko")
 
     def draw_right_eye(self, coords):
-        self.draw_points(self.right_eye_points, coords)
+        self.draw_points(self.right_eye_points, coords, "Prawe oko")
 
     def draw_upper_lip(self, coords):
-        self.draw_points(self.lip_points, coords)
+        self.draw_points(self.lip_points, coords,"Górna warga")
 
     def sub_draw_lines(self, point_list):
         length = len(point_list)
