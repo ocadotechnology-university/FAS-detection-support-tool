@@ -32,6 +32,12 @@ class Ui_w_MainWindow(object):
         w_MainWindow.setWindowIcon(icon)
         self.gridLayout_2 = QGridLayout(w_MainWindow)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.lb_Message = QLabel(w_MainWindow)
+        self.lb_Message.setObjectName(u"lb_Message")
+        self.lb_Message.setWordWrap(False)
+
+        self.gridLayout_2.addWidget(self.lb_Message, 18, 0, 1, 1)
+
         self.tabWidget = QTabWidget(w_MainWindow)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tabWidget.setMaximumSize(QSize(16777215, 16777215))
@@ -214,111 +220,86 @@ class Ui_w_MainWindow(object):
 
         self.horizontalLayout.addLayout(self.gridLayout)
 
-        self.graphicsView = QGraphicsView(self.Pomiary)
-        self.graphicsView.setObjectName(u"graphicsView")
-        self.graphicsView.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+        self.photoGraphicsView = QGraphicsView(self.Pomiary)
+        self.photoGraphicsView.setObjectName(u"photoGraphicsView")
+        self.photoGraphicsView.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
 
-        self.horizontalLayout.addWidget(self.graphicsView)
+        self.horizontalLayout.addWidget(self.photoGraphicsView)
 
         self.tabWidget.addTab(self.Pomiary, "")
         self.Siatki_centylowe = QWidget()
         self.Siatki_centylowe.setObjectName(u"Siatki_centylowe")
-        self.gridLayout_5 = QGridLayout(self.Siatki_centylowe)
-        self.gridLayout_5.setObjectName(u"gridLayout_5")
-        self.pushButton_9 = QPushButton(self.Siatki_centylowe)
-        self.pushButton_9.setObjectName(u"pushButton_9")
-
-        self.gridLayout_5.addWidget(self.pushButton_9, 5, 0, 1, 1)
-
-        self.groupBox_7 = QGroupBox(self.Siatki_centylowe)
-        self.groupBox_7.setObjectName(u"groupBox_7")
-        self.gridLayout_10 = QGridLayout(self.groupBox_7)
-        self.gridLayout_10.setObjectName(u"gridLayout_10")
-        self.lineEdit_5 = QLineEdit(self.groupBox_7)
-        self.lineEdit_5.setObjectName(u"lineEdit_5")
+        self.horizontalLayout_7 = QHBoxLayout(self.Siatki_centylowe)
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.verticalLayout_5 = QVBoxLayout()
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.groupBox_3 = QGroupBox(self.Siatki_centylowe)
+        self.groupBox_3.setObjectName(u"groupBox_3")
+        sizePolicy3.setHeightForWidth(self.groupBox_3.sizePolicy().hasHeightForWidth())
+        self.groupBox_3.setSizePolicy(sizePolicy3)
+        self.groupBox_3.setMaximumSize(QSize(400, 16777215))
+        self.gridLayout_6 = QGridLayout(self.groupBox_3)
+        self.gridLayout_6.setObjectName(u"gridLayout_6")
+        self.le_LeftEyeMMChart = QLineEdit(self.groupBox_3)
+        self.le_LeftEyeMMChart.setObjectName(u"le_LeftEyeMMChart")
         sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
         sizePolicy4.setHorizontalStretch(0)
         sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.lineEdit_5.sizePolicy().hasHeightForWidth())
-        self.lineEdit_5.setSizePolicy(sizePolicy4)
+        sizePolicy4.setHeightForWidth(self.le_LeftEyeMMChart.sizePolicy().hasHeightForWidth())
+        self.le_LeftEyeMMChart.setSizePolicy(sizePolicy4)
 
-        self.gridLayout_10.addWidget(self.lineEdit_5, 0, 1, 1, 1)
+        self.gridLayout_6.addWidget(self.le_LeftEyeMMChart, 1, 2, 1, 1)
 
-        self.label_10 = QLabel(self.groupBox_7)
-        self.label_10.setObjectName(u"label_10")
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.pb_chart1 = QPushButton(self.groupBox_3)
+        self.pb_chart1.setObjectName(u"pb_chart1")
 
-        self.gridLayout_10.addWidget(self.label_10, 0, 0, 1, 1)
+        self.horizontalLayout_2.addWidget(self.pb_chart1)
 
-        self.horizontalLayout_4 = QHBoxLayout()
-        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.pushButton_7 = QPushButton(self.groupBox_7)
-        self.pushButton_7.setObjectName(u"pushButton_7")
+        self.pb_chart2 = QPushButton(self.groupBox_3)
+        self.pb_chart2.setObjectName(u"pb_chart2")
 
-        self.horizontalLayout_4.addWidget(self.pushButton_7)
-
-        self.pushButton_8 = QPushButton(self.groupBox_7)
-        self.pushButton_8.setObjectName(u"pushButton_8")
-
-        self.horizontalLayout_4.addWidget(self.pushButton_8)
+        self.horizontalLayout_2.addWidget(self.pb_chart2)
 
 
-        self.gridLayout_10.addLayout(self.horizontalLayout_4, 1, 0, 1, 2)
+        self.gridLayout_6.addLayout(self.horizontalLayout_2, 4, 0, 1, 3)
+
+        self.label_6 = QLabel(self.groupBox_3)
+        self.label_6.setObjectName(u"label_6")
+        sizePolicy1.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
+        self.label_6.setSizePolicy(sizePolicy1)
+
+        self.gridLayout_6.addWidget(self.label_6, 1, 0, 1, 1)
+
+        self.le_RightEyeMMChart = QLineEdit(self.groupBox_3)
+        self.le_RightEyeMMChart.setObjectName(u"le_RightEyeMMChart")
+        sizePolicy4.setHeightForWidth(self.le_RightEyeMMChart.sizePolicy().hasHeightForWidth())
+        self.le_RightEyeMMChart.setSizePolicy(sizePolicy4)
+
+        self.gridLayout_6.addWidget(self.le_RightEyeMMChart, 2, 2, 1, 1)
+
+        self.label_7 = QLabel(self.groupBox_3)
+        self.label_7.setObjectName(u"label_7")
+        sizePolicy1.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
+        self.label_7.setSizePolicy(sizePolicy1)
+
+        self.gridLayout_6.addWidget(self.label_7, 2, 0, 1, 1)
 
 
-        self.gridLayout_5.addWidget(self.groupBox_7, 3, 0, 1, 1)
-
-        self.groupBox_6 = QGroupBox(self.Siatki_centylowe)
-        self.groupBox_6.setObjectName(u"groupBox_6")
-        self.verticalLayout_2 = QVBoxLayout(self.groupBox_6)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.gridLayout_9 = QGridLayout()
-        self.gridLayout_9.setObjectName(u"gridLayout_9")
-        self.label_9 = QLabel(self.groupBox_6)
-        self.label_9.setObjectName(u"label_9")
-
-        self.gridLayout_9.addWidget(self.label_9, 0, 0, 1, 1)
-
-        self.lineEdit_4 = QLineEdit(self.groupBox_6)
-        self.lineEdit_4.setObjectName(u"lineEdit_4")
-        sizePolicy4.setHeightForWidth(self.lineEdit_4.sizePolicy().hasHeightForWidth())
-        self.lineEdit_4.setSizePolicy(sizePolicy4)
-
-        self.gridLayout_9.addWidget(self.lineEdit_4, 0, 1, 1, 1)
-
-        self.horizontalLayout_5 = QHBoxLayout()
-        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.pushButton_5 = QPushButton(self.groupBox_6)
-        self.pushButton_5.setObjectName(u"pushButton_5")
-
-        self.horizontalLayout_5.addWidget(self.pushButton_5)
-
-        self.pushButton_6 = QPushButton(self.groupBox_6)
-        self.pushButton_6.setObjectName(u"pushButton_6")
-
-        self.horizontalLayout_5.addWidget(self.pushButton_6)
-
-
-        self.gridLayout_9.addLayout(self.horizontalLayout_5, 1, 0, 1, 2)
-
-
-        self.verticalLayout_2.addLayout(self.gridLayout_9)
-
-
-        self.gridLayout_5.addWidget(self.groupBox_6, 2, 0, 1, 1)
-
-        self.graphicsView_2 = QGraphicsView(self.Siatki_centylowe)
-        self.graphicsView_2.setObjectName(u"graphicsView_2")
-
-        self.gridLayout_5.addWidget(self.graphicsView_2, 0, 1, 6, 1)
+        self.verticalLayout_5.addWidget(self.groupBox_3)
 
         self.groupBox_5 = QGroupBox(self.Siatki_centylowe)
         self.groupBox_5.setObjectName(u"groupBox_5")
         sizePolicy1.setHeightForWidth(self.groupBox_5.sizePolicy().hasHeightForWidth())
         self.groupBox_5.setSizePolicy(sizePolicy1)
+        self.groupBox_5.setMaximumSize(QSize(400, 16777215))
         self.gridLayout_7 = QGridLayout(self.groupBox_5)
         self.gridLayout_7.setObjectName(u"gridLayout_7")
         self.label_8 = QLabel(self.groupBox_5)
         self.label_8.setObjectName(u"label_8")
+        sizePolicy1.setHeightForWidth(self.label_8.sizePolicy().hasHeightForWidth())
+        self.label_8.setSizePolicy(sizePolicy1)
 
         self.gridLayout_7.addWidget(self.label_8, 0, 0, 1, 1)
 
@@ -331,92 +312,157 @@ class Ui_w_MainWindow(object):
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.pushButton_3 = QPushButton(self.groupBox_5)
-        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.pb_chart3 = QPushButton(self.groupBox_5)
+        self.pb_chart3.setObjectName(u"pb_chart3")
 
-        self.horizontalLayout_3.addWidget(self.pushButton_3)
+        self.horizontalLayout_3.addWidget(self.pb_chart3)
 
-        self.pushButton_4 = QPushButton(self.groupBox_5)
-        self.pushButton_4.setObjectName(u"pushButton_4")
+        self.pb_chart4 = QPushButton(self.groupBox_5)
+        self.pb_chart4.setObjectName(u"pb_chart4")
 
-        self.horizontalLayout_3.addWidget(self.pushButton_4)
+        self.horizontalLayout_3.addWidget(self.pb_chart4)
 
 
         self.gridLayout_7.addLayout(self.horizontalLayout_3, 1, 0, 1, 2)
 
 
-        self.gridLayout_5.addWidget(self.groupBox_5, 1, 0, 1, 1)
+        self.verticalLayout_5.addWidget(self.groupBox_5)
 
-        self.groupBox_3 = QGroupBox(self.Siatki_centylowe)
-        self.groupBox_3.setObjectName(u"groupBox_3")
-        sizePolicy3.setHeightForWidth(self.groupBox_3.sizePolicy().hasHeightForWidth())
-        self.groupBox_3.setSizePolicy(sizePolicy3)
-        self.gridLayout_6 = QGridLayout(self.groupBox_3)
-        self.gridLayout_6.setObjectName(u"gridLayout_6")
-        self.label_6 = QLabel(self.groupBox_3)
-        self.label_6.setObjectName(u"label_6")
-        sizePolicy1.setHeightForWidth(self.label_6.sizePolicy().hasHeightForWidth())
-        self.label_6.setSizePolicy(sizePolicy1)
+        self.groupBox_6 = QGroupBox(self.Siatki_centylowe)
+        self.groupBox_6.setObjectName(u"groupBox_6")
+        sizePolicy1.setHeightForWidth(self.groupBox_6.sizePolicy().hasHeightForWidth())
+        self.groupBox_6.setSizePolicy(sizePolicy1)
+        self.groupBox_6.setMaximumSize(QSize(400, 16777215))
+        self.verticalLayout_2 = QVBoxLayout(self.groupBox_6)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.gridLayout_9 = QGridLayout()
+        self.gridLayout_9.setObjectName(u"gridLayout_9")
+        self.label_9 = QLabel(self.groupBox_6)
+        self.label_9.setObjectName(u"label_9")
 
-        self.gridLayout_6.addWidget(self.label_6, 0, 0, 1, 1)
+        self.gridLayout_9.addWidget(self.label_9, 0, 0, 1, 1)
 
-        self.le_RightEyeMMChart = QLineEdit(self.groupBox_3)
-        self.le_RightEyeMMChart.setObjectName(u"le_RightEyeMMChart")
-        sizePolicy4.setHeightForWidth(self.le_RightEyeMMChart.sizePolicy().hasHeightForWidth())
-        self.le_RightEyeMMChart.setSizePolicy(sizePolicy4)
+        self.le_Height = QLineEdit(self.groupBox_6)
+        self.le_Height.setObjectName(u"le_Height")
+        sizePolicy4.setHeightForWidth(self.le_Height.sizePolicy().hasHeightForWidth())
+        self.le_Height.setSizePolicy(sizePolicy4)
 
-        self.gridLayout_6.addWidget(self.le_RightEyeMMChart, 1, 2, 1, 1)
+        self.gridLayout_9.addWidget(self.le_Height, 0, 1, 1, 1)
 
-        self.le_LeftEyeMMChart = QLineEdit(self.groupBox_3)
-        self.le_LeftEyeMMChart.setObjectName(u"le_LeftEyeMMChart")
-        sizePolicy4.setHeightForWidth(self.le_LeftEyeMMChart.sizePolicy().hasHeightForWidth())
-        self.le_LeftEyeMMChart.setSizePolicy(sizePolicy4)
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.pb_chart5 = QPushButton(self.groupBox_6)
+        self.pb_chart5.setObjectName(u"pb_chart5")
 
-        self.gridLayout_6.addWidget(self.le_LeftEyeMMChart, 0, 2, 1, 1)
+        self.horizontalLayout_5.addWidget(self.pb_chart5)
 
-        self.label_7 = QLabel(self.groupBox_3)
-        self.label_7.setObjectName(u"label_7")
-        sizePolicy1.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
-        self.label_7.setSizePolicy(sizePolicy1)
+        self.pb_chart6 = QPushButton(self.groupBox_6)
+        self.pb_chart6.setObjectName(u"pb_chart6")
 
-        self.gridLayout_6.addWidget(self.label_7, 1, 0, 1, 1)
-
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.pushButton = QPushButton(self.groupBox_3)
-        self.pushButton.setObjectName(u"pushButton")
-
-        self.horizontalLayout_2.addWidget(self.pushButton)
-
-        self.pushButton_2 = QPushButton(self.groupBox_3)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-
-        self.horizontalLayout_2.addWidget(self.pushButton_2)
+        self.horizontalLayout_5.addWidget(self.pb_chart6)
 
 
-        self.gridLayout_6.addLayout(self.horizontalLayout_2, 3, 0, 1, 3)
+        self.gridLayout_9.addLayout(self.horizontalLayout_5, 1, 0, 1, 2)
 
 
-        self.gridLayout_5.addWidget(self.groupBox_3, 0, 0, 1, 1)
+        self.verticalLayout_2.addLayout(self.gridLayout_9)
+
+
+        self.verticalLayout_5.addWidget(self.groupBox_6)
+
+        self.groupBox_7 = QGroupBox(self.Siatki_centylowe)
+        self.groupBox_7.setObjectName(u"groupBox_7")
+        sizePolicy1.setHeightForWidth(self.groupBox_7.sizePolicy().hasHeightForWidth())
+        self.groupBox_7.setSizePolicy(sizePolicy1)
+        self.groupBox_7.setMaximumSize(QSize(400, 16777215))
+        self.gridLayout_10 = QGridLayout(self.groupBox_7)
+        self.gridLayout_10.setObjectName(u"gridLayout_10")
+        self.le_Weight = QLineEdit(self.groupBox_7)
+        self.le_Weight.setObjectName(u"le_Weight")
+        sizePolicy4.setHeightForWidth(self.le_Weight.sizePolicy().hasHeightForWidth())
+        self.le_Weight.setSizePolicy(sizePolicy4)
+
+        self.gridLayout_10.addWidget(self.le_Weight, 0, 1, 1, 1)
+
+        self.label_10 = QLabel(self.groupBox_7)
+        self.label_10.setObjectName(u"label_10")
+        sizePolicy1.setHeightForWidth(self.label_10.sizePolicy().hasHeightForWidth())
+        self.label_10.setSizePolicy(sizePolicy1)
+
+        self.gridLayout_10.addWidget(self.label_10, 0, 0, 1, 1)
+
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.pb_chart7 = QPushButton(self.groupBox_7)
+        self.pb_chart7.setObjectName(u"pb_chart7")
+
+        self.horizontalLayout_4.addWidget(self.pb_chart7)
+
+        self.pb_chart8 = QPushButton(self.groupBox_7)
+        self.pb_chart8.setObjectName(u"pb_chart8")
+
+        self.horizontalLayout_4.addWidget(self.pb_chart8)
+
+
+        self.gridLayout_10.addLayout(self.horizontalLayout_4, 1, 0, 1, 2)
+
+
+        self.verticalLayout_5.addWidget(self.groupBox_7)
+
+        self.pb_exportCharts = QPushButton(self.Siatki_centylowe)
+        self.pb_exportCharts.setObjectName(u"pb_exportCharts")
+        self.pb_exportCharts.setMaximumSize(QSize(400, 16777215))
+
+        self.verticalLayout_5.addWidget(self.pb_exportCharts)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.gridLayout_5.addItem(self.verticalSpacer, 4, 0, 1, 1)
+        self.verticalLayout_5.addItem(self.verticalSpacer)
+
+
+        self.horizontalLayout_7.addLayout(self.verticalLayout_5)
+
+        self.the_spacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_7.addItem(self.the_spacer)
 
         self.tabWidget.addTab(self.Siatki_centylowe, "")
 
         self.gridLayout_2.addWidget(self.tabWidget, 0, 0, 1, 6)
 
-        self.lb_Message = QLabel(w_MainWindow)
-        self.lb_Message.setObjectName(u"lb_Message")
-        self.lb_Message.setWordWrap(False)
-
-        self.gridLayout_2.addWidget(self.lb_Message, 18, 0, 1, 1)
-
+        QWidget.setTabOrder(self.pb_ChooseImage, self.pb_RotateLeft)
+        QWidget.setTabOrder(self.pb_RotateLeft, self.pb_RotateRight)
+        QWidget.setTabOrder(self.pb_RotateRight, self.le_referenceMM)
+        QWidget.setTabOrder(self.le_referenceMM, self.pb_DetectReference)
+        QWidget.setTabOrder(self.pb_DetectReference, self.pb_DetectFacialLandmarks)
+        QWidget.setTabOrder(self.pb_DetectFacialLandmarks, self.pb_measure)
+        QWidget.setTabOrder(self.pb_measure, self.le_LeftEyeMM)
+        QWidget.setTabOrder(self.le_LeftEyeMM, self.le_RightEyeMM)
+        QWidget.setTabOrder(self.le_RightEyeMM, self.le_UpperLipMM)
+        QWidget.setTabOrder(self.le_UpperLipMM, self.radioButton_2)
+        QWidget.setTabOrder(self.radioButton_2, self.radioButton_3)
+        QWidget.setTabOrder(self.radioButton_3, self.radioButton_5)
+        QWidget.setTabOrder(self.radioButton_5, self.radioButton_4)
+        QWidget.setTabOrder(self.radioButton_4, self.radioButton)
+        QWidget.setTabOrder(self.radioButton, self.tabWidget)
+        QWidget.setTabOrder(self.tabWidget, self.le_LeftEyeMMChart)
+        QWidget.setTabOrder(self.le_LeftEyeMMChart, self.le_RightEyeMMChart)
+        QWidget.setTabOrder(self.le_RightEyeMMChart, self.pb_chart1)
+        QWidget.setTabOrder(self.pb_chart1, self.pb_chart2)
+        QWidget.setTabOrder(self.pb_chart2, self.le_UpperLipMMChart)
+        QWidget.setTabOrder(self.le_UpperLipMMChart, self.pb_chart3)
+        QWidget.setTabOrder(self.pb_chart3, self.pb_chart4)
+        QWidget.setTabOrder(self.pb_chart4, self.le_Height)
+        QWidget.setTabOrder(self.le_Height, self.pb_chart5)
+        QWidget.setTabOrder(self.pb_chart5, self.pb_chart6)
+        QWidget.setTabOrder(self.pb_chart6, self.le_Weight)
+        QWidget.setTabOrder(self.le_Weight, self.pb_chart7)
+        QWidget.setTabOrder(self.pb_chart7, self.pb_chart8)
+        QWidget.setTabOrder(self.pb_chart8, self.photoGraphicsView)
 
         self.retranslateUi(w_MainWindow)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(w_MainWindow)
@@ -424,6 +470,7 @@ class Ui_w_MainWindow(object):
 
     def retranslateUi(self, w_MainWindow):
         w_MainWindow.setWindowTitle(QCoreApplication.translate("w_MainWindow", u"Wspomaganie Diagnostyki FAS", None))
+        self.lb_Message.setText(QCoreApplication.translate("w_MainWindow", u"Komunikaty", None))
         self.pb_DetectReference.setText(QCoreApplication.translate("w_MainWindow", u"Wykryj referencj\u0119", None))
         self.pb_ChooseImage.setText(QCoreApplication.translate("w_MainWindow", u"Wyb\u00f3r zdj\u0119cia", None))
         self.pb_RotateLeft.setText(QCoreApplication.translate("w_MainWindow", u"Obr\u00f3t w lewo", None))
@@ -444,25 +491,24 @@ class Ui_w_MainWindow(object):
         self.radioButton_3.setText(QCoreApplication.translate("w_MainWindow", u"4", None))
         self.radioButton.setText(QCoreApplication.translate("w_MainWindow", u"1", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Pomiary), QCoreApplication.translate("w_MainWindow", u"Pomiary", None))
-        self.pushButton_9.setText(QCoreApplication.translate("w_MainWindow", u"Eksport siatek", None))
-        self.groupBox_7.setTitle("")
-        self.label_10.setText(QCoreApplication.translate("w_MainWindow", u"Waga [kg]", None))
-        self.pushButton_7.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 7", None))
-        self.pushButton_8.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 8", None))
-        self.groupBox_6.setTitle("")
-        self.label_9.setText(QCoreApplication.translate("w_MainWindow", u"Wzrost [cm]", None))
-        self.pushButton_5.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 5", None))
-        self.pushButton_6.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 6", None))
-        self.groupBox_5.setTitle("")
-        self.label_8.setText(QCoreApplication.translate("w_MainWindow", u"Wysoko\u015b\u0107 g\u00f3rnej wargi [mm]", None))
-        self.pushButton_3.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 3", None))
-        self.pushButton_4.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 4", None))
         self.groupBox_3.setTitle("")
+        self.pb_chart1.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 1", None))
+        self.pb_chart2.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 2", None))
         self.label_6.setText(QCoreApplication.translate("w_MainWindow", u"Szeroko\u015b\u0107 lewego oka [mm]", None))
         self.label_7.setText(QCoreApplication.translate("w_MainWindow", u"Szeroko\u015b\u0107 prawego oka [mm]", None))
-        self.pushButton.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 1", None))
-        self.pushButton_2.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 2", None))
+        self.groupBox_5.setTitle("")
+        self.label_8.setText(QCoreApplication.translate("w_MainWindow", u"Wysoko\u015b\u0107 g\u00f3rnej wargi [mm]", None))
+        self.pb_chart3.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 3", None))
+        self.pb_chart4.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 4", None))
+        self.groupBox_6.setTitle("")
+        self.label_9.setText(QCoreApplication.translate("w_MainWindow", u"Wzrost [cm]", None))
+        self.pb_chart5.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 5", None))
+        self.pb_chart6.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 6", None))
+        self.groupBox_7.setTitle("")
+        self.label_10.setText(QCoreApplication.translate("w_MainWindow", u"Waga [kg]", None))
+        self.pb_chart7.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 7", None))
+        self.pb_chart8.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 8", None))
+        self.pb_exportCharts.setText(QCoreApplication.translate("w_MainWindow", u"Eksport siatek", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Siatki_centylowe), QCoreApplication.translate("w_MainWindow", u"Siatki centylowe", None))
-        self.lb_Message.setText(QCoreApplication.translate("w_MainWindow", u"Komunikaty", None))
     # retranslateUi
 
