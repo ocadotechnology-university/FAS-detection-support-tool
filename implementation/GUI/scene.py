@@ -7,6 +7,8 @@ from implementation.GUI.point import Point
 
 class Scene(qtw.QGraphicsScene):
     PEN_SCALING_FACTOR = 10 / 2736
+    # COLOR = 0xD9D9D9
+    COLOR = 0x0000CD
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -17,14 +19,14 @@ class Scene(qtw.QGraphicsScene):
         self.left_eye_points = []
         self.right_eye_points = []
 
-        self.radius = 7
+        self.radius = 7  # placeholder value, it will be updated by update_pen_dimensions
         self.point_pen = qtg.QPen()
-        self.point_pen.setColor(qtg.QColor(0xD9D9D9))
+        self.point_pen.setColor(qtg.QColor(self.COLOR))
         self.point_pen.setWidth(self.radius)
 
-        self.stroke_width = 7
+        self.stroke_width = 7  # placeholder value, it will be updated by update_pen_dimensions
         self.line_pen = qtg.QPen()
-        self.line_pen.setColor(qtg.QColor(0xD9D9D9))
+        self.line_pen.setColor(qtg.QColor(self.COLOR))
         self.line_pen.setWidth(self.stroke_width)
 
     def reset(self, items):
