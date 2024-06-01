@@ -14,15 +14,15 @@ class Point(qtw.QGraphicsEllipseItem):
         # print(self.pos().x())
         # print(self.y())
 
-        print(scene)
+        # print(scene)
         if scene:
-            print("xd")
+            # print("xd")
             scene.draw_lines()
-            print(f"{self.x()=}")
-            print(f"{self.pos().x()=}")
-            print(f"{self.rect().x()=}")
-            print(f"{self.rect().center().x()=}")
-            print(f"{self.rect().getCoords()=}")
+            # print(f"{self.x()=}")
+            # print(f"{self.pos().x()=}")
+            # print(f"{self.rect().x()=}")
+            # print(f"{self.rect().center().x()=}")
+            # print(f"{self.rect().getCoords()=}")
 
     def real_x(self):
         return self.rect().center().x() + self.x()
