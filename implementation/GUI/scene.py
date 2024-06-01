@@ -6,6 +6,8 @@ from implementation.GUI.point import Point
 
 
 class Scene(qtw.QGraphicsScene):
+    PEN_SCALING_FACTOR = 10 / 2736
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -32,15 +34,16 @@ class Scene(qtw.QGraphicsScene):
         items.clear()
 
     def update_pen_dimensions(self):
+        # the logic is as follows:
         width = (self.width())
         height = (self.height())
-        x = min(width, height)
+        x = min(width, height)  # choose the smallest dimension of the scene, let's call it x
 
-        self.radius = int(x * 7 / 2736)
-        self.point_pen.setWidth(max(1, self.radius))
+        self.radius = int(x * self.PEN_SCALING_FACTOR)  # set the point radius to x *  a constant
+        self.point_pen.setWidth(max(1, self.radius))  # the pen width has to be at least 1
 
-        self.stroke_width = int(x * 7 / 2736)
-        self.line_pen.setWidth(max(1, self.stroke_width))
+        self.stroke_width = int(x * self.PEN_SCALING_FACTOR)  # set the stroke to x *  a constant
+        self.line_pen.setWidth(max(1, self.stroke_width))  # the pen width has to be at least 1
 
     def draw_points(self, points_list, new_coords, tooltip):
         self.reset(points_list)
