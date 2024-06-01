@@ -75,6 +75,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
             self.image = qtg.QPixmap(self.image_path)
             self.scene.addPixmap(self.image)
             self.scene.setSceneRect(self.image.rect())
+            self.scene.update_pen_dimensions()
             self.updateView()
 
     def resizeEvent(self, event):

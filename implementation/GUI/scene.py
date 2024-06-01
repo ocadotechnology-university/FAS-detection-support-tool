@@ -31,6 +31,17 @@ class Scene(qtw.QGraphicsScene):
             self.removeItem(item)
         items.clear()
 
+    def update_pen_dimensions(self):
+        width = (self.width())
+        height = (self.height())
+        x = min(width, height)
+
+        self.radius = int(x * 7 / 2736)
+        self.point_pen.setWidth(max(1, self.radius))
+
+        self.stroke_width = int(x * 7 / 2736)
+        self.line_pen.setWidth(max(1, self.stroke_width))
+
     def draw_points(self, points_list, new_coords, tooltip):
         self.reset(points_list)
         for i in range(len(new_coords)):
@@ -53,7 +64,7 @@ class Scene(qtw.QGraphicsScene):
         self.draw_points(self.right_eye_points, coords, "Prawe oko")
 
     def draw_upper_lip(self, coords):
-        self.draw_points(self.lip_points, coords,"Górna warga")
+        self.draw_points(self.lip_points, coords, "Górna warga")
 
     def sub_draw_lines(self, point_list):
         length = len(point_list)
