@@ -71,5 +71,3 @@ class Backend:
         result = self.measurement_handler.facial_landmarks_in_mm(facial_landmarks_coords, px_per_mm)
         return result
 
-    def generate_raport(self):
-        self.raport_generator.generate()

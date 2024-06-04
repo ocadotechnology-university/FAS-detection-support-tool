@@ -20,66 +20,133 @@ class RaportGenerator(RaportGeneratorInterface):
         )
         self.child_age_weight_array_X = []
         self.child_age_weight_array_Y = []
+        self.child_age_height_array_X = []
+        self.child_age_height_array_Y = []
+        self.child_age_eye_width_array_X = []
+        self.child_age_eye_width_array_Y = []
+        self.child_age_upper_lip_height_array_X = []
+        self.child_age_upper_lip_height_array_Y = []
 
         for sublist in self.child_array:
             if ~np.isnan(sublist[1]):
                 # this will contain age values
                 self.child_age_weight_array_X.append(sublist[0])
-                # and this will contain weight values
+                self.child_age_height_array_X.append(sublist[0])
+                self.child_age_eye_width_array_X.append(sublist[0])
+                self.child_age_upper_lip_height_array_X.append(sublist[0])
+                # this will contain weight values
                 self.child_age_weight_array_Y.append(sublist[1])
+                # TODO this should contain height values
+                self.child_age_height_array_Y.append(sublist[1])
+                # TODO this should contain eye width values
+                self.child_age_eye_width_array_Y.append(sublist[1])
+                # TODO this should contain upper lip height values
+                self.child_age_upper_lip_height_array_Y.append(sublist[1])
 
         if self.gender == "f":
             self.age_weight_data = "who_charts/girl_age_weight.csv"
+            self.age_height_data = "who_charts/girl_age_height.csv"
+            self.age_eye_width_data = "who_charts/girl_age_eye_width.csv"
+            self.age_upper_lip_height_data = "who_charts/girl_age_upper_lip_height.csv"
         else:
             self.age_weight_data = "who_charts/boy_age_weight.csv"
+            self.age_height_data = "who_charts/boy_age_height.csv"
+            self.age_eye_width_data = "who_charts/boy_age_eye_width.csv"
+            self.age_upper_lip_height_data = "who_charts/boy_age_upper_lip_height.csv"
 
         self.age_weight_array = np.loadtxt(os.path.join(self.path, self.age_weight_data), delimiter=',', skiprows=1)
+        self.age_height_array = np.loadtxt(os.path.join(self.path, self.age_height_data), delimiter=',', skiprows=1)
+        self.age_eye_width_array = np.loadtxt(os.path.join(self.path, self.age_eye_width_data), delimiter=',',
+                                              skiprows=1)
+        self.age_upper_lip_height_array = np.loadtxt(os.path.join(self.path, self.age_upper_lip_height_data),
+                                                     delimiter=',', skiprows=1)
 
-    def generate(self):
-        # plots
-        plt.figure()
+    def generate_chart(self, reference_data, child_x, child_y, x_label, y_label, filename):
+        fig, ax = plt.subplots(figsize=(16, 9))
 
-        # f(age) = weight
-        plt.subplot(1, 1, 1)
-        plt.plot( \
-            # weird syntax - the fragment below takes
-            # all rows in first column (age) and reads all records for certain age,
-            # creating a red dashed (r--) line on chart, and blue one for record from child_data.csv
-            self.age_weight_array[:, 0], self.age_weight_array[:, 1], 'r--', \
-            self.age_weight_array[:, 0], self.age_weight_array[:, 2], 'r--', \
-            self.age_weight_array[:, 0], self.age_weight_array[:, 3], 'r--', \
-            self.age_weight_array[:, 0], self.age_weight_array[:, 4], 'r--', \
-            self.age_weight_array[:, 0], self.age_weight_array[:, 5], 'k-', \
-            self.age_weight_array[:, 0], self.age_weight_array[:, 6], 'r--', \
-            self.age_weight_array[:, 0], self.age_weight_array[:, 7], 'r--', \
-            self.age_weight_array[:, 0], self.age_weight_array[:, 8], 'r--', \
-            self.age_weight_array[:, 0], self.age_weight_array[:, 9], 'r--', \
-            self.child_age_weight_array_X, self.child_age_weight_array_Y, 'b-*')
+        ax.plot(
+            reference_data[:, 0], reference_data[:, 1], 'r--',
+            reference_data[:, 0], reference_data[:, 2], 'r--',
+            reference_data[:, 0], reference_data[:, 3], 'r--',
+            reference_data[:, 0], reference_data[:, 4], 'r--',
+            reference_data[:, 0], reference_data[:, 5], 'k-',
+            reference_data[:, 0], reference_data[:, 6], 'r--',
+            reference_data[:, 0], reference_data[:, 7], 'r--',
+            reference_data[:, 0], reference_data[:, 8], 'r--',
+            reference_data[:, 0], reference_data[:, 9], 'r--',
+            child_x, child_y, 'b-*'
+        )
 
-        plt.grid(True)
-        plt.xlabel('age [months]')
-        plt.ylabel('weight [kg]')
-        plt.xlim([0, 24])
-        plt.xticks(np.arange(0, 25, 3))
+        ax.grid(True)
+        ax.set_xlabel(x_label)
+        ax.set_ylabel(y_label)
+        ax.set_xlim([0, 24])
+        ax.set_xticks(np.arange(0, 25, 3))
 
-        plt.text(self.age_weight_array[13, 0], self.age_weight_array[13, 1], '2%', fontsize=7)
-        plt.text(self.age_weight_array[14, 0], self.age_weight_array[14, 2], '5%', fontsize=7)
-        plt.text(self.age_weight_array[15, 0], self.age_weight_array[15, 3], '10%', fontsize=7)
-        plt.text(self.age_weight_array[16, 0], self.age_weight_array[16, 4], '25%', fontsize=7)
-        plt.text(self.age_weight_array[17, 0], self.age_weight_array[17, 5], '50%', fontsize=7)
-        plt.text(self.age_weight_array[18, 0], self.age_weight_array[18, 6], '75%', fontsize=7)
-        plt.text(self.age_weight_array[19, 0], self.age_weight_array[19, 7], '90%', fontsize=7)
-        plt.text(self.age_weight_array[20, 0], self.age_weight_array[20, 8], '95%', fontsize=7)
-        plt.text(self.age_weight_array[21, 0], self.age_weight_array[21, 9], '98%', fontsize=7)
+        percentiles = ['2%', '5%', '10%', '25%', '50%', '75%', '90%', '95%', '98%']
+        for i, percentile in enumerate(percentiles):
+            ax.text(reference_data[13 + i, 0], reference_data[13 + i, i + 1], percentile, fontsize=7)
 
-        # adjusting margins
-        plt.subplots_adjust(wspace=0.4, hspace=0.4)
+        fig.tight_layout()
+        # fig.savefig(os.path.join(self.path, filename + '.pdf'), dpi=100)
+        # fig.savefig(os.path.join(self.path, filename + '.png'), dpi=100)
+        return fig
 
-        # saving graphs
-        fig1 = plt.gcf()
+    def generate_age_weight_chart(self):
+        return self.generate_chart(
+            self.age_weight_array,
+            self.child_age_weight_array_X,
+            self.child_age_weight_array_Y,
+            'age [months]',
+            'weight [kg]',
+            'growth_weight'
+        )
 
-        fig1.set_size_inches(16, 9)
-        fig1.savefig(os.path.join(self.path, 'growth.pdf'), dpi=100)
-        fig1.savefig(os.path.join(self.path, 'growth.png'), dpi=100)
+    def generate_age_height_chart(self):
+        return self.generate_chart(
+            self.age_height_array,
+            self.child_age_height_array_X,
+            self.child_age_height_array_Y,
+            'age [months]',
+            'height [cm]',
+            'growth_height'
+        )
 
-        print("Chart generated and saved")
+    def generate_age_eye_width_chart(self):
+        return self.generate_chart(
+            self.age_eye_width_array,
+            self.child_age_eye_width_array_X,
+            self.child_age_eye_width_array_Y,
+            'age [months]',
+            'eye width [mm]',
+            'growth_eye_width'
+        )
+
+    def generate_age_upper_lip_height_chart(self):
+        return self.generate_chart(
+            self.age_upper_lip_height_array,
+            self.child_age_upper_lip_height_array_X,
+            self.child_age_upper_lip_height_array_Y,
+            'age [months]',
+            'upper lip height [mm]',
+            'growth_upper_lip_height'
+        )
+
+    def generate(self, figures_to_save):
+        highest = 0
+        for filename in os.listdir(self.path):
+            if filename.startswith('growth_') and filename.endswith('.pdf'):
+                try:
+                    number = int(filename[7:-4])
+                    if number > highest:
+                        highest = number
+                except ValueError:
+                    pass
+
+        next_number = highest + 1
+
+        for fig in figures_to_save:
+            print(fig)
+            fig.savefig(os.path.join(self.path, f'growth_{next_number}.pdf'), dpi=100)
+            fig.savefig(os.path.join(self.path, f'growth_{next_number}.png'), dpi=100)
+            next_number += 1

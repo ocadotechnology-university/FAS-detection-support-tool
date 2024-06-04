@@ -7,6 +7,13 @@ from implementation.GUI.scene import Scene
 from implementation.GUI.w_main_window import Ui_w_MainWindow
 from implementation.backend import Backend
 
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+
+
+class MplCanvas(FigureCanvas):
+    def __init__(self, figure):
+        super().__init__(figure)
+
 
 class GUI(qtw.QWidget, Ui_w_MainWindow):
     def __init__(self, backend: Backend):
@@ -19,6 +26,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.backend = backend
         self.reference_points = []
         self.image_path = None
+        self.generated_charts = []
 
         # self.rotation = 0  # indicates graphicsview rotation in degrees; it's needed for placeholder points
 
@@ -242,7 +250,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
     def generate_raport(self):
         self.backend.generate_raport()
 
-    def show_diagram_1(self):
+    def show_diagram_0(self):
         # chart = qtg.QPixmap("/Users/krzysztofmitko/Downloads/sparkles-3.svg")
         # self.chartScene.addPixmap(chart)
         # self.chartScene.setSceneRect(chart.rect())
@@ -258,28 +266,112 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.Siatki_centylowe.layout().addWidget(self.diagram)
         pass
 
+    def show_diagram_1(self):
+        fig = self.backend.raport_generator.generate_age_eye_width_chart()
+        self.generated_charts.append(fig)
+
+        # if there is a diagram, then delete it before adding a new one
+        if self.diagram:
+            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+        self.diagram = MplCanvas(fig)
+        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+        self.Siatki_centylowe.layout().addWidget(self.diagram)
+        pass
+
     def show_diagram_2(self):
+        fig = self.backend.raport_generator.generate_age_eye_width_chart()
+        self.generated_charts.append(fig)
+
+        # if there is a diagram, then delete it before adding a new one
+        if self.diagram:
+            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+        self.diagram = MplCanvas(fig)
+        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+        self.Siatki_centylowe.layout().addWidget(self.diagram)
         pass
 
     def show_diagram_3(self):
+        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        self.generated_charts.append(fig)
+
+        # if there is a diagram, then delete it before adding a new one
+        if self.diagram:
+            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+        self.diagram = MplCanvas(fig)
+        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+        self.Siatki_centylowe.layout().addWidget(self.diagram)
         pass
 
     def show_diagram_4(self):
+        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        self.generated_charts.append(fig)
+
+        # if there is a diagram, then delete it before adding a new one
+        if self.diagram:
+            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+        self.diagram = MplCanvas(fig)
+        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+        self.Siatki_centylowe.layout().addWidget(self.diagram)
         pass
 
     def show_diagram_5(self):
+        fig = self.backend.raport_generator.generate_age_height_chart()
+        self.generated_charts.append(fig)
+
+        # if there is a diagram, then delete it before adding a new one
+        if self.diagram:
+            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+        self.diagram = MplCanvas(fig)
+        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+        self.Siatki_centylowe.layout().addWidget(self.diagram)
         pass
 
     def show_diagram_6(self):
+        fig = self.backend.raport_generator.generate_age_height_chart()
+        self.generated_charts.append(fig)
+
+        # if there is a diagram, then delete it before adding a new one
+        if self.diagram:
+            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+        self.diagram = MplCanvas(fig)
+        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+        self.Siatki_centylowe.layout().addWidget(self.diagram)
         pass
 
     def show_diagram_7(self):
+        fig = self.backend.raport_generator.generate_age_weight_chart()
+        self.generated_charts.append(fig)
+
+        # if there is a diagram, then delete it before adding a new one
+        if self.diagram:
+            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+        self.diagram = MplCanvas(fig)
+        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+        self.Siatki_centylowe.layout().addWidget(self.diagram)
         pass
 
     def show_diagram_8(self):
+        fig = self.backend.raport_generator.generate_age_weight_chart()
+        self.generated_charts.append(fig)
+
+        # if there is a diagram, then delete it before adding a new one
+        if self.diagram:
+            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+        self.diagram = MplCanvas(fig)
+        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+        self.Siatki_centylowe.layout().addWidget(self.diagram)
         pass
 
     def export_charts(self):
+        self.backend.raport_generator.generate(self.generated_charts)
         pass
 
     def get_philtrum_depth_class(self):
