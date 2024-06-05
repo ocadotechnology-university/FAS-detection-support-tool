@@ -50,7 +50,7 @@ class Ui_w_MainWindow(object):
         self.gridLayout = QGridLayout()
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setSizeConstraint(QLayout.SizeConstraint.SetFixedSize)
-        self.gridLayout.setHorizontalSpacing(-1)
+        self.gridLayout.setHorizontalSpacing(6)
         self.pb_DetectReference = QPushButton(self.Pomiary)
         self.pb_DetectReference.setObjectName(u"pb_DetectReference")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
@@ -233,6 +233,11 @@ class Ui_w_MainWindow(object):
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.verticalLayout_5 = QVBoxLayout()
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.pb_choose_file = QPushButton(self.Siatki_centylowe)
+        self.pb_choose_file.setObjectName(u"pb_choose_file")
+
+        self.verticalLayout_5.addWidget(self.pb_choose_file)
+
         self.groupBox_3 = QGroupBox(self.Siatki_centylowe)
         self.groupBox_3.setObjectName(u"groupBox_3")
         sizePolicy3.setHeightForWidth(self.groupBox_3.sizePolicy().hasHeightForWidth())
@@ -303,13 +308,6 @@ class Ui_w_MainWindow(object):
 
         self.gridLayout_7.addWidget(self.label_8, 0, 0, 1, 1)
 
-        self.le_UpperLipMMChart = QLineEdit(self.groupBox_5)
-        self.le_UpperLipMMChart.setObjectName(u"le_UpperLipMMChart")
-        sizePolicy4.setHeightForWidth(self.le_UpperLipMMChart.sizePolicy().hasHeightForWidth())
-        self.le_UpperLipMMChart.setSizePolicy(sizePolicy4)
-
-        self.gridLayout_7.addWidget(self.le_UpperLipMMChart, 0, 1, 1, 1)
-
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
         self.pb_chart3 = QPushButton(self.groupBox_5)
@@ -325,6 +323,13 @@ class Ui_w_MainWindow(object):
 
         self.gridLayout_7.addLayout(self.horizontalLayout_3, 1, 0, 1, 2)
 
+        self.le_UpperLipMMChart = QLineEdit(self.groupBox_5)
+        self.le_UpperLipMMChart.setObjectName(u"le_UpperLipMMChart")
+        sizePolicy4.setHeightForWidth(self.le_UpperLipMMChart.sizePolicy().hasHeightForWidth())
+        self.le_UpperLipMMChart.setSizePolicy(sizePolicy4)
+
+        self.gridLayout_7.addWidget(self.le_UpperLipMMChart, 0, 1, 1, 1)
+
 
         self.verticalLayout_5.addWidget(self.groupBox_5)
 
@@ -337,11 +342,6 @@ class Ui_w_MainWindow(object):
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.gridLayout_9 = QGridLayout()
         self.gridLayout_9.setObjectName(u"gridLayout_9")
-        self.label_9 = QLabel(self.groupBox_6)
-        self.label_9.setObjectName(u"label_9")
-
-        self.gridLayout_9.addWidget(self.label_9, 0, 0, 1, 1)
-
         self.le_Height = QLineEdit(self.groupBox_6)
         self.le_Height.setObjectName(u"le_Height")
         sizePolicy4.setHeightForWidth(self.le_Height.sizePolicy().hasHeightForWidth())
@@ -363,6 +363,11 @@ class Ui_w_MainWindow(object):
 
 
         self.gridLayout_9.addLayout(self.horizontalLayout_5, 1, 0, 1, 2)
+
+        self.label_9 = QLabel(self.groupBox_6)
+        self.label_9.setObjectName(u"label_9")
+
+        self.gridLayout_9.addWidget(self.label_9, 0, 0, 1, 1)
 
 
         self.verticalLayout_2.addLayout(self.gridLayout_9)
@@ -413,12 +418,7 @@ class Ui_w_MainWindow(object):
         self.pb_exportCharts.setObjectName(u"pb_exportCharts")
         self.pb_exportCharts.setMaximumSize(QSize(400, 16777215))
 
-        self.pb_choose_file = QPushButton(self.Siatki_centylowe)
-        self.pb_choose_file.setObjectName(u"pb_choose_file")
-
         self.verticalLayout_5.addWidget(self.pb_exportCharts)
-
-        self.verticalLayout_5.addWidget(self.pb_choose_file)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -467,7 +467,7 @@ class Ui_w_MainWindow(object):
 
         self.retranslateUi(w_MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(w_MainWindow)
@@ -496,6 +496,7 @@ class Ui_w_MainWindow(object):
         self.rb4.setText(QCoreApplication.translate("w_MainWindow", u"4", None))
         self.rb1.setText(QCoreApplication.translate("w_MainWindow", u"1", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Pomiary), QCoreApplication.translate("w_MainWindow", u"Pomiary", None))
+        self.pb_choose_file.setText(QCoreApplication.translate("w_MainWindow", u"Wyb\u00f3r pliku z danymi pacjenta", None))
         self.groupBox_3.setTitle("")
         self.pb_chart1.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 1", None))
         self.pb_chart2.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 2", None))
@@ -506,15 +507,14 @@ class Ui_w_MainWindow(object):
         self.pb_chart3.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 3", None))
         self.pb_chart4.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 4", None))
         self.groupBox_6.setTitle("")
-        self.label_9.setText(QCoreApplication.translate("w_MainWindow", u"Wzrost [cm]", None))
         self.pb_chart5.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 5", None))
         self.pb_chart6.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 6", None))
+        self.label_9.setText(QCoreApplication.translate("w_MainWindow", u"Wzrost [cm]", None))
         self.groupBox_7.setTitle("")
         self.label_10.setText(QCoreApplication.translate("w_MainWindow", u"Waga [kg]", None))
         self.pb_chart7.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 7", None))
         self.pb_chart8.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 8", None))
         self.pb_exportCharts.setText(QCoreApplication.translate("w_MainWindow", u"Eksport siatek", None))
-        self.pb_choose_file.setText(QCoreApplication.translate("w_mainWindow", u"Wybór pliku z danymi dziecka", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Siatki_centylowe), QCoreApplication.translate("w_MainWindow", u"Siatki centylowe", None))
     # retranslateUi
 

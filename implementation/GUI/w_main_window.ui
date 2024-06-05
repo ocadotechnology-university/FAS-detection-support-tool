@@ -43,7 +43,7 @@
       <enum>QTabWidget::TabShape::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="Pomiary">
       <attribute name="title">
@@ -56,7 +56,7 @@
           <enum>QLayout::SizeConstraint::SetFixedSize</enum>
          </property>
          <property name="horizontalSpacing">
-          <number>-1</number>
+          <number>6</number>
          </property>
          <item row="4" column="0">
           <widget class="QPushButton" name="pb_DetectReference">
@@ -341,6 +341,13 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
+          <widget class="QPushButton" name="pb_choose_file">
+           <property name="text">
+            <string>Wybór pliku z danymi pacjenta</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QGroupBox" name="groupBox_3">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -456,16 +463,6 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="le_UpperLipMMChart">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="0" colspan="2">
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
@@ -483,6 +480,16 @@
                </widget>
               </item>
              </layout>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="le_UpperLipMMChart">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -507,13 +514,6 @@
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
              <layout class="QGridLayout" name="gridLayout_9">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_9">
-                <property name="text">
-                 <string>Wzrost [cm]</string>
-                </property>
-               </widget>
-              </item>
               <item row="0" column="1">
                <widget class="QLineEdit" name="le_Height">
                 <property name="sizePolicy">
@@ -541,6 +541,13 @@
                  </widget>
                 </item>
                </layout>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_9">
+                <property name="text">
+                 <string>Wzrost [cm]</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>
