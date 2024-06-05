@@ -20,6 +20,17 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.reference_points = []
         self.image_path = None
 
+        # set measurement date to today
+        self.de_measurement.setDate(qtc.QDate.currentDate())
+        # set birth date to 48 month before today, because:
+        # "The average age at abstraction for confirmed/probable FAS cases (n=422) was 48.3 (±19.5) months with a range of 0 to 94 months."
+        # source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4169739/
+        self.de_birth.setDate(qtc.QDate.currentDate().addMonths(-48))
+
+        self.update_patient_age_in_days()
+        self.de_measurement.dateChanged.connect(self.update_patient_age_in_days)
+        self.de_birth.dateChanged.connect(self.update_patient_age_in_days)
+
         # self.rotation = 0  # indicates graphicsview rotation in degrees; it's needed for placeholder points
 
         # things in the graphics area
@@ -293,3 +304,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
             return 4
         if self.rb5.isChecked():
             return 5
+
+    def update_patient_age_in_days(self):
+        self.patient_age_in_days =  self.de_birth.date().daysTo(self.de_measurement.date())
+        print(self.patient_age_in_days)
