@@ -26,7 +26,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.backend = backend
         self.reference_points = []
         self.image_path = None
-        self.generated_charts = []
+        self.generated_charts = {}
 
         # self.rotation = 0  # indicates graphicsview rotation in degrees; it's needed for placeholder points
 
@@ -248,28 +248,9 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.le_RightEyeMM.setText(str(round(measurement.right_eye, 2)).replace(".", ","))
         self.le_UpperLipMM.setText(str(round(measurement.lip, 2)).replace(".", ","))
 
-    def generate_raport(self):
-        self.backend.generate_raport()
-
-    def show_diagram_0(self):
-        # chart = qtg.QPixmap("/Users/krzysztofmitko/Downloads/sparkles-3.svg")
-        # self.chartScene.addPixmap(chart)
-        # self.chartScene.setSceneRect(chart.rect())
-        # self.updateChartView()
-
-        # if there is a diagram, then delete it before adding a new one
-        if self.diagram:
-            self.Siatki_centylowe.layout().removeItem(self.diagram)
-
-        self.diagram = MplCanvas(self, width=5, height=4, dpi=150)
-        self.diagram.axes.plot([0, 1, 2, 3, 4], [10, 1, 20, 3, 40])
-        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
-        self.Siatki_centylowe.layout().addWidget(self.diagram)
-        pass
-
     def show_diagram_1(self):
         fig = self.backend.raport_generator.generate_age_eye_width_chart()
-        self.generated_charts.append([fig, 'eye_width'])
+        self.generated_charts['eye_width'] = fig
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -282,7 +263,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_2(self):
         fig = self.backend.raport_generator.generate_age_eye_width_chart()
-        self.generated_charts.append([fig, 'eye_width'])
+        self.generated_charts['eye_width'] = fig
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -294,8 +275,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_3(self):
-        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
-        self.generated_charts.append([fig, 'upper_lip'])
+        fig = self.backend.raport_generator.generate_age_eye_width_chart()
+        self.generated_charts['upper_lip'] = fig
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -307,8 +288,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_4(self):
-        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
-        self.generated_charts.append([fig, 'upper_lip'])
+        fig = self.backend.raport_generator.generate_age_eye_width_chart()
+        self.generated_charts['upper_lip'] = fig
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -320,8 +301,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_5(self):
-        fig = self.backend.raport_generator.generate_age_height_chart()
-        self.generated_charts.append([fig, 'height'])
+        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        self.generated_charts['height'] = fig
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -333,8 +314,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_6(self):
-        fig = self.backend.raport_generator.generate_age_height_chart()
-        self.generated_charts.append([fig, 'height'])
+        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        self.generated_charts['height'] = fig
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -346,8 +327,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_7(self):
-        fig = self.backend.raport_generator.generate_age_weight_chart()
-        self.generated_charts.append([fig, 'weight'])
+        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        self.generated_charts['weight'] = fig
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -359,8 +340,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_8(self):
-        fig = self.backend.raport_generator.generate_age_weight_chart()
-        self.generated_charts.append([fig, 'weight'])
+        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        self.generated_charts['weight'] = fig
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -371,11 +352,13 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.Siatki_centylowe.layout().addWidget(self.diagram)
         pass
 
+
     def export_charts(self):
         self.backend.raport_generator.generate(self.generated_charts)
         pass
 
     def choose_child_file(self):
+        self.generated_charts.clear()
         options = qtw.QFileDialog.Options()
         options |= qtw.QFileDialog.ReadOnly
         file_path, _ = qtw.QFileDialog.getOpenFileName(self,
