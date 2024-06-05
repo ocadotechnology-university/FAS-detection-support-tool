@@ -49,13 +49,10 @@ class RaportGenerator(RaportGeneratorInterface):
                 self.child_age_eye_width_array_X.append(sublist[0])
                 self.child_age_upper_lip_height_array_X.append(sublist[0])
                 # this will contain weight values
-                self.child_age_weight_array_Y.append(sublist[1])
-                # TODO this should contain height values
-                self.child_age_height_array_Y.append(sublist[1])
-                # TODO this should contain eye width values
                 self.child_age_eye_width_array_Y.append(sublist[1])
-                # TODO this should contain upper lip height values
-                self.child_age_upper_lip_height_array_Y.append(sublist[1])
+                self.child_age_upper_lip_height_array_Y.append(sublist[2])
+                self.child_age_height_array_Y.append(sublist[3])
+                self.child_age_weight_array_Y.append(sublist[4])
 
     def _load_reference_data(self):
         if self.gender == "f":

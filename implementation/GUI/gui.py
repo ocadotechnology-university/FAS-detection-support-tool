@@ -281,7 +281,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_3(self):
-        fig = self.backend.raport_generator.generate_age_eye_width_chart()
+        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
         if isinstance(fig, str):
             self.message(fig, color="lightskyblue")
             return
@@ -297,7 +297,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_4(self):
-        fig = self.backend.raport_generator.generate_age_eye_width_chart()
+        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
         if isinstance(fig, str):
             self.message(fig, color="lightskyblue")
             return
@@ -313,7 +313,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_5(self):
-        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        fig = self.backend.raport_generator.generate_age_height_chart()
         if isinstance(fig, str):
             self.message(fig, color="lightskyblue")
             return
@@ -329,7 +329,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_6(self):
-        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        fig = self.backend.raport_generator.generate_age_height_chart()
         if isinstance(fig, str):
             self.message(fig, color="lightskyblue")
             return
@@ -345,7 +345,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_7(self):
-        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        fig = self.backend.raport_generator.generate_age_weight_chart()
         if isinstance(fig, str):
             self.message(fig, color="lightskyblue")
             return
@@ -361,7 +361,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_8(self):
-        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        fig = self.backend.raport_generator.generate_age_weight_chart()
         if isinstance(fig, str):
             self.message(fig, color="lightskyblue")
             return
