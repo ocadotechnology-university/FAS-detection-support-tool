@@ -250,6 +250,9 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_1(self):
         fig = self.backend.raport_generator.generate_age_eye_width_chart()
+        if isinstance(fig, str):
+            self.message(fig, color="lightskyblue")
+            return
         self.generated_charts['eye_width'] = fig
 
         # if there is a diagram, then delete it before adding a new one
@@ -263,6 +266,9 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_2(self):
         fig = self.backend.raport_generator.generate_age_eye_width_chart()
+        if isinstance(fig, str):
+            self.message(fig, color="lightskyblue")
+            return
         self.generated_charts['eye_width'] = fig
 
         # if there is a diagram, then delete it before adding a new one
@@ -276,6 +282,9 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_3(self):
         fig = self.backend.raport_generator.generate_age_eye_width_chart()
+        if isinstance(fig, str):
+            self.message(fig, color="lightskyblue")
+            return
         self.generated_charts['upper_lip'] = fig
 
         # if there is a diagram, then delete it before adding a new one
@@ -289,6 +298,9 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_4(self):
         fig = self.backend.raport_generator.generate_age_eye_width_chart()
+        if isinstance(fig, str):
+            self.message(fig, color="lightskyblue")
+            return
         self.generated_charts['upper_lip'] = fig
 
         # if there is a diagram, then delete it before adding a new one
@@ -302,6 +314,9 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_5(self):
         fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        if isinstance(fig, str):
+            self.message(fig, color="lightskyblue")
+            return
         self.generated_charts['height'] = fig
 
         # if there is a diagram, then delete it before adding a new one
@@ -315,6 +330,9 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_6(self):
         fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        if isinstance(fig, str):
+            self.message(fig, color="lightskyblue")
+            return
         self.generated_charts['height'] = fig
 
         # if there is a diagram, then delete it before adding a new one
@@ -328,6 +346,9 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_7(self):
         fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        if isinstance(fig, str):
+            self.message(fig, color="lightskyblue")
+            return
         self.generated_charts['weight'] = fig
 
         # if there is a diagram, then delete it before adding a new one
@@ -341,6 +362,9 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_8(self):
         fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
+        if isinstance(fig, str):
+            self.message(fig, color="lightskyblue")
+            return
         self.generated_charts['weight'] = fig
 
         # if there is a diagram, then delete it before adding a new one
@@ -369,6 +393,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         if file_path:
             print(file_path)
             self.backend.raport_generator.set_child_data_file(file_path)
+            self.message()
 
     def get_philtrum_depth_class(self):
         if self.rb1.isChecked():

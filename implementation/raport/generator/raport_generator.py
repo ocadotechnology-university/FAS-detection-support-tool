@@ -9,21 +9,24 @@ class RaportGenerator(RaportGeneratorInterface):
 
     def __init__(self):
         self.path = "resources"
-        self.child_data = "child_data.csv"
-        self._read_child_file()
+        self.child_data = None
+        self.age_weight_data = None
+        self.age_height_data = None
+        self.age_eye_width_data = None
+        self.age_upper_lip_height_data = None
+        self.child_age_weight_array_X = []
+        self.child_age_weight_array_Y = []
+        self.child_age_height_array_X = []
+        self.child_age_height_array_Y = []
+        self.child_age_eye_width_array_X = []
+        self.child_age_eye_width_array_Y = []
+        self.child_age_upper_lip_height_array_X = []
+        self.child_age_upper_lip_height_array_Y = []
+        self.age_weight_array = None
+        self.age_height_array = None
+        self.age_eye_width_array = None
+        self.age_upper_lip_height_array = None
 
-        if self.gender == "f":
-            self.age_weight_data = "who_charts/girl_age_weight.csv"
-            self.age_height_data = "who_charts/girl_age_height.csv"
-            self.age_eye_width_data = "who_charts/girl_age_eye_width.csv"
-            self.age_upper_lip_height_data = "who_charts/girl_age_upper_lip_height.csv"
-        else:
-            self.age_weight_data = "who_charts/boy_age_weight.csv"
-            self.age_height_data = "who_charts/boy_age_height.csv"
-            self.age_eye_width_data = "who_charts/boy_age_eye_width.csv"
-            self.age_upper_lip_height_data = "who_charts/boy_age_upper_lip_height.csv"
-
-        self._load_reference_data()
 
     def _read_child_file(self):
         if hasattr(self, 'child_file'):
@@ -37,15 +40,6 @@ class RaportGenerator(RaportGeneratorInterface):
             dtype=None,
             skip_header=2
         )
-
-        self.child_age_weight_array_X = []
-        self.child_age_weight_array_Y = []
-        self.child_age_height_array_X = []
-        self.child_age_height_array_Y = []
-        self.child_age_eye_width_array_X = []
-        self.child_age_eye_width_array_Y = []
-        self.child_age_upper_lip_height_array_X = []
-        self.child_age_upper_lip_height_array_Y = []
 
         for sublist in self.child_array:
             if ~np.isnan(sublist[1]):
@@ -64,6 +58,16 @@ class RaportGenerator(RaportGeneratorInterface):
                 self.child_age_upper_lip_height_array_Y.append(sublist[1])
 
     def _load_reference_data(self):
+        if self.gender == "f":
+            self.age_weight_data = "who_charts/girl_age_weight.csv"
+            self.age_height_data = "who_charts/girl_age_height.csv"
+            self.age_eye_width_data = "who_charts/girl_age_eye_width.csv"
+            self.age_upper_lip_height_data = "who_charts/girl_age_upper_lip_height.csv"
+        else:
+            self.age_weight_data = "who_charts/boy_age_weight.csv"
+            self.age_height_data = "who_charts/boy_age_height.csv"
+            self.age_eye_width_data = "who_charts/boy_age_eye_width.csv"
+            self.age_upper_lip_height_data = "who_charts/boy_age_upper_lip_height.csv"
         self.age_weight_array = np.loadtxt(os.path.join(self.path, self.age_weight_data), delimiter=',', skiprows=1)
         self.age_height_array = np.loadtxt(os.path.join(self.path, self.age_height_data), delimiter=',', skiprows=1)
         self.age_eye_width_array = np.loadtxt(os.path.join(self.path, self.age_eye_width_data), delimiter=',',
@@ -72,6 +76,8 @@ class RaportGenerator(RaportGeneratorInterface):
                                                      delimiter=',', skiprows=1)
 
     def generate_chart(self, reference_data, child_x, child_y, x_label, y_label, filename):
+        if not self.child_data:
+            return "Najpierw wybierz dane pacjenta"
         fig, ax = plt.subplots(figsize=(16, 9))
 
         ax.plot(
@@ -164,4 +170,5 @@ class RaportGenerator(RaportGeneratorInterface):
     def set_child_data_file(self, file_path):
         self.child_data = file_path
         self._read_child_file()
+        self._load_reference_data()
         print(self.child_file)
