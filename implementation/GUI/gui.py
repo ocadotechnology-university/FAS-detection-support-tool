@@ -269,7 +269,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_1(self):
         fig = self.backend.raport_generator.generate_age_eye_width_chart()
-        self.generated_charts.append(fig)
+        self.generated_charts.append([fig, 'eye_width'])
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -282,7 +282,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_2(self):
         fig = self.backend.raport_generator.generate_age_eye_width_chart()
-        self.generated_charts.append(fig)
+        self.generated_charts.append([fig, 'eye_width'])
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -295,7 +295,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_3(self):
         fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
-        self.generated_charts.append(fig)
+        self.generated_charts.append([fig, 'upper_lip'])
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -308,7 +308,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_4(self):
         fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
-        self.generated_charts.append(fig)
+        self.generated_charts.append([fig, 'upper_lip'])
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -321,7 +321,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_5(self):
         fig = self.backend.raport_generator.generate_age_height_chart()
-        self.generated_charts.append(fig)
+        self.generated_charts.append([fig, 'height'])
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -334,7 +334,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_6(self):
         fig = self.backend.raport_generator.generate_age_height_chart()
-        self.generated_charts.append(fig)
+        self.generated_charts.append([fig, 'height'])
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -347,7 +347,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_7(self):
         fig = self.backend.raport_generator.generate_age_weight_chart()
-        self.generated_charts.append(fig)
+        self.generated_charts.append([fig, 'weight'])
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -360,7 +360,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def show_diagram_8(self):
         fig = self.backend.raport_generator.generate_age_weight_chart()
-        self.generated_charts.append(fig)
+        self.generated_charts.append([fig, 'weight'])
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:

@@ -155,10 +155,10 @@ class RaportGenerator(RaportGeneratorInterface):
 
         next_number = highest + 1
 
-        for fig in figures_to_save:
+        for fig, fig_type in figures_to_save:
             print(fig)
-            fig.savefig(os.path.join(self.path, f'growth_{next_number}.pdf'), dpi=100)
-            fig.savefig(os.path.join(self.path, f'growth_{next_number}.png'), dpi=100)
+            fig.savefig(os.path.join(self.path, f'growth_{fig_type}_{next_number}.pdf'), dpi=100)
+            fig.savefig(os.path.join(self.path, f'growth_{fig_type}_{next_number}.png'), dpi=100)
             next_number += 1
 
     def set_child_data_file(self, file_path):
