@@ -413,7 +413,12 @@ class Ui_w_MainWindow(object):
         self.pb_exportCharts.setObjectName(u"pb_exportCharts")
         self.pb_exportCharts.setMaximumSize(QSize(400, 16777215))
 
+        self.pb_choose_file = QPushButton(self.Siatki_centylowe)
+        self.pb_choose_file.setObjectName(u"pb_choose_file")
+
         self.verticalLayout_5.addWidget(self.pb_exportCharts)
+
+        self.verticalLayout_5.addWidget(self.pb_choose_file)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -509,6 +514,7 @@ class Ui_w_MainWindow(object):
         self.pb_chart7.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 7", None))
         self.pb_chart8.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 8", None))
         self.pb_exportCharts.setText(QCoreApplication.translate("w_MainWindow", u"Eksport siatek", None))
+        self.pb_choose_file.setText(QCoreApplication.translate("w_mainWindow", u"Wybór pliku z danymi dziecka", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Siatki_centylowe), QCoreApplication.translate("w_MainWindow", u"Siatki centylowe", None))
     # retranslateUi
 

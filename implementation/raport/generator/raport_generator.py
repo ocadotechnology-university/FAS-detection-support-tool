@@ -10,6 +10,25 @@ class RaportGenerator(RaportGeneratorInterface):
     def __init__(self):
         self.path = "resources"
         self.child_data = "child_data.csv"
+        self._read_child_file()
+
+        if self.gender == "f":
+            self.age_weight_data = "who_charts/girl_age_weight.csv"
+            self.age_height_data = "who_charts/girl_age_height.csv"
+            self.age_eye_width_data = "who_charts/girl_age_eye_width.csv"
+            self.age_upper_lip_height_data = "who_charts/girl_age_upper_lip_height.csv"
+        else:
+            self.age_weight_data = "who_charts/boy_age_weight.csv"
+            self.age_height_data = "who_charts/boy_age_height.csv"
+            self.age_eye_width_data = "who_charts/boy_age_eye_width.csv"
+            self.age_upper_lip_height_data = "who_charts/boy_age_upper_lip_height.csv"
+
+        self._load_reference_data()
+
+    def _read_child_file(self):
+        if hasattr(self, 'child_file'):
+            self.child_file.close()
+
         self.child_file = open(os.path.join(self.path, self.child_data))
         self.gender = self.child_file.readline()[7]
         self.child_array = np.genfromtxt(
@@ -18,6 +37,7 @@ class RaportGenerator(RaportGeneratorInterface):
             dtype=None,
             skip_header=2
         )
+
         self.child_age_weight_array_X = []
         self.child_age_weight_array_Y = []
         self.child_age_height_array_X = []
@@ -43,17 +63,7 @@ class RaportGenerator(RaportGeneratorInterface):
                 # TODO this should contain upper lip height values
                 self.child_age_upper_lip_height_array_Y.append(sublist[1])
 
-        if self.gender == "f":
-            self.age_weight_data = "who_charts/girl_age_weight.csv"
-            self.age_height_data = "who_charts/girl_age_height.csv"
-            self.age_eye_width_data = "who_charts/girl_age_eye_width.csv"
-            self.age_upper_lip_height_data = "who_charts/girl_age_upper_lip_height.csv"
-        else:
-            self.age_weight_data = "who_charts/boy_age_weight.csv"
-            self.age_height_data = "who_charts/boy_age_height.csv"
-            self.age_eye_width_data = "who_charts/boy_age_eye_width.csv"
-            self.age_upper_lip_height_data = "who_charts/boy_age_upper_lip_height.csv"
-
+    def _load_reference_data(self):
         self.age_weight_array = np.loadtxt(os.path.join(self.path, self.age_weight_data), delimiter=',', skiprows=1)
         self.age_height_array = np.loadtxt(os.path.join(self.path, self.age_height_data), delimiter=',', skiprows=1)
         self.age_eye_width_array = np.loadtxt(os.path.join(self.path, self.age_eye_width_data), delimiter=',',
@@ -87,7 +97,7 @@ class RaportGenerator(RaportGeneratorInterface):
         for i, percentile in enumerate(percentiles):
             ax.text(reference_data[13 + i, 0], reference_data[13 + i, i + 1], percentile, fontsize=7)
 
-        fig.tight_layout()
+        # fig.tight_layout()
         # fig.savefig(os.path.join(self.path, filename + '.pdf'), dpi=100)
         # fig.savefig(os.path.join(self.path, filename + '.png'), dpi=100)
         return fig
@@ -150,3 +160,8 @@ class RaportGenerator(RaportGeneratorInterface):
             fig.savefig(os.path.join(self.path, f'growth_{next_number}.pdf'), dpi=100)
             fig.savefig(os.path.join(self.path, f'growth_{next_number}.png'), dpi=100)
             next_number += 1
+
+    def set_child_data_file(self, file_path):
+        self.child_data = file_path
+        self._read_child_file()
+        print(self.child_file)

@@ -86,6 +86,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.pb_chart7.clicked.connect(self.show_diagram_7)
         self.pb_chart8.clicked.connect(self.show_diagram_8)
         self.pb_exportCharts.clicked.connect(self.export_charts)
+        self.pb_choose_file.clicked.connect(self.choose_child_file)
 
     def update_growth_chart_le_upper_lip(self):
         self.le_UpperLipMMChart.setText(self.le_UpperLipMM.text())
@@ -373,6 +374,18 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
     def export_charts(self):
         self.backend.raport_generator.generate(self.generated_charts)
         pass
+
+    def choose_child_file(self):
+        options = qtw.QFileDialog.Options()
+        options |= qtw.QFileDialog.ReadOnly
+        file_path, _ = qtw.QFileDialog.getOpenFileName(self,
+                                                       "Wybór pliku z danymi dziecka",
+                                                       "",
+                                                       "Pliki CSV (*.csv);;Wszystkie pliki (*)",
+                                                       options=options)
+        if file_path:
+            print(file_path)
+            self.backend.raport_generator.set_child_data_file(file_path)
 
     def get_philtrum_depth_class(self):
         if self.rb1.isChecked():
