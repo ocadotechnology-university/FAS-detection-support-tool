@@ -18,6 +18,14 @@ class RaportGenerator(RaportGeneratorInterface):
         self.age_height_array = None
         self.age_eye_width_array = None
         self.age_upper_lip_height_array = None
+        self.child_age_weight_array_X = []
+        self.child_age_weight_array_Y = []
+        self.child_age_height_array_X = []
+        self.child_age_height_array_Y = []
+        self.child_age_eye_width_array_X = []
+        self.child_age_eye_width_array_Y = []
+        self.child_age_upper_lip_height_array_X = []
+        self.child_age_upper_lip_height_array_Y = []
 
 
     def _read_child_file(self):
