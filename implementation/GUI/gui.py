@@ -41,10 +41,6 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.le_RightEyeMM.setValidator(double_validator)
         self.le_UpperLipMM.setValidator(double_validator)
 
-        self.le_LeftEyeMMChart.setValidator(double_validator)
-        self.le_RightEyeMMChart.setValidator(double_validator)
-        self.le_UpperLipMMChart.setValidator(double_validator)
-
         self.diagram = None  # MLP growth chart
 
         # Photo Scene Creation
@@ -70,10 +66,6 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.pb_DetectReference.clicked.connect(self.detect_reference)
         self.pb_DetectFacialLandmarks.clicked.connect(self.detect_facial_landmarks)
         self.pb_measure.clicked.connect(self.measure)
-        # changes from measurement tab automatically tranfer to the chart tab
-        self.le_UpperLipMM.textChanged.connect(self.update_growth_chart_le_upper_lip)
-        self.le_LeftEyeMM.textChanged.connect(self.update_growth_chart_le_left_eye)
-        self.le_RightEyeMM.textChanged.connect(self.update_growth_chart_le_right_eye)
         # self.pb_generate_raport.clicked.connect(self.generate_raport)
 
         # connecting buttons just in case
@@ -83,18 +75,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.pb_chart4.clicked.connect(self.show_diagram_4)
         self.pb_chart5.clicked.connect(self.show_diagram_5)
         self.pb_chart6.clicked.connect(self.show_diagram_6)
-        self.pb_chart7.clicked.connect(self.show_diagram_7)
-        self.pb_chart8.clicked.connect(self.show_diagram_8)
         self.pb_exportCharts.clicked.connect(self.export_charts)
-
-    def update_growth_chart_le_upper_lip(self):
-        self.le_UpperLipMMChart.setText(self.le_UpperLipMM.text())
-
-    def update_growth_chart_le_left_eye(self):
-        self.le_LeftEyeMMChart.setText(self.le_LeftEyeMM.text())
-
-    def update_growth_chart_le_right_eye(self):
-        self.le_RightEyeMMChart.setText(self.le_RightEyeMM.text())
 
     def rotate_graphics_view_right(self):
         self.photoGraphicsView.rotate(90)
@@ -230,8 +211,6 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
         results = self.backend.measure(facial_landmark_coord_dict, reference_coords, ref_in_mm)
 
-        self.update_measurement_le(results)
-
     def not_ready_to_measure(self):
         return (
                 len(self.photoScene.lip_points) != 2  # upper lip not detected
@@ -242,14 +221,9 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
                 or int(self.le_referenceMM.text()) < 1  # negative reference size
         )
 
-    def update_measurement_le(self, measurement):
-        self.le_LeftEyeMM.setText(str(round(measurement.left_eye, 2)).replace(".", ","))
-        self.le_RightEyeMM.setText(str(round(measurement.right_eye, 2)).replace(".", ","))
-        self.le_UpperLipMM.setText(str(round(measurement.lip, 2)).replace(".", ","))
-
     def show_diagram_1(self):
-        fig = self.backend.raport_generator.generate_age_eye_width_chart()
-        self.generated_charts['eye_width'] = fig
+        fig = self.backend.raport_generator.generate_age_head_c_chart()
+        self.generated_charts['head_c'] = fig
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -261,8 +235,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_2(self):
-        fig = self.backend.raport_generator.generate_age_eye_width_chart()
-        self.generated_charts['eye_width'] = fig
+        fig = self.backend.raport_generator.generate_age_head_c_chart()
+        self.generated_charts['head_c'] = fig
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -274,8 +248,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_3(self):
-        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
-        self.generated_charts['upper_lip'] = fig
+        fig = self.backend.raport_generator.generate_age_height_chart()
+        self.generated_charts['height'] = fig
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -287,8 +261,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_4(self):
-        fig = self.backend.raport_generator.generate_age_upper_lip_height_chart()
-        self.generated_charts['upper_lip'] = fig
+        fig = self.backend.raport_generator.generate_age_height_chart()
+        self.generated_charts['height'] = fig
 
         # if there is a diagram, then delete it before adding a new one
         if self.diagram:
@@ -300,32 +274,6 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         pass
 
     def show_diagram_5(self):
-        fig = self.backend.raport_generator.generate_age_height_chart()
-        self.generated_charts['height'] = fig
-
-        # if there is a diagram, then delete it before adding a new one
-        if self.diagram:
-            self.Siatki_centylowe.layout().removeWidget(self.diagram)
-
-        self.diagram = MplCanvas(fig)
-        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
-        self.Siatki_centylowe.layout().addWidget(self.diagram)
-        pass
-
-    def show_diagram_6(self):
-        fig = self.backend.raport_generator.generate_age_height_chart()
-        self.generated_charts['height'] = fig
-
-        # if there is a diagram, then delete it before adding a new one
-        if self.diagram:
-            self.Siatki_centylowe.layout().removeWidget(self.diagram)
-
-        self.diagram = MplCanvas(fig)
-        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
-        self.Siatki_centylowe.layout().addWidget(self.diagram)
-        pass
-
-    def show_diagram_7(self):
         fig = self.backend.raport_generator.generate_age_weight_chart()
         self.generated_charts['weight'] = fig
 
@@ -338,7 +286,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.Siatki_centylowe.layout().addWidget(self.diagram)
         pass
 
-    def show_diagram_8(self):
+    def show_diagram_6(self):
         fig = self.backend.raport_generator.generate_age_weight_chart()
         self.generated_charts['weight'] = fig
 

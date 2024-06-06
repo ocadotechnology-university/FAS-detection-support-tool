@@ -9,34 +9,27 @@ class RaportGenerator(RaportGeneratorInterface):
 
     def __init__(self):
         self.path = "resources"
+        self.age_head_c_data = None
         self.age_weight_data = None
         self.age_height_data = None
-        self.age_eye_width_data = None
-        self.age_upper_lip_height_data = None
+        self.age_head_c_array = None
         self.age_weight_array = None
         self.age_height_array = None
-        self.age_eye_width_array = None
-        self.age_upper_lip_height_array = None
         self.gender = "f"
         self._load_reference_data()
 
     def _load_reference_data(self):
         if self.gender == "f":
+            self.age_head_c_data = "who_charts/girl_age_headc.csv"
             self.age_weight_data = "who_charts/girl_age_weight.csv"
             self.age_height_data = "who_charts/girl_age_height.csv"
-            self.age_eye_width_data = "who_charts/girl_age_eye_width.csv"
-            self.age_upper_lip_height_data = "who_charts/girl_age_upper_lip_height.csv"
         else:
+            self.age_head_c_data = "who_charts/boy_age_headc.csv"
             self.age_weight_data = "who_charts/boy_age_weight.csv"
             self.age_height_data = "who_charts/boy_age_height.csv"
-            self.age_eye_width_data = "who_charts/boy_age_eye_width.csv"
-            self.age_upper_lip_height_data = "who_charts/boy_age_upper_lip_height.csv"
+        self.age_head_c_array = np.loadtxt(os.path.join(self.path, self.age_head_c_data), delimiter=',', skiprows=1)
         self.age_weight_array = np.loadtxt(os.path.join(self.path, self.age_weight_data), delimiter=',', skiprows=1)
         self.age_height_array = np.loadtxt(os.path.join(self.path, self.age_height_data), delimiter=',', skiprows=1)
-        self.age_eye_width_array = np.loadtxt(os.path.join(self.path, self.age_eye_width_data), delimiter=',',
-                                              skiprows=1)
-        self.age_upper_lip_height_array = np.loadtxt(os.path.join(self.path, self.age_upper_lip_height_data),
-                                                     delimiter=',', skiprows=1)
 
     def generate_chart(self, reference_data, x_label, y_label, filename):
         fig, ax = plt.subplots(figsize=(16, 9))
@@ -68,6 +61,14 @@ class RaportGenerator(RaportGeneratorInterface):
         # fig.savefig(os.path.join(self.path, filename + '.png'), dpi=100)
         return fig
 
+    def generate_age_head_c_chart(self):
+        return self.generate_chart(
+            self.age_head_c_array,
+            'age [months]',
+            'circuit [cm]',
+            'growth_head_circuit'
+        )
+
     def generate_age_weight_chart(self):
         return self.generate_chart(
             self.age_weight_array,
@@ -82,22 +83,6 @@ class RaportGenerator(RaportGeneratorInterface):
             'age [months]',
             'height [cm]',
             'growth_height'
-        )
-
-    def generate_age_eye_width_chart(self):
-        return self.generate_chart(
-            self.age_eye_width_array,
-            'age [months]',
-            'eye width [mm]',
-            'growth_eye_width'
-        )
-
-    def generate_age_upper_lip_height_chart(self):
-        return self.generate_chart(
-            self.age_upper_lip_height_array,
-            'age [months]',
-            'upper lip height [mm]',
-            'growth_upper_lip_height'
         )
 
     def generate(self, figures_to_save):
