@@ -9,7 +9,6 @@ class RaportGenerator(RaportGeneratorInterface):
 
     def __init__(self):
         self.path = "resources"
-        self.child_data = None
         self.age_weight_data = None
         self.age_height_data = None
         self.age_eye_width_data = None
@@ -18,50 +17,8 @@ class RaportGenerator(RaportGeneratorInterface):
         self.age_height_array = None
         self.age_eye_width_array = None
         self.age_upper_lip_height_array = None
-        self.child_age_weight_array_X = []
-        self.child_age_weight_array_Y = []
-        self.child_age_height_array_X = []
-        self.child_age_height_array_Y = []
-        self.child_age_eye_width_array_X = []
-        self.child_age_eye_width_array_Y = []
-        self.child_age_upper_lip_height_array_X = []
-        self.child_age_upper_lip_height_array_Y = []
-
-
-    def _read_child_file(self):
-        if hasattr(self, 'child_file'):
-            self.child_file.close()
-
-        self.child_file = open(os.path.join(self.path, self.child_data))
-        self.gender = self.child_file.readline()[7]
-        self.child_array = np.genfromtxt(
-            os.path.join(self.path, self.child_data),
-            delimiter=',',
-            dtype=None,
-            skip_header=2
-        )
-
-        self.child_age_weight_array_X = []
-        self.child_age_weight_array_Y = []
-        self.child_age_height_array_X = []
-        self.child_age_height_array_Y = []
-        self.child_age_eye_width_array_X = []
-        self.child_age_eye_width_array_Y = []
-        self.child_age_upper_lip_height_array_X = []
-        self.child_age_upper_lip_height_array_Y = []
-
-        for sublist in self.child_array:
-            if ~np.isnan(sublist[1]):
-                # this will contain age values
-                self.child_age_weight_array_X.append(sublist[0])
-                self.child_age_height_array_X.append(sublist[0])
-                self.child_age_eye_width_array_X.append(sublist[0])
-                self.child_age_upper_lip_height_array_X.append(sublist[0])
-                # this will contain weight values
-                self.child_age_eye_width_array_Y.append(sublist[1])
-                self.child_age_upper_lip_height_array_Y.append(sublist[2])
-                self.child_age_height_array_Y.append(sublist[3])
-                self.child_age_weight_array_Y.append(sublist[4])
+        self.gender = "f"
+        self._load_reference_data()
 
     def _load_reference_data(self):
         if self.gender == "f":
@@ -81,9 +38,7 @@ class RaportGenerator(RaportGeneratorInterface):
         self.age_upper_lip_height_array = np.loadtxt(os.path.join(self.path, self.age_upper_lip_height_data),
                                                      delimiter=',', skiprows=1)
 
-    def generate_chart(self, reference_data, child_x, child_y, x_label, y_label, filename):
-        if not self.child_data:
-            return "Najpierw wybierz dane pacjenta"
+    def generate_chart(self, reference_data, x_label, y_label, filename):
         fig, ax = plt.subplots(figsize=(16, 9))
 
         ax.plot(
@@ -96,7 +51,6 @@ class RaportGenerator(RaportGeneratorInterface):
             reference_data[:, 0], reference_data[:, 7], 'r--',
             reference_data[:, 0], reference_data[:, 8], 'r--',
             reference_data[:, 0], reference_data[:, 9], 'r--',
-            child_x, child_y, 'b-*'
         )
 
         ax.grid(True)
@@ -117,8 +71,6 @@ class RaportGenerator(RaportGeneratorInterface):
     def generate_age_weight_chart(self):
         return self.generate_chart(
             self.age_weight_array,
-            self.child_age_weight_array_X,
-            self.child_age_weight_array_Y,
             'age [months]',
             'weight [kg]',
             'growth_weight'
@@ -127,8 +79,6 @@ class RaportGenerator(RaportGeneratorInterface):
     def generate_age_height_chart(self):
         return self.generate_chart(
             self.age_height_array,
-            self.child_age_height_array_X,
-            self.child_age_height_array_Y,
             'age [months]',
             'height [cm]',
             'growth_height'
@@ -137,8 +87,6 @@ class RaportGenerator(RaportGeneratorInterface):
     def generate_age_eye_width_chart(self):
         return self.generate_chart(
             self.age_eye_width_array,
-            self.child_age_eye_width_array_X,
-            self.child_age_eye_width_array_Y,
             'age [months]',
             'eye width [mm]',
             'growth_eye_width'
@@ -147,8 +95,6 @@ class RaportGenerator(RaportGeneratorInterface):
     def generate_age_upper_lip_height_chart(self):
         return self.generate_chart(
             self.age_upper_lip_height_array,
-            self.child_age_upper_lip_height_array_X,
-            self.child_age_upper_lip_height_array_Y,
             'age [months]',
             'upper lip height [mm]',
             'growth_upper_lip_height'
@@ -172,8 +118,3 @@ class RaportGenerator(RaportGeneratorInterface):
             fig.savefig(os.path.join(self.path + "\\saved_charts", f'growth_{fig_type}_{next_number}.pdf'), dpi=100)
             fig.savefig(os.path.join(self.path + "\\saved_charts", f'growth_{fig_type}_{next_number}.png'), dpi=100)
             next_number += 1
-
-    def set_child_data_file(self, file_path):
-        self.child_data = file_path
-        self._read_child_file()
-        self._load_reference_data()

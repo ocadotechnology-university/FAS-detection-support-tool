@@ -233,11 +233,6 @@ class Ui_w_MainWindow(object):
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.verticalLayout_5 = QVBoxLayout()
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.pb_choose_file = QPushButton(self.Siatki_centylowe)
-        self.pb_choose_file.setObjectName(u"pb_choose_file")
-
-        self.verticalLayout_5.addWidget(self.pb_choose_file)
-
         self.groupBox_3 = QGroupBox(self.Siatki_centylowe)
         self.groupBox_3.setObjectName(u"groupBox_3")
         sizePolicy3.setHeightForWidth(self.groupBox_3.sizePolicy().hasHeightForWidth())
@@ -414,15 +409,15 @@ class Ui_w_MainWindow(object):
 
         self.verticalLayout_5.addWidget(self.groupBox_7)
 
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_5.addItem(self.verticalSpacer)
+
         self.pb_exportCharts = QPushButton(self.Siatki_centylowe)
         self.pb_exportCharts.setObjectName(u"pb_exportCharts")
         self.pb_exportCharts.setMaximumSize(QSize(400, 16777215))
 
         self.verticalLayout_5.addWidget(self.pb_exportCharts)
-
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        self.verticalLayout_5.addItem(self.verticalSpacer)
 
 
         self.horizontalLayout_7.addLayout(self.verticalLayout_5)
@@ -496,7 +491,6 @@ class Ui_w_MainWindow(object):
         self.rb4.setText(QCoreApplication.translate("w_MainWindow", u"4", None))
         self.rb1.setText(QCoreApplication.translate("w_MainWindow", u"1", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Pomiary), QCoreApplication.translate("w_MainWindow", u"Pomiary", None))
-        self.pb_choose_file.setText(QCoreApplication.translate("w_MainWindow", u"Wyb\u00f3r pliku z danymi pacjenta", None))
         self.groupBox_3.setTitle("")
         self.pb_chart1.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 1", None))
         self.pb_chart2.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 2", None))
