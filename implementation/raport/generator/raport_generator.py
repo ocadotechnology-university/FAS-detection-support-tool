@@ -14,14 +14,6 @@ class RaportGenerator(RaportGeneratorInterface):
         self.age_height_data = None
         self.age_eye_width_data = None
         self.age_upper_lip_height_data = None
-        self.child_age_weight_array_X = []
-        self.child_age_weight_array_Y = []
-        self.child_age_height_array_X = []
-        self.child_age_height_array_Y = []
-        self.child_age_eye_width_array_X = []
-        self.child_age_eye_width_array_Y = []
-        self.child_age_upper_lip_height_array_X = []
-        self.child_age_upper_lip_height_array_Y = []
         self.age_weight_array = None
         self.age_height_array = None
         self.age_eye_width_array = None
@@ -40,6 +32,15 @@ class RaportGenerator(RaportGeneratorInterface):
             dtype=None,
             skip_header=2
         )
+
+        self.child_age_weight_array_X = []
+        self.child_age_weight_array_Y = []
+        self.child_age_height_array_X = []
+        self.child_age_height_array_Y = []
+        self.child_age_eye_width_array_X = []
+        self.child_age_eye_width_array_Y = []
+        self.child_age_upper_lip_height_array_X = []
+        self.child_age_upper_lip_height_array_Y = []
 
         for sublist in self.child_array:
             if ~np.isnan(sublist[1]):
@@ -168,4 +169,3 @@ class RaportGenerator(RaportGeneratorInterface):
         self.child_data = file_path
         self._read_child_file()
         self._load_reference_data()
-        print(self.child_file)
