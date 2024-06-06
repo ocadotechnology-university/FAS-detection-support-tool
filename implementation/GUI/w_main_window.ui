@@ -631,7 +631,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Eksport siatek</string>
+            <string>Generuj raport</string>
            </property>
           </widget>
          </item>

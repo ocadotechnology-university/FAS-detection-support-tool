@@ -20,7 +20,7 @@ from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFormLayout, Q
     QLayout, QLineEdit, QPushButton, QRadioButton,
     QSizePolicy, QSpacerItem, QTabWidget, QVBoxLayout,
     QWidget)
-from resources import gui_resources_rc
+import GUI_resources_rc
 
 class Ui_w_MainWindow(object):
     def setupUi(self, w_MainWindow):
@@ -508,7 +508,7 @@ class Ui_w_MainWindow(object):
         self.label_10.setText(QCoreApplication.translate("w_MainWindow", u"Waga [kg]", None))
         self.pb_chart7.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 7", None))
         self.pb_chart8.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 8", None))
-        self.pb_exportCharts.setText(QCoreApplication.translate("w_MainWindow", u"Eksport siatek", None))
+        self.pb_exportCharts.setText(QCoreApplication.translate("w_MainWindow", u"Generuj raport", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.Siatki_centylowe), QCoreApplication.translate("w_MainWindow", u"Siatki centylowe", None))
     # retranslateUi
 
