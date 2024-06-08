@@ -192,6 +192,11 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
                 'right_eye': [[right_eye_x1, eye_y], [right_eye_x2, eye_y]],
                 'upper_lip': [[lip_x, lip_y1], [lip_x, lip_y2]]}
 
+    def update_measurement_le(self, measurement):
+        self.le_LeftEyeMM.setText(str(round(measurement.left_eye, 2)).replace(".", ","))
+        self.le_RightEyeMM.setText(str(round(measurement.right_eye, 2)).replace(".", ","))
+        self.le_UpperLipMM.setText(str(round(measurement.lip, 2)).replace(".", ","))
+
     def measure(self):
         if self.not_ready_to_measure():
             self.message(
@@ -210,6 +215,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         ref_in_mm = int(self.le_referenceMM.text())
 
         results = self.backend.measure(facial_landmark_coord_dict, reference_coords, ref_in_mm)
+
+        self.update_measurement_le(results)
 
     def not_ready_to_measure(self):
         return (
