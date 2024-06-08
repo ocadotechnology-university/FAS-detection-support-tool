@@ -119,7 +119,7 @@ class RaportGenerator(RaportGeneratorInterface):
                 except ValueError:
                     pass
 
-            next_number = highest + 1
+        next_number = highest + 1
 
         # if folder_path:
         #     for fig_type, fig in figures_to_save.items():
