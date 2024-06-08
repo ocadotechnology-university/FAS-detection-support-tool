@@ -341,6 +341,98 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
+          <widget class="QPushButton" name="pb_choose_file">
+           <property name="text">
+            <string>Wybór pliku z danymi pacjenta</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_3">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>400</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="title">
+            <string/>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_6">
+            <item row="1" column="2">
+             <widget class="QLineEdit" name="le_LeftEyeMMChart">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="0" colspan="3">
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QPushButton" name="pb_chart1">
+                <property name="text">
+                 <string>Siatka 1</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pb_chart2">
+                <property name="text">
+                 <string>Siatka 2</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_6">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Szerokość lewego oka [mm]</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QLineEdit" name="le_RightEyeMMChart">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_7">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Szerokość prawego oka [mm]</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
           <widget class="QGroupBox" name="groupBox_5">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -367,30 +459,30 @@
                </sizepolicy>
               </property>
               <property name="text">
-               <string>Obwód głowy [cm]</string>
+               <string>Wysokość górnej wargi [mm]</string>
               </property>
              </widget>
             </item>
             <item row="1" column="0" colspan="2">
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
-               <widget class="QPushButton" name="pb_chart1">
+               <widget class="QPushButton" name="pb_chart3">
                 <property name="text">
-                 <string>Siatka 1</string>
+                 <string>Siatka 3</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pb_chart2">
+               <widget class="QPushButton" name="pb_chart4">
                 <property name="text">
-                 <string>Siatka 2</string>
+                 <string>Siatka 4</string>
                 </property>
                </widget>
               </item>
              </layout>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="le_HeadCircuit">
+             <widget class="QLineEdit" name="le_UpperLipMMChart">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -435,16 +527,16 @@
               <item row="1" column="0" colspan="2">
                <layout class="QHBoxLayout" name="horizontalLayout_5">
                 <item>
-                 <widget class="QPushButton" name="pb_chart3">
+                 <widget class="QPushButton" name="pb_chart5">
                   <property name="text">
-                   <string>Siatka 1</string>
+                   <string>Siatka 5</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pb_chart4">
+                 <widget class="QPushButton" name="pb_chart6">
                   <property name="text">
-                   <string>Siatka 2</string>
+                   <string>Siatka 6</string>
                   </property>
                  </widget>
                 </item>
@@ -506,22 +598,35 @@
             <item row="1" column="0" colspan="2">
              <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
-               <widget class="QPushButton" name="pb_chart5">
+               <widget class="QPushButton" name="pb_chart7">
                 <property name="text">
-                 <string>Siatka 1</string>
+                 <string>Siatka 7</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pb_chart6">
+               <widget class="QPushButton" name="pb_chart8">
                 <property name="text">
-                 <string>Siatka 2</string>
+                 <string>Siatka 8</string>
                 </property>
                </widget>
               </item>
              </layout>
             </item>
            </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pb_exportCharts">
+           <property name="maximumSize">
+            <size>
+             <width>400</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Eksport siatek</string>
+           </property>
           </widget>
          </item>
          <item>
@@ -536,19 +641,6 @@
             </size>
            </property>
           </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pb_exportCharts">
-           <property name="maximumSize">
-            <size>
-             <width>400</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Generuj raport</string>
-           </property>
-          </widget>
          </item>
         </layout>
        </item>
@@ -588,15 +680,19 @@
   <tabstop>rb2</tabstop>
   <tabstop>rb1</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>le_HeadCircuit</tabstop>
+  <tabstop>le_LeftEyeMMChart</tabstop>
+  <tabstop>le_RightEyeMMChart</tabstop>
   <tabstop>pb_chart1</tabstop>
   <tabstop>pb_chart2</tabstop>
-  <tabstop>le_Height</tabstop>
+  <tabstop>le_UpperLipMMChart</tabstop>
   <tabstop>pb_chart3</tabstop>
   <tabstop>pb_chart4</tabstop>
-  <tabstop>le_Weight</tabstop>
+  <tabstop>le_Height</tabstop>
   <tabstop>pb_chart5</tabstop>
   <tabstop>pb_chart6</tabstop>
+  <tabstop>le_Weight</tabstop>
+  <tabstop>pb_chart7</tabstop>
+  <tabstop>pb_chart8</tabstop>
   <tabstop>photoGraphicsView</tabstop>
  </tabstops>
  <resources>
