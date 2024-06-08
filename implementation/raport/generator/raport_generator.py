@@ -99,24 +99,27 @@ class RaportGenerator(RaportGeneratorInterface):
         )
 
     def generate(self, figures_to_save):
-        highest = 0
-        for filename in os.listdir(self.path):
-            if filename.startswith('growth_') and filename.endswith('.pdf'):
-                try:
-                    number = int(filename[7:-4])
-                    if number > highest:
-                        highest = number
-                except ValueError:
-                    pass
-
-        next_number = highest + 1
-
         app = qtw.QApplication.instance()
         if app is None:
             app = qtw.QApplication(sys.argv)
 
         options = qtw.QFileDialog.Options()
         folder_path = qtw.QFileDialog.getExistingDirectory(None, "Wybierz katalog", options=options)
+
+        highest = 0
+        print(f"os.path.join(self.path, 'saved_charts')={os.path.join(self.path, 'saved_charts')}")
+        print(f"folder_path={folder_path}")
+        for filename in os.listdir(os.path.join(self.path, 'saved_charts')):
+            print(f"filename={filename}")
+            if filename.startswith('child_growth_') and filename.endswith('.pdf'):
+                try:
+                    number = int(filename[len('child_growth_'):-4])
+                    if number > highest:
+                        highest = number
+                except ValueError:
+                    pass
+
+            next_number = highest + 1
 
         # if folder_path:
         #     for fig_type, fig in figures_to_save.items():
