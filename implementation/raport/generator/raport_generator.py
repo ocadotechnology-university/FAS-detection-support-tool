@@ -3,6 +3,11 @@ import os.path
 from .raport_generator_interface import RaportGeneratorInterface
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.backends.backend_pdf as pdf
+
+from PySide6 import QtWidgets as qtw
+
+import sys
 
 
 class RaportGenerator(RaportGeneratorInterface):
@@ -31,7 +36,7 @@ class RaportGenerator(RaportGeneratorInterface):
         self.age_weight_array = np.loadtxt(os.path.join(self.path, self.age_weight_data), delimiter=',', skiprows=1)
         self.age_height_array = np.loadtxt(os.path.join(self.path, self.age_height_data), delimiter=',', skiprows=1)
 
-    def generate_chart(self, reference_data, x_label, y_label, filename):
+    def generate_chart(self, reference_data, x_label, y_label, filename, value, age):
         fig, ax = plt.subplots(figsize=(16, 9))
 
         ax.plot(
@@ -56,33 +61,41 @@ class RaportGenerator(RaportGeneratorInterface):
         for i, percentile in enumerate(percentiles):
             ax.text(reference_data[13 + i, 0], reference_data[13 + i, i + 1], percentile, fontsize=7)
 
+        ax.scatter(age, value, color='blue')
+
         # fig.tight_layout()
         # fig.savefig(os.path.join(self.path, filename + '.pdf'), dpi=100)
         # fig.savefig(os.path.join(self.path, filename + '.png'), dpi=100)
         return fig
 
-    def generate_age_head_c_chart(self):
+    def generate_age_head_c_chart(self, age, value):
         return self.generate_chart(
             self.age_head_c_array,
             'age [months]',
             'circuit [cm]',
-            'growth_head_circuit'
+            'growth_head_circuit',
+            value,
+            age
         )
 
-    def generate_age_weight_chart(self):
+    def generate_age_weight_chart(self, age, value):
         return self.generate_chart(
             self.age_weight_array,
             'age [months]',
             'weight [kg]',
-            'growth_weight'
+            'growth_weight',
+            value,
+            age
         )
 
-    def generate_age_height_chart(self):
+    def generate_age_height_chart(self, age, value):
         return self.generate_chart(
             self.age_height_array,
             'age [months]',
             'height [cm]',
-            'growth_height'
+            'growth_height',
+            value,
+            age
         )
 
     def generate(self, figures_to_save):
@@ -98,8 +111,33 @@ class RaportGenerator(RaportGeneratorInterface):
 
         next_number = highest + 1
 
-        for fig_type, fig in figures_to_save.items():
-            print("Saving " + fig_type + " chart")
-            fig.savefig(os.path.join(self.path + "\\saved_charts", f'growth_{fig_type}_{next_number}.pdf'), dpi=100)
-            fig.savefig(os.path.join(self.path + "\\saved_charts", f'growth_{fig_type}_{next_number}.png'), dpi=100)
-            next_number += 1
+        app = qtw.QApplication.instance()
+        if app is None:
+            app = qtw.QApplication(sys.argv)
+
+        options = qtw.QFileDialog.Options()
+        folder_path = qtw.QFileDialog.getExistingDirectory(None, "Wybierz katalog", options=options)
+
+        # if folder_path:
+        #     for fig_type, fig in figures_to_save.items():
+        #         print("Zapisuję siatkę " + fig_type)
+        #         fig.savefig(os.path.join(folder_path, f'growth_{fig_type}_{next_number}.pdf'), dpi=100)
+        #         fig.savefig(os.path.join(folder_path, f'growth_{fig_type}_{next_number}.png'), dpi=100)
+        #         next_number += 1
+        if folder_path:
+            pdf_file_path = os.path.join(folder_path, f'child_growth_{next_number}.pdf')
+
+            with pdf.PdfPages(pdf_file_path) as pdf_pages:
+                for fig_type, fig in figures_to_save.items():
+                    print("Zapisuję siatkę " + fig_type)
+                    pdf_pages.savefig(fig, dpi=100)
+                    next_number += 1
+
+            msg_box = qtw.QMessageBox()
+            msg_box.setIcon(qtw.QMessageBox.Icon.Information)
+            msg_box.setText("Siatki zostały zapisane w wybranym katalogu")
+            msg_box.setWindowTitle("Sukces!")
+            msg_box.setStandardButtons(qtw.QMessageBox.StandardButton.Ok)
+            msg_box.exec()
+        else:
+            print("Nie wybrano katalogu!")

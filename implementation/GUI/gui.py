@@ -222,83 +222,114 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         )
 
     def show_diagram_1(self):
-        fig = self.backend.raport_generator.generate_age_head_c_chart()
-        self.generated_charts['head_c'] = fig
+        try:
+            age = float(self.le_Age.text())
+            value = float(self.le_HeadCircuit.text())
 
-        # if there is a diagram, then delete it before adding a new one
-        if self.diagram:
-            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+            fig = self.backend.raport_generator.generate_age_head_c_chart(age, value)
+            self.generated_charts['head_c'] = fig
 
-        self.diagram = MplCanvas(fig)
-        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
-        self.Siatki_centylowe.layout().addWidget(self.diagram)
-        pass
+            # if there is a diagram, then delete it before adding a new one
+            if self.diagram:
+                self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+            self.diagram = MplCanvas(fig)
+            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+            self.Siatki_centylowe.layout().addWidget(self.diagram)
+
+        except ValueError:
+            self.message("Upewnij się, że wypełnione są pola z wiekiem i obwodem głowy!", "LightSkyBlue")
 
     def show_diagram_2(self):
-        fig = self.backend.raport_generator.generate_age_head_c_chart()
-        self.generated_charts['head_c'] = fig
+        try:
+            age = float(self.le_Age.text())
+            value = float(self.le_HeadCircuit.text())
 
-        # if there is a diagram, then delete it before adding a new one
-        if self.diagram:
-            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+            fig = self.backend.raport_generator.generate_age_head_c_chart(age, value)
+            self.generated_charts['head_c'] = fig
 
-        self.diagram = MplCanvas(fig)
-        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
-        self.Siatki_centylowe.layout().addWidget(self.diagram)
-        pass
+            # if there is a diagram, then delete it before adding a new one
+            if self.diagram:
+                self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+            self.diagram = MplCanvas(fig)
+            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+            self.Siatki_centylowe.layout().addWidget(self.diagram)
+
+        except ValueError:
+            self.message("Upewnij się, że wypełnione są pola z wiekiem i obwodem głowy!", "LightSkyBlue")
 
     def show_diagram_3(self):
-        fig = self.backend.raport_generator.generate_age_height_chart()
-        self.generated_charts['height'] = fig
+        try:
+            age = float(self.le_Age.text())
+            value = float(self.le_Height.text())
+            fig = self.backend.raport_generator.generate_age_height_chart(age, value)
+            self.generated_charts['height'] = fig
 
-        # if there is a diagram, then delete it before adding a new one
-        if self.diagram:
-            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+            # if there is a diagram, then delete it before adding a new one
+            if self.diagram:
+                self.Siatki_centylowe.layout().removeWidget(self.diagram)
 
-        self.diagram = MplCanvas(fig)
-        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
-        self.Siatki_centylowe.layout().addWidget(self.diagram)
-        pass
+            self.diagram = MplCanvas(fig)
+            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+            self.Siatki_centylowe.layout().addWidget(self.diagram)
+
+        except ValueError:
+            self.message("Upewnij się, że wypełnione są pola z wiekiem i wzrostem!", "LightSkyBlue")
 
     def show_diagram_4(self):
-        fig = self.backend.raport_generator.generate_age_height_chart()
-        self.generated_charts['height'] = fig
+        try:
+            age = float(self.le_Age.text())
+            value = float(self.le_Height.text())
+            fig = self.backend.raport_generator.generate_age_height_chart(age, value)
+            self.generated_charts['height'] = fig
 
-        # if there is a diagram, then delete it before adding a new one
-        if self.diagram:
-            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+            # if there is a diagram, then delete it before adding a new one
+            if self.diagram:
+                self.Siatki_centylowe.layout().removeWidget(self.diagram)
 
-        self.diagram = MplCanvas(fig)
-        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
-        self.Siatki_centylowe.layout().addWidget(self.diagram)
-        pass
+            self.diagram = MplCanvas(fig)
+            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+            self.Siatki_centylowe.layout().addWidget(self.diagram)
+
+        except ValueError:
+            self.message("Upewnij się, że wypełnione są pola z wiekiem i wzrostem!", "LightSkyBlue")
 
     def show_diagram_5(self):
-        fig = self.backend.raport_generator.generate_age_weight_chart()
-        self.generated_charts['weight'] = fig
+        try:
+            age = float(self.le_Age.text())
+            value = float(self.le_Weight.text())
+            fig = self.backend.raport_generator.generate_age_weight_chart(age, value)
+            self.generated_charts['weight'] = fig
 
-        # if there is a diagram, then delete it before adding a new one
-        if self.diagram:
-            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+            # if there is a diagram, then delete it before adding a new one
+            if self.diagram:
+                self.Siatki_centylowe.layout().removeWidget(self.diagram)
 
-        self.diagram = MplCanvas(fig)
-        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
-        self.Siatki_centylowe.layout().addWidget(self.diagram)
-        pass
+            self.diagram = MplCanvas(fig)
+            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+            self.Siatki_centylowe.layout().addWidget(self.diagram)
+
+        except ValueError:
+            self.message("Upewnij się, że wypełnione są pola z wiekiem i wagą!", "LightSkyBlue")
 
     def show_diagram_6(self):
-        fig = self.backend.raport_generator.generate_age_weight_chart()
-        self.generated_charts['weight'] = fig
+        try:
+            age = float(self.le_Age.text())
+            value = float(self.le_Weight.text())
+            fig = self.backend.raport_generator.generate_age_weight_chart(age, value)
+            self.generated_charts['weight'] = fig
 
-        # if there is a diagram, then delete it before adding a new one
-        if self.diagram:
-            self.Siatki_centylowe.layout().removeWidget(self.diagram)
+            # if there is a diagram, then delete it before adding a new one
+            if self.diagram:
+                self.Siatki_centylowe.layout().removeWidget(self.diagram)
 
-        self.diagram = MplCanvas(fig)
-        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
-        self.Siatki_centylowe.layout().addWidget(self.diagram)
-        pass
+            self.diagram = MplCanvas(fig)
+            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+            self.Siatki_centylowe.layout().addWidget(self.diagram)
 
+        except ValueError:
+            self.message("Upewnij się, że wypełnione są pola z wiekiem i wagą!", "LightSkyBlue")
 
     def export_charts(self):
         self.backend.raport_generator.generate(self.generated_charts)

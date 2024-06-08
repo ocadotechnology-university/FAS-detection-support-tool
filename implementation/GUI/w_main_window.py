@@ -9,18 +9,19 @@
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
+                            QMetaObject, QObject, QPoint, QRect,
+                            QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
+                           QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter,
+                           QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QFormLayout, QGraphicsView,
-    QGridLayout, QGroupBox, QHBoxLayout, QLabel,
-    QLayout, QLineEdit, QPushButton, QRadioButton,
-    QSizePolicy, QSpacerItem, QTabWidget, QVBoxLayout,
-    QWidget)
+                               QGridLayout, QGroupBox, QHBoxLayout, QLabel,
+                               QLayout, QLineEdit, QPushButton, QRadioButton,
+                               QSizePolicy, QSpacerItem, QTabWidget, QVBoxLayout,
+                               QWidget)
 from resources import gui_resources_rc
+
 
 class Ui_w_MainWindow(object):
     def setupUi(self, w_MainWindow):
@@ -101,7 +102,6 @@ class Ui_w_MainWindow(object):
 
         self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.label_3)
 
-
         self.gridLayout.addWidget(self.groupBox_2, 2, 0, 1, 5)
 
         self.pb_RotateRight = QPushButton(self.Pomiary)
@@ -158,7 +158,6 @@ class Ui_w_MainWindow(object):
 
         self.formLayout.setWidget(3, QFormLayout.FieldRole, self.le_UpperLipMM)
 
-
         self.gridLayout.addWidget(self.groupBox, 18, 0, 1, 5)
 
         self.groupBox_4 = QGroupBox(self.Pomiary)
@@ -210,13 +209,11 @@ class Ui_w_MainWindow(object):
 
         self.gridLayout_3.addWidget(self.rb1, 5, 2, 1, 1)
 
-
         self.gridLayout.addWidget(self.groupBox_4, 19, 0, 1, 5)
 
         self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.gridLayout.addItem(self.verticalSpacer_2, 3, 1, 1, 1)
-
 
         self.horizontalLayout.addLayout(self.gridLayout)
 
@@ -233,6 +230,21 @@ class Ui_w_MainWindow(object):
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.verticalLayout_5 = QVBoxLayout()
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+
+        self.le_Age = QLineEdit()
+        self.le_Age.setObjectName(u"le_Age")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.le_Age.sizePolicy().hasHeightForWidth())
+        self.le_Age.setSizePolicy(sizePolicy4)
+
+        self.label_Age = QLabel()
+        self.label_Age.setObjectName(u"label_Age")
+
+        self.verticalLayout_5.addWidget(self.label_Age)
+        self.verticalLayout_5.addWidget(self.le_Age)
+
         self.groupBox_5 = QGroupBox(self.Siatki_centylowe)
         self.groupBox_5.setObjectName(u"groupBox_5")
         sizePolicy1.setHeightForWidth(self.groupBox_5.sizePolicy().hasHeightForWidth())
@@ -259,7 +271,6 @@ class Ui_w_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.pb_chart2)
 
-
         self.gridLayout_7.addLayout(self.horizontalLayout_3, 1, 0, 1, 2)
 
         self.le_HeadCircuit = QLineEdit(self.groupBox_5)
@@ -271,7 +282,6 @@ class Ui_w_MainWindow(object):
         self.le_HeadCircuit.setSizePolicy(sizePolicy4)
 
         self.gridLayout_7.addWidget(self.le_HeadCircuit, 0, 1, 1, 1)
-
 
         self.verticalLayout_5.addWidget(self.groupBox_5)
 
@@ -303,7 +313,6 @@ class Ui_w_MainWindow(object):
 
         self.horizontalLayout_5.addWidget(self.pb_chart4)
 
-
         self.gridLayout_9.addLayout(self.horizontalLayout_5, 1, 0, 1, 2)
 
         self.label_9 = QLabel(self.groupBox_6)
@@ -311,9 +320,7 @@ class Ui_w_MainWindow(object):
 
         self.gridLayout_9.addWidget(self.label_9, 0, 0, 1, 1)
 
-
         self.verticalLayout_2.addLayout(self.gridLayout_9)
-
 
         self.verticalLayout_5.addWidget(self.groupBox_6)
 
@@ -350,9 +357,7 @@ class Ui_w_MainWindow(object):
 
         self.horizontalLayout_4.addWidget(self.pb_chart6)
 
-
         self.gridLayout_10.addLayout(self.horizontalLayout_4, 1, 0, 1, 2)
-
 
         self.verticalLayout_5.addWidget(self.groupBox_7)
 
@@ -365,7 +370,6 @@ class Ui_w_MainWindow(object):
         self.pb_exportCharts.setMaximumSize(QSize(400, 16777215))
 
         self.verticalLayout_5.addWidget(self.pb_exportCharts)
-
 
         self.horizontalLayout_7.addLayout(self.verticalLayout_5)
 
@@ -407,8 +411,8 @@ class Ui_w_MainWindow(object):
 
         self.tabWidget.setCurrentIndex(1)
 
-
         QMetaObject.connectSlotsByName(w_MainWindow)
+
     # setupUi
 
     def retranslateUi(self, w_MainWindow):
@@ -417,7 +421,8 @@ class Ui_w_MainWindow(object):
         self.pb_DetectReference.setText(QCoreApplication.translate("w_MainWindow", u"Wykryj referencj\u0119", None))
         self.pb_ChooseImage.setText(QCoreApplication.translate("w_MainWindow", u"Wyb\u00f3r zdj\u0119cia", None))
         self.pb_RotateLeft.setText(QCoreApplication.translate("w_MainWindow", u"Obr\u00f3t w lewo", None))
-        self.pb_DetectFacialLandmarks.setText(QCoreApplication.translate("w_MainWindow", u"Wykryj elementy twarzy", None))
+        self.pb_DetectFacialLandmarks.setText(
+            QCoreApplication.translate("w_MainWindow", u"Wykryj elementy twarzy", None))
         self.groupBox_2.setTitle("")
         self.label_3.setText(QCoreApplication.translate("w_MainWindow", u"Rozmiar referencji w mm", None))
         self.pb_RotateRight.setText(QCoreApplication.translate("w_MainWindow", u"Obr\u00f3t w prawo", None))
@@ -425,7 +430,8 @@ class Ui_w_MainWindow(object):
         self.groupBox.setTitle(QCoreApplication.translate("w_MainWindow", u"Pomiary", None))
         self.label.setText(QCoreApplication.translate("w_MainWindow", u"Szeroko\u015b\u0107 lewego oka [mm]", None))
         self.label_2.setText(QCoreApplication.translate("w_MainWindow", u"Szeroko\u015b\u0107 prawego oka [mm]", None))
-        self.label_4.setText(QCoreApplication.translate("w_MainWindow", u"Wysoko\u015b\u0107 g\u00f3rnej wargi [mm]", None))
+        self.label_4.setText(
+            QCoreApplication.translate("w_MainWindow", u"Wysoko\u015b\u0107 g\u00f3rnej wargi [mm]", None))
         self.groupBox_4.setTitle(QCoreApplication.translate("w_MainWindow", u"Wyb\u00f3r rynienki podnosowej", None))
         self.rb3.setText(QCoreApplication.translate("w_MainWindow", u"3", None))
         self.label_5.setText("")
@@ -433,9 +439,11 @@ class Ui_w_MainWindow(object):
         self.rb5.setText(QCoreApplication.translate("w_MainWindow", u"5", None))
         self.rb4.setText(QCoreApplication.translate("w_MainWindow", u"4", None))
         self.rb1.setText(QCoreApplication.translate("w_MainWindow", u"1", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.Pomiary), QCoreApplication.translate("w_MainWindow", u"Pomiary", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.Pomiary),
+                                  QCoreApplication.translate("w_MainWindow", u"Pomiary", None))
         self.groupBox_5.setTitle("")
         self.label_8.setText(QCoreApplication.translate("w_MainWindow", u"Obw\u00f3d g\u0142owy [cm]", None))
+        self.label_Age.setText(QCoreApplication.translate("w_MainWindow", u"Wiek [miesiące]", None))
         self.pb_chart1.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 1", None))
         self.pb_chart2.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 2", None))
         self.groupBox_6.setTitle("")
@@ -447,6 +455,6 @@ class Ui_w_MainWindow(object):
         self.pb_chart5.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 1", None))
         self.pb_chart6.setText(QCoreApplication.translate("w_MainWindow", u"Siatka 2", None))
         self.pb_exportCharts.setText(QCoreApplication.translate("w_MainWindow", u"Generuj raport", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.Siatki_centylowe), QCoreApplication.translate("w_MainWindow", u"Siatki centylowe", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.Siatki_centylowe),
+                                  QCoreApplication.translate("w_MainWindow", u"Siatki centylowe", None))
     # retranslateUi
-
