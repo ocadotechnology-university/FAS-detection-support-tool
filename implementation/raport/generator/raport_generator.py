@@ -107,10 +107,9 @@ class RaportGenerator(RaportGeneratorInterface):
         folder_path = qtw.QFileDialog.getExistingDirectory(None, "Wybierz katalog", options=options)
 
         highest = 0
-        print(f"os.path.join(self.path, 'saved_charts')={os.path.join(self.path, 'saved_charts')}")
-        print(f"folder_path={folder_path}")
-        for filename in os.listdir(os.path.join(self.path, 'saved_charts')):
-            print(f"filename={filename}")
+        # print(f"os.path.join(self.path, 'saved_charts')={os.path.join(self.path, 'saved_charts')}")
+        # print(f"folder_path={folder_path}")
+        for filename in os.listdir(folder_path):
             if filename.startswith('child_growth_') and filename.endswith('.pdf'):
                 try:
                     number = int(filename[len('child_growth_'):-4])
