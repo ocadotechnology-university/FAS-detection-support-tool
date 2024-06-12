@@ -336,13 +336,12 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def generate_measurement_raport(self):
         file_path = self.ask_for_pdf_location()
-        self.backend.raport_generator.generate_measurement_raport(file_path=file_path, image_path=self.image_path,
+        self.backend.raport_generator.generate_measurement_report(file_path=file_path, image_path=self.image_path,
                                                                   left_eye=self.le_LeftEyeMM.text(),
                                                                   right_eye=self.le_RightEyeMM.text(),
                                                                   lip=self.le_UpperLipMM.text(),
                                                                   philtrum_class=self.get_philtrum_depth_class())
         self.open_pdf(file_path)
-
 
     def ask_for_pdf_location(self):
         # Ask user for file save location
