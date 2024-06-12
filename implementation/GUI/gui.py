@@ -1,3 +1,7 @@
+import os
+import subprocess
+import sys
+
 from PySide6 import QtCore as qtc
 from PySide6 import QtWidgets as qtw
 from PySide6 import QtGui as qtg
@@ -91,7 +95,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.pb_HeadCircumferenceWHO.clicked.connect(self.handle_show_WHO_head_circumference)
         self.pb_HeightWHO.clicked.connect(self.handle_show_WHO_height)
         self.pb_WeightWHO.clicked.connect(self.handle_show_WHO_weight)
-        self.pb_exportCharts.clicked.connect(self.export_charts)
+        self.pb_exportCharts.clicked.connect(self.generate_growth_chart_raport)
 
     def rotate_graphics_view_right(self):
         self.photoGraphicsView.rotate(90)
@@ -305,10 +309,6 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         except ValueError:
             self.message("Potrzeba wagi do wygenerowania siatki", "LightSkyBlue")
 
-    def export_charts(self):
-        self.backend.raport_generator.generate(self.generated_charts)
-        pass
-
     def get_philtrum_depth_class(self):
         if self.rb1.isChecked():
             return 1
@@ -326,7 +326,22 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.patient_age_in_days = self.de_birth.date().daysTo(self.de_measurement.date())
         self.patient_age_in_months = self.patient_age_in_days / 31
 
+    def generate_growth_chart_raport(self):
+        file_path = self.ask_for_pdf_location()
+        self.backend.raport_generator.generate(self.generated_charts, file_path)
+        self.open_pdf(file_path)
+
     def generate_measurement_raport(self):
+        file_path = self.ask_for_pdf_location()
+        self.backend.raport_generator.generate_measurement_raport(file_path=file_path, image_path=self.image_path,
+                                                                  left_eye=self.le_LeftEyeMM.text(),
+                                                                  right_eye=self.le_RightEyeMM.text(),
+                                                                  lip=self.le_UpperLipMM.text(),
+                                                                  philtrum_class=self.get_philtrum_depth_class())
+        self.open_pdf(file_path)
+
+
+    def ask_for_pdf_location(self):
         # Ask user for file save location
         options = qtw.QFileDialog.Options()
         file_path, _ = qtw.QFileDialog.getSaveFileName(self, "Zapisz raport jako", "", "PDF Files (*.pdf)",
@@ -337,9 +352,16 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
         if not file_path.endswith('.pdf'):
             file_path += '.pdf'
+        return file_path
 
-        self.backend.raport_generator.generate_measurement_raport(file_path, self.image_path,
-                                                                  left_eye=self.le_LeftEyeMM.text(),
-                                                                  right_eye=self.le_RightEyeMM.text(),
-                                                                  lip=self.le_UpperLipMM.text(),
-                                                                  philtrum_class=self.get_philtrum_depth_class())
+    def open_pdf(self, file_path):
+        try:
+            if os.name == 'nt':  # Windows
+                os.startfile(file_path)
+            elif os.name == 'posix':  # macOS and Linux
+                if sys.platform == 'darwin':  # macOS
+                    subprocess.call(('open', file_path))
+                else:  # Linux
+                    subprocess.call(('xdg-open', file_path))
+        except Exception as e:
+            return f"Nie można otworzyć pliku: {str(e)}"

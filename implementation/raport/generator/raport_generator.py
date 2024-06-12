@@ -104,51 +104,12 @@ class RaportGenerator(RaportGeneratorInterface):
             age
         )
 
-    def generate(self, figures_to_save):
-        app = qtw.QApplication.instance()
-        if app is None:
-            app = qtw.QApplication(sys.argv)
-
-        options = qtw.QFileDialog.Options()
-        folder_path = qtw.QFileDialog.getExistingDirectory(None, "Wybierz katalog", options=options)
-
-        highest = 0
-        # print(f"os.path.join(self.path, 'saved_charts')={os.path.join(self.path, 'saved_charts')}")
-        # print(f"folder_path={folder_path}")
-        for filename in os.listdir(folder_path):
-            if filename.startswith('child_growth_') and filename.endswith('.pdf'):
-                try:
-                    number = int(filename[len('child_growth_'):-4])
-                    if number > highest:
-                        highest = number
-                except ValueError:
-                    pass
-
-        next_number = highest + 1
-
-        # if folder_path:
-        #     for fig_type, fig in figures_to_save.items():
-        #         print("Zapisuję siatkę " + fig_type)
-        #         fig.savefig(os.path.join(folder_path, f'growth_{fig_type}_{next_number}.pdf'), dpi=100)
-        #         fig.savefig(os.path.join(folder_path, f'growth_{fig_type}_{next_number}.png'), dpi=100)
-        #         next_number += 1
-        if folder_path:
-            pdf_file_path = os.path.join(folder_path, f'child_growth_{next_number}.pdf')
-
-            with pdf.PdfPages(pdf_file_path) as pdf_pages:
-                for fig_type, fig in figures_to_save.items():
-                    print("Zapisuję siatkę " + fig_type)
-                    pdf_pages.savefig(fig, dpi=100)
-                    next_number += 1
-
-            msg_box = qtw.QMessageBox()
-            msg_box.setIcon(qtw.QMessageBox.Icon.Information)
-            msg_box.setText("Siatki zostały zapisane w wybranym katalogu")
-            msg_box.setWindowTitle("Sukces!")
-            msg_box.setStandardButtons(qtw.QMessageBox.StandardButton.Ok)
-            msg_box.exec()
-        else:
-            print("Nie wybrano katalogu!")
+    def generate(self, figures_to_save, file_path):
+        with pdf.PdfPages(file_path) as pdf_pages:
+            for fig_type, fig in figures_to_save.items():
+                # print("Zapisuję siatkę " + fig_type)
+                pdf_pages.savefig(fig, dpi=100)
+                # next_number += 1
 
     def generate_measurement_raport(self, file_path, image_path, left_eye, right_eye, lip, philtrum_class):
         c = canvas.Canvas(file_path, pagesize=letter)
@@ -184,7 +145,7 @@ class RaportGenerator(RaportGeneratorInterface):
         y_position = height - 72 - 20 - display_height - 40
 
         c.setFont("Helvetica", 12)
-        # czcionki = ['Courier', 'Courier-Bold', 'Courier-BoldOblique', 'Courier-Oblique', 'Helvetica', 'Helvetica-Bold',
+        # dostepne_czcionki = ['Courier', 'Courier-Bold', 'Courier-BoldOblique', 'Courier-Oblique', 'Helvetica', 'Helvetica-Bold',
         #             'Helvetica-BoldOblique', 'Helvetica-Oblique', 'Symbol', 'Times-Bold', 'Times-BoldItalic',
         #             'Times-Italic', 'Times-Roman', 'ZapfDingbats']
 
@@ -204,15 +165,3 @@ class RaportGenerator(RaportGeneratorInterface):
             c.drawString(72, y_position, philtrum_measurement)
 
         c.save()
-
-        # Open the PDF file
-        try:
-            if os.name == 'nt':  # Windows
-                os.startfile(file_path)
-            elif os.name == 'posix':  # macOS and Linux
-                if sys.platform == 'darwin':  # macOS
-                    subprocess.call(('open', file_path))
-                else:  # Linux
-                    subprocess.call(('xdg-open', file_path))
-        except Exception as e:
-            return f"Nie można otworzyć pliku: {str(e)}"
