@@ -324,7 +324,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
 
     def update_patient_age_in_days(self):
         self.patient_age_in_days = self.de_birth.date().daysTo(self.de_measurement.date())
-        self.patient_age_in_months = self.patient_age_in_days / 31
+        self.patient_age_in_months = self.patient_age_in_days / 30.5
 
     def generate_growth_chart_raport(self):
         file_path = self.ask_for_pdf_location()
