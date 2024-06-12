@@ -16,8 +16,7 @@ class Point(qtw.QGraphicsEllipseItem):
 
         # print(scene)
         if scene:
-            # print("xd")
-            scene.draw_lines()
+            scene.dwraw_lines()
             # print(f"{self.x()=}")
             # print(f"{self.pos().x()=}")
             # print(f"{self.rect().x()=}")

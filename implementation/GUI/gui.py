@@ -7,6 +7,13 @@ from implementation.GUI.scene import Scene
 from implementation.GUI.w_main_window import Ui_w_MainWindow
 from implementation.backend import Backend
 
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+
+
+class MplCanvas(FigureCanvas):
+    def __init__(self, figure):
+        super().__init__(figure)
+
 
 class GUI(qtw.QWidget, Ui_w_MainWindow):
     def __init__(self, backend: Backend):
@@ -19,6 +26,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.backend = backend
         self.reference_points = []
         self.image_path = None
+        self.generated_charts = {}
 
         # set measurement date to today
         self.de_measurement.setDate(qtc.QDate.currentDate())
@@ -43,10 +51,6 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.le_LeftEyeMM.setValidator(double_validator)
         self.le_RightEyeMM.setValidator(double_validator)
         self.le_UpperLipMM.setValidator(double_validator)
-
-        self.le_LeftEyeMMChart.setValidator(double_validator)
-        self.le_RightEyeMMChart.setValidator(double_validator)
-        self.le_UpperLipMMChart.setValidator(double_validator)
 
         self.diagram = None  # MLP growth chart
 
@@ -73,10 +77,6 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.pb_DetectReference.clicked.connect(self.detect_reference)
         self.pb_DetectFacialLandmarks.clicked.connect(self.detect_facial_landmarks)
         self.pb_measure.clicked.connect(self.measure)
-        # changes from measurement tab automatically tranfer to the chart tab
-        self.le_UpperLipMM.textChanged.connect(self.update_growth_chart_le_upper_lip)
-        self.le_LeftEyeMM.textChanged.connect(self.update_growth_chart_le_left_eye)
-        self.le_RightEyeMM.textChanged.connect(self.update_growth_chart_le_right_eye)
         # self.pb_generate_raport.clicked.connect(self.generate_raport)
 
         # connecting buttons just in case
@@ -86,18 +86,7 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.pb_chart4.clicked.connect(self.show_diagram_4)
         self.pb_chart5.clicked.connect(self.show_diagram_5)
         self.pb_chart6.clicked.connect(self.show_diagram_6)
-        self.pb_chart7.clicked.connect(self.show_diagram_7)
-        self.pb_chart8.clicked.connect(self.show_diagram_8)
         self.pb_exportCharts.clicked.connect(self.export_charts)
-
-    def update_growth_chart_le_upper_lip(self):
-        self.le_UpperLipMMChart.setText(self.le_UpperLipMM.text())
-
-    def update_growth_chart_le_left_eye(self):
-        self.le_LeftEyeMMChart.setText(self.le_LeftEyeMM.text())
-
-    def update_growth_chart_le_right_eye(self):
-        self.le_RightEyeMMChart.setText(self.le_RightEyeMM.text())
 
     def rotate_graphics_view_right(self):
         self.photoGraphicsView.rotate(90)
@@ -214,6 +203,11 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
                 'right_eye': [[right_eye_x1, eye_y], [right_eye_x2, eye_y]],
                 'upper_lip': [[lip_x, lip_y1], [lip_x, lip_y2]]}
 
+    def update_measurement_le(self, measurement):
+        self.le_LeftEyeMM.setText(str(round(measurement.left_eye, 2)).replace(".", ","))
+        self.le_RightEyeMM.setText(str(round(measurement.right_eye, 2)).replace(".", ","))
+        self.le_UpperLipMM.setText(str(round(measurement.lip, 2)).replace(".", ","))
+
     def measure(self):
         if self.not_ready_to_measure():
             self.message(
@@ -245,52 +239,118 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
                 or int(self.le_referenceMM.text()) < 1  # negative reference size
         )
 
-    def update_measurement_le(self, measurement):
-        self.le_LeftEyeMM.setText(str(round(measurement.left_eye, 2)).replace(".", ","))
-        self.le_RightEyeMM.setText(str(round(measurement.right_eye, 2)).replace(".", ","))
-        self.le_UpperLipMM.setText(str(round(measurement.lip, 2)).replace(".", ","))
-
-    def generate_raport(self):
-        self.backend.generate_raport()
-
     def show_diagram_1(self):
-        # chart = qtg.QPixmap("/Users/krzysztofmitko/Downloads/sparkles-3.svg")
-        # self.chartScene.addPixmap(chart)
-        # self.chartScene.setSceneRect(chart.rect())
-        # self.updateChartView()
+        try:
+            age = float(self.le_Age.text())
+            value = float(self.le_HeadCircuit.text())
 
-        # if there is a diagram, then delete it before adding a new one
-        if self.diagram:
-            self.Siatki_centylowe.layout().removeItem(self.diagram)
+            fig = self.backend.raport_generator.generate_age_head_c_chart(age, value)
+            self.generated_charts['head_c'] = fig
 
-        self.diagram = MplCanvas(self, width=5, height=4, dpi=150)
-        self.diagram.axes.plot([0, 1, 2, 3, 4], [10, 1, 20, 3, 40])
-        self.Siatki_centylowe.layout().removeItem(self.the_spacer)
-        self.Siatki_centylowe.layout().addWidget(self.diagram)
-        pass
+            # if there is a diagram, then delete it before adding a new one
+            if self.diagram:
+                self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+            self.diagram = MplCanvas(fig)
+            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+            self.Siatki_centylowe.layout().addWidget(self.diagram)
+
+        except ValueError:
+            self.message("Upewnij się, że wypełnione są pola z wiekiem i obwodem głowy!", "LightSkyBlue")
 
     def show_diagram_2(self):
-        pass
+        try:
+            age = float(self.le_Age.text())
+            value = float(self.le_HeadCircuit.text())
+
+            fig = self.backend.raport_generator.generate_age_head_c_chart(age, value)
+            self.generated_charts['head_c'] = fig
+
+            # if there is a diagram, then delete it before adding a new one
+            if self.diagram:
+                self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+            self.diagram = MplCanvas(fig)
+            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+            self.Siatki_centylowe.layout().addWidget(self.diagram)
+
+        except ValueError:
+            self.message("Upewnij się, że wypełnione są pola z wiekiem i obwodem głowy!", "LightSkyBlue")
 
     def show_diagram_3(self):
-        pass
+        try:
+            age = float(self.le_Age.text())
+            value = float(self.le_Height.text())
+            fig = self.backend.raport_generator.generate_age_height_chart(age, value)
+            self.generated_charts['height'] = fig
+
+            # if there is a diagram, then delete it before adding a new one
+            if self.diagram:
+                self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+            self.diagram = MplCanvas(fig)
+            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+            self.Siatki_centylowe.layout().addWidget(self.diagram)
+
+        except ValueError:
+            self.message("Upewnij się, że wypełnione są pola z wiekiem i wzrostem!", "LightSkyBlue")
 
     def show_diagram_4(self):
-        pass
+        try:
+            age = float(self.le_Age.text())
+            value = float(self.le_Height.text())
+            fig = self.backend.raport_generator.generate_age_height_chart(age, value)
+            self.generated_charts['height'] = fig
+
+            # if there is a diagram, then delete it before adding a new one
+            if self.diagram:
+                self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+            self.diagram = MplCanvas(fig)
+            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+            self.Siatki_centylowe.layout().addWidget(self.diagram)
+
+        except ValueError:
+            self.message("Upewnij się, że wypełnione są pola z wiekiem i wzrostem!", "LightSkyBlue")
 
     def show_diagram_5(self):
-        pass
+        try:
+            age = float(self.le_Age.text())
+            value = float(self.le_Weight.text())
+            fig = self.backend.raport_generator.generate_age_weight_chart(age, value)
+            self.generated_charts['weight'] = fig
+
+            # if there is a diagram, then delete it before adding a new one
+            if self.diagram:
+                self.Siatki_centylowe.layout().removeWidget(self.diagram)
+
+            self.diagram = MplCanvas(fig)
+            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+            self.Siatki_centylowe.layout().addWidget(self.diagram)
+
+        except ValueError:
+            self.message("Upewnij się, że wypełnione są pola z wiekiem i wagą!", "LightSkyBlue")
 
     def show_diagram_6(self):
-        pass
+        try:
+            age = float(self.le_Age.text())
+            value = float(self.le_Weight.text())
+            fig = self.backend.raport_generator.generate_age_weight_chart(age, value)
+            self.generated_charts['weight'] = fig
 
-    def show_diagram_7(self):
-        pass
+            # if there is a diagram, then delete it before adding a new one
+            if self.diagram:
+                self.Siatki_centylowe.layout().removeWidget(self.diagram)
 
-    def show_diagram_8(self):
-        pass
+            self.diagram = MplCanvas(fig)
+            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
+            self.Siatki_centylowe.layout().addWidget(self.diagram)
+
+        except ValueError:
+            self.message("Upewnij się, że wypełnione są pola z wiekiem i wagą!", "LightSkyBlue")
 
     def export_charts(self):
+        self.backend.raport_generator.generate(self.generated_charts)
         pass
 
     def get_philtrum_depth_class(self):
