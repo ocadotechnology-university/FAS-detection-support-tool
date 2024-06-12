@@ -263,7 +263,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
             self.diagram = MplCanvas(fig)
             self.Siatki_centylowe.layout().removeItem(self.the_spacer)
             self.Siatki_centylowe.layout().addWidget(self.diagram)
-            self.pb_HeadCircumferenceWHO.setDown(True)
+            # self.pb_HeadCircumferenceWHO.setDown(True)
+            self.pb_HeadCircumferenceWHO.setStyleSheet("font-weight: bold")
 
 
         except ValueError:
@@ -283,7 +284,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
             self.diagram = MplCanvas(fig)
             self.Siatki_centylowe.layout().removeItem(self.the_spacer)
             self.Siatki_centylowe.layout().addWidget(self.diagram)
-            self.pb_HeightWHO.setDown(True)
+            # self.pb_HeightWHO.setDown(True)
+            self.pb_HeightWHO.setStyleSheet("font-weight: bold")
 
 
         except ValueError:
@@ -303,7 +305,8 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
             self.diagram = MplCanvas(fig)
             self.Siatki_centylowe.layout().removeItem(self.the_spacer)
             self.Siatki_centylowe.layout().addWidget(self.diagram)
-            self.pb_WeightWHO.setDown(True)
+            # self.pb_WeightWHO.setDown(True)
+            self.pb_WeightWHO.setStyleSheet("font-weight: bold")
 
 
         except ValueError:
