@@ -111,24 +111,25 @@ class RaportGenerator(RaportGeneratorInterface):
                 pdf_pages.savefig(fig, dpi=100)
                 # next_number += 1
 
-    def generate_measurement_raport(self, file_path, image_path, left_eye, right_eye, lip, philtrum_class):
-        c = canvas.Canvas(file_path, pagesize=letter)
-        width, height = letter
+    def draw_image_with_aspect_ratio(self, c, image_path, x, y, max_width, max_height):
+        """
+        Draw an image on the canvas, maintaining its aspect ratio.
 
-        # Set a title for the document
-        c.setFont("Helvetica-Bold", 16)
-        c.drawString(72, height - 72, "Raport z pomiarów")
-
-        # Add the image if available
-        if image_path and os.path.exists(image_path):
+        :param c: Canvas object.
+        :param image_path: Path to the image.
+        :param x: X position on the canvas.
+        :param y: Y position on the canvas.
+        :param max_width: Maximum width to scale the image.
+        :param max_height: Maximum height to scale the image.
+        :return: The height of the image after scaling.
+        """
+        if os.path.exists(image_path):
             try:
                 img = qtg.QImage(image_path)
                 img_width = img.width()
                 img_height = img.height()
 
                 # Maintain aspect ratio
-                max_width = width * 0.6
-                max_height = height * 0.6
                 aspect_ratio = img_width / img_height
                 if aspect_ratio > (max_width / max_height):
                     display_width = max_width
@@ -137,17 +138,29 @@ class RaportGenerator(RaportGeneratorInterface):
                     display_height = max_height
                     display_width = max_height * aspect_ratio
 
-                c.drawImage(image_path, 72, height - 72 - display_height - 20, width=display_width,
-                            height=display_height)
+                c.drawImage(image_path, x, y - display_height, width=display_width, height=display_height)
+                return display_height
             except Exception as e:
                 return str(e)
+        return 0
 
-        y_position = height - 72 - 20 - display_height - 40
+    def generate_measurement_report(self, file_path, image_path, left_eye, right_eye, lip, philtrum_class):
+        c = canvas.Canvas(file_path, pagesize=letter)
+        width, height = letter
+
+        # Set a title for the document
+        c.setFont("Helvetica-Bold", 16)
+        c.drawString(72, height - 72, "Raport z pomiarów")
+        display_height = 0
+
+        # Add the main image if available
+        if image_path:
+            display_height = self.draw_image_with_aspect_ratio(c, image_path, 72, height - 92, width * 0.4,
+                                                               height * 0.4)
+
+        y_position = height - 92 - display_height - 40
 
         c.setFont("Helvetica", 12)
-        # dostepne_czcionki = ['Courier', 'Courier-Bold', 'Courier-BoldOblique', 'Courier-Oblique', 'Helvetica', 'Helvetica-Bold',
-        #             'Helvetica-BoldOblique', 'Helvetica-Oblique', 'Symbol', 'Times-Bold', 'Times-BoldItalic',
-        #             'Times-Italic', 'Times-Roman', 'ZapfDingbats']
 
         left_eye_measurement = f"Szerokosc lewego oka: {left_eye}mm"
         right_eye_measurement = f"Szerokosc prawego oka: {right_eye}mm"
@@ -163,5 +176,12 @@ class RaportGenerator(RaportGeneratorInterface):
         if philtrum_class != 0:
             philtrum_measurement = f"Typ rynienki podnosowej: {philtrum_class}"
             c.drawString(72, y_position, philtrum_measurement)
+            y_position -= 20
+
+            philtrum_image_path = f"resources/phltrums fasdpn.org .jpg"
+
+            if os.path.exists(philtrum_image_path):
+                self.draw_image_with_aspect_ratio(c, philtrum_image_path, 72, y_position - 20,
+                                                  width * 0.3, height * 0.3)
 
         c.save()
