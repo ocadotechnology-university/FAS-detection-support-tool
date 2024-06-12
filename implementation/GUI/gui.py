@@ -1,3 +1,7 @@
+import os
+import subprocess
+import sys
+
 from PySide6 import QtCore as qtc
 from PySide6 import QtWidgets as qtw
 from PySide6 import QtGui as qtg
@@ -28,6 +32,18 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.image_path = None
         self.generated_charts = {}
 
+        # set measurement date to today
+        self.de_measurement.setDate(qtc.QDate.currentDate())
+        # set birth date to 48 month before today, because:
+        # "The average age at abstraction for confirmed/probable FAS cases (n=422) was 48.3 (±19.5) months with a range of 0 to 94 months."
+        # source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4169739/
+        # nevermind all of that. the growth charts are not abou FAS now xD
+        self.de_birth.setDate(qtc.QDate.currentDate().addMonths(-12))
+
+        self.update_patient_age_in_days()
+        self.de_measurement.dateChanged.connect(self.update_patient_age_in_days)
+        self.de_birth.dateChanged.connect(self.update_patient_age_in_days)
+
         # self.rotation = 0  # indicates graphicsview rotation in degrees; it's needed for placeholder points
 
         # things in the graphics area
@@ -40,6 +56,9 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.le_LeftEyeMM.setValidator(double_validator)
         self.le_RightEyeMM.setValidator(double_validator)
         self.le_UpperLipMM.setValidator(double_validator)
+        self.le_Weight.setValidator(double_validator)
+        self.le_Height.setValidator(double_validator)
+        self.le_HeadCircumference.setValidator(double_validator)
 
         self.diagram = None  # MLP growth chart
 
@@ -50,6 +69,10 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.photoGraphicsView.setAlignment(qtc.Qt.AlignmentFlag.AlignCenter)
         self.photoGraphicsView.setResizeAnchor(qtw.QGraphicsView.ViewportAnchor.AnchorViewCenter)
         self.photoGraphicsView.setTransformationAnchor(qtw.QGraphicsView.ViewportAnchor.AnchorViewCenter)
+
+        self.pb_chart4.setVisible(False)
+        self.pb_chart6.setVisible(False)
+        self.pb_chart8.setVisible(False)
 
         # # Diagram Scene Creation
         # self.chartScene = qtw.QGraphicsScene()
@@ -66,25 +89,22 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
         self.pb_DetectReference.clicked.connect(self.detect_reference)
         self.pb_DetectFacialLandmarks.clicked.connect(self.detect_facial_landmarks)
         self.pb_measure.clicked.connect(self.measure)
-        # self.pb_generate_raport.clicked.connect(self.generate_raport)
+        self.pb_MeasurementRaport.clicked.connect(self.generate_measurement_raport)
 
         # connecting buttons just in case
-        self.pb_chart1.clicked.connect(self.show_diagram_1)
-        self.pb_chart2.clicked.connect(self.show_diagram_2)
-        self.pb_chart3.clicked.connect(self.show_diagram_3)
-        self.pb_chart4.clicked.connect(self.show_diagram_4)
-        self.pb_chart5.clicked.connect(self.show_diagram_5)
-        self.pb_chart6.clicked.connect(self.show_diagram_6)
-        self.pb_exportCharts.clicked.connect(self.export_charts)
+        self.pb_HeadCircumferenceWHO.clicked.connect(self.handle_show_WHO_head_circumference)
+        self.pb_HeightWHO.clicked.connect(self.handle_show_WHO_height)
+        self.pb_WeightWHO.clicked.connect(self.handle_show_WHO_weight)
+        self.pb_exportCharts.clicked.connect(self.generate_growth_chart_raport)
 
     def rotate_graphics_view_right(self):
         self.photoGraphicsView.rotate(90)
-        self.rotation += 90
+        # self.rotation += 90
         self.updatePhotoView()
 
     def rotate_graphics_view_left(self):
         self.photoGraphicsView.rotate(-90)
-        self.rotation -= 90
+        # self.rotation -= 90
         self.updatePhotoView()
 
     @qtc.Slot()
@@ -228,10 +248,10 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
                 or int(self.le_referenceMM.text()) < 1  # negative reference size
         )
 
-    def show_diagram_1(self):
+    def handle_show_WHO_head_circumference(self):
         try:
-            age = float(self.le_Age.text())
-            value = float(self.le_HeadCircuit.text())
+            age = self.patient_age_in_months
+            value = float(self.le_HeadCircumference.text().replace(",", "."))
 
             fig = self.backend.raport_generator.generate_age_head_c_chart(age, value)
             self.generated_charts['head_c'] = fig
@@ -243,33 +263,17 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
             self.diagram = MplCanvas(fig)
             self.Siatki_centylowe.layout().removeItem(self.the_spacer)
             self.Siatki_centylowe.layout().addWidget(self.diagram)
+            # self.pb_HeadCircumferenceWHO.setDown(True)
+            self.pb_HeadCircumferenceWHO.setStyleSheet("font-weight: bold")
+
 
         except ValueError:
-            self.message("Upewnij się, że wypełnione są pola z wiekiem i obwodem głowy!", "LightSkyBlue")
+            self.message("Potrzeba obwodu głowy do wygenerowania siatki", "LightSkyBlue")
 
-    def show_diagram_2(self):
+    def handle_show_WHO_height(self):
         try:
-            age = float(self.le_Age.text())
-            value = float(self.le_HeadCircuit.text())
-
-            fig = self.backend.raport_generator.generate_age_head_c_chart(age, value)
-            self.generated_charts['head_c'] = fig
-
-            # if there is a diagram, then delete it before adding a new one
-            if self.diagram:
-                self.Siatki_centylowe.layout().removeWidget(self.diagram)
-
-            self.diagram = MplCanvas(fig)
-            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
-            self.Siatki_centylowe.layout().addWidget(self.diagram)
-
-        except ValueError:
-            self.message("Upewnij się, że wypełnione są pola z wiekiem i obwodem głowy!", "LightSkyBlue")
-
-    def show_diagram_3(self):
-        try:
-            age = float(self.le_Age.text())
-            value = float(self.le_Height.text())
+            age = self.patient_age_in_months
+            value = float(self.le_Height.text().replace(",", "."))
             fig = self.backend.raport_generator.generate_age_height_chart(age, value)
             self.generated_charts['height'] = fig
 
@@ -280,32 +284,17 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
             self.diagram = MplCanvas(fig)
             self.Siatki_centylowe.layout().removeItem(self.the_spacer)
             self.Siatki_centylowe.layout().addWidget(self.diagram)
+            # self.pb_HeightWHO.setDown(True)
+            self.pb_HeightWHO.setStyleSheet("font-weight: bold")
+
 
         except ValueError:
-            self.message("Upewnij się, że wypełnione są pola z wiekiem i wzrostem!", "LightSkyBlue")
+            self.message("Potrzeba wzrostu do wygenerowania siatki", "LightSkyBlue")
 
-    def show_diagram_4(self):
+    def handle_show_WHO_weight(self):
         try:
-            age = float(self.le_Age.text())
-            value = float(self.le_Height.text())
-            fig = self.backend.raport_generator.generate_age_height_chart(age, value)
-            self.generated_charts['height'] = fig
-
-            # if there is a diagram, then delete it before adding a new one
-            if self.diagram:
-                self.Siatki_centylowe.layout().removeWidget(self.diagram)
-
-            self.diagram = MplCanvas(fig)
-            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
-            self.Siatki_centylowe.layout().addWidget(self.diagram)
-
-        except ValueError:
-            self.message("Upewnij się, że wypełnione są pola z wiekiem i wzrostem!", "LightSkyBlue")
-
-    def show_diagram_5(self):
-        try:
-            age = float(self.le_Age.text())
-            value = float(self.le_Weight.text())
+            age = self.patient_age_in_months
+            value = float(self.le_Weight.text().replace(",", "."))
             fig = self.backend.raport_generator.generate_age_weight_chart(age, value)
             self.generated_charts['weight'] = fig
 
@@ -316,31 +305,12 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
             self.diagram = MplCanvas(fig)
             self.Siatki_centylowe.layout().removeItem(self.the_spacer)
             self.Siatki_centylowe.layout().addWidget(self.diagram)
+            # self.pb_WeightWHO.setDown(True)
+            self.pb_WeightWHO.setStyleSheet("font-weight: bold")
+
 
         except ValueError:
-            self.message("Upewnij się, że wypełnione są pola z wiekiem i wagą!", "LightSkyBlue")
-
-    def show_diagram_6(self):
-        try:
-            age = float(self.le_Age.text())
-            value = float(self.le_Weight.text())
-            fig = self.backend.raport_generator.generate_age_weight_chart(age, value)
-            self.generated_charts['weight'] = fig
-
-            # if there is a diagram, then delete it before adding a new one
-            if self.diagram:
-                self.Siatki_centylowe.layout().removeWidget(self.diagram)
-
-            self.diagram = MplCanvas(fig)
-            self.Siatki_centylowe.layout().removeItem(self.the_spacer)
-            self.Siatki_centylowe.layout().addWidget(self.diagram)
-
-        except ValueError:
-            self.message("Upewnij się, że wypełnione są pola z wiekiem i wagą!", "LightSkyBlue")
-
-    def export_charts(self):
-        self.backend.raport_generator.generate(self.generated_charts)
-        pass
+            self.message("Potrzeba wagi do wygenerowania siatki", "LightSkyBlue")
 
     def get_philtrum_depth_class(self):
         if self.rb1.isChecked():
@@ -353,3 +323,47 @@ class GUI(qtw.QWidget, Ui_w_MainWindow):
             return 4
         if self.rb5.isChecked():
             return 5
+        return 0
+
+    def update_patient_age_in_days(self):
+        self.patient_age_in_days = self.de_birth.date().daysTo(self.de_measurement.date())
+        self.patient_age_in_months = self.patient_age_in_days / 30.5
+
+    def generate_growth_chart_raport(self):
+        file_path = self.ask_for_pdf_location()
+        self.backend.raport_generator.generate(self.generated_charts, file_path)
+        self.open_pdf(file_path)
+
+    def generate_measurement_raport(self):
+        file_path = self.ask_for_pdf_location()
+        self.backend.raport_generator.generate_measurement_report(file_path=file_path, image_path=self.image_path,
+                                                                  left_eye=self.le_LeftEyeMM.text(),
+                                                                  right_eye=self.le_RightEyeMM.text(),
+                                                                  lip=self.le_UpperLipMM.text(),
+                                                                  philtrum_class=self.get_philtrum_depth_class())
+        self.open_pdf(file_path)
+
+    def ask_for_pdf_location(self):
+        # Ask user for file save location
+        options = qtw.QFileDialog.Options()
+        file_path, _ = qtw.QFileDialog.getSaveFileName(self, "Zapisz raport jako", "", "PDF Files (*.pdf)",
+                                                       options=options)
+        if not file_path:
+            self.message("Nie wybrano ścieżki do zapisu", "LightSkyBlue")
+            return
+
+        if not file_path.endswith('.pdf'):
+            file_path += '.pdf'
+        return file_path
+
+    def open_pdf(self, file_path):
+        try:
+            if os.name == 'nt':  # Windows
+                os.startfile(file_path)
+            elif os.name == 'posix':  # macOS and Linux
+                if sys.platform == 'darwin':  # macOS
+                    subprocess.call(('open', file_path))
+                else:  # Linux
+                    subprocess.call(('xdg-open', file_path))
+        except Exception as e:
+            return f"Nie można otworzyć pliku: {str(e)}"

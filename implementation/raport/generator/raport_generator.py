@@ -1,4 +1,6 @@
 import os.path
+import subprocess
+from PySide6 import QtGui as qtg
 
 from .raport_generator_interface import RaportGeneratorInterface
 import numpy as np
@@ -8,6 +10,10 @@ import matplotlib.backends.backend_pdf as pdf
 from PySide6 import QtWidgets as qtw
 
 import sys
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+import os
 
 
 class RaportGenerator(RaportGeneratorInterface):
@@ -98,48 +104,84 @@ class RaportGenerator(RaportGeneratorInterface):
             age
         )
 
-    def generate(self, figures_to_save):
-        app = qtw.QApplication.instance()
-        if app is None:
-            app = qtw.QApplication(sys.argv)
+    def generate(self, figures_to_save, file_path):
+        with pdf.PdfPages(file_path) as pdf_pages:
+            for fig_type, fig in figures_to_save.items():
+                # print("Zapisuję siatkę " + fig_type)
+                pdf_pages.savefig(fig, dpi=100)
+                # next_number += 1
 
-        options = qtw.QFileDialog.Options()
-        folder_path = qtw.QFileDialog.getExistingDirectory(None, "Wybierz katalog", options=options)
+    def draw_image_with_aspect_ratio(self, c, image_path, x, y, max_width, max_height):
+        """
+        Draw an image on the canvas, maintaining its aspect ratio.
 
-        highest = 0
-        # print(f"os.path.join(self.path, 'saved_charts')={os.path.join(self.path, 'saved_charts')}")
-        # print(f"folder_path={folder_path}")
-        for filename in os.listdir(folder_path):
-            if filename.startswith('child_growth_') and filename.endswith('.pdf'):
-                try:
-                    number = int(filename[len('child_growth_'):-4])
-                    if number > highest:
-                        highest = number
-                except ValueError:
-                    pass
+        :param c: Canvas object.
+        :param image_path: Path to the image.
+        :param x: X position on the canvas.
+        :param y: Y position on the canvas.
+        :param max_width: Maximum width to scale the image.
+        :param max_height: Maximum height to scale the image.
+        :return: The height of the image after scaling.
+        """
+        if os.path.exists(image_path):
+            try:
+                img = qtg.QImage(image_path)
+                img_width = img.width()
+                img_height = img.height()
 
-        next_number = highest + 1
+                # Maintain aspect ratio
+                aspect_ratio = img_width / img_height
+                if aspect_ratio > (max_width / max_height):
+                    display_width = max_width
+                    display_height = max_width / aspect_ratio
+                else:
+                    display_height = max_height
+                    display_width = max_height * aspect_ratio
 
-        # if folder_path:
-        #     for fig_type, fig in figures_to_save.items():
-        #         print("Zapisuję siatkę " + fig_type)
-        #         fig.savefig(os.path.join(folder_path, f'growth_{fig_type}_{next_number}.pdf'), dpi=100)
-        #         fig.savefig(os.path.join(folder_path, f'growth_{fig_type}_{next_number}.png'), dpi=100)
-        #         next_number += 1
-        if folder_path:
-            pdf_file_path = os.path.join(folder_path, f'child_growth_{next_number}.pdf')
+                c.drawImage(image_path, x, y - display_height, width=display_width, height=display_height)
+                return display_height
+            except Exception as e:
+                return str(e)
+        return 0
 
-            with pdf.PdfPages(pdf_file_path) as pdf_pages:
-                for fig_type, fig in figures_to_save.items():
-                    print("Zapisuję siatkę " + fig_type)
-                    pdf_pages.savefig(fig, dpi=100)
-                    next_number += 1
+    def generate_measurement_report(self, file_path, image_path, left_eye, right_eye, lip, philtrum_class):
+        c = canvas.Canvas(file_path, pagesize=letter)
+        width, height = letter
 
-            msg_box = qtw.QMessageBox()
-            msg_box.setIcon(qtw.QMessageBox.Icon.Information)
-            msg_box.setText("Siatki zostały zapisane w wybranym katalogu")
-            msg_box.setWindowTitle("Sukces!")
-            msg_box.setStandardButtons(qtw.QMessageBox.StandardButton.Ok)
-            msg_box.exec()
-        else:
-            print("Nie wybrano katalogu!")
+        # Set a title for the document
+        c.setFont("Helvetica-Bold", 16)
+        c.drawString(72, height - 72, "Raport z pomiarów")
+        display_height = 0
+
+        # Add the main image if available
+        if image_path:
+            display_height = self.draw_image_with_aspect_ratio(c, image_path, 72, height - 92, width * 0.4,
+                                                               height * 0.4)
+
+        y_position = height - 92 - display_height - 40
+
+        c.setFont("Helvetica", 12)
+
+        left_eye_measurement = f"Szerokosc lewego oka: {left_eye}mm"
+        right_eye_measurement = f"Szerokosc prawego oka: {right_eye}mm"
+        upper_lip_measurement = f"Wysokosc gornej wargi: {lip}mm"
+
+        c.drawString(72, y_position, left_eye_measurement)
+        y_position -= 20
+        c.drawString(72, y_position, right_eye_measurement)
+        y_position -= 20
+        c.drawString(72, y_position, upper_lip_measurement)
+        y_position -= 20
+
+        if philtrum_class != 0:
+            philtrum_measurement = f"Typ rynienki podnosowej: {philtrum_class}"
+            c.drawString(72, y_position, philtrum_measurement)
+            y_position -= 20
+
+            philtrum_image_path = f"resources/phltrums fasdpn.org .jpg"
+
+            if os.path.exists(philtrum_image_path):
+                self.draw_image_with_aspect_ratio(c, philtrum_image_path, 72, y_position - 20,
+                                                  width * 0.3, height * 0.3)
+
+        c.save()

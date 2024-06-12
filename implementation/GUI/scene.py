@@ -7,7 +7,8 @@ from implementation.GUI.point import Point
 
 class Scene(qtw.QGraphicsScene):
     PEN_SCALING_FACTOR = 10 / 2736
-    # COLOR = 0xD9D9D9
+    COLOR2 = 0xD9D9D9
+    # COLOR2 = 0x000000
     COLOR = 0x0000CD
 
     def __init__(self, *args, **kwargs):
@@ -21,8 +22,8 @@ class Scene(qtw.QGraphicsScene):
 
         self.radius = 7  # placeholder value, it will be updated by update_pen_dimensions
         self.point_pen = qtg.QPen()
-        self.point_pen.setColor(qtg.QColor(self.COLOR))
-        self.point_pen.setWidth(self.radius)
+        self.point_pen.setColor(qtg.QColor(self.COLOR2))
+        self.point_pen.setWidth(self.radius*2)
 
         self.stroke_width = 7  # placeholder value, it will be updated by update_pen_dimensions
         self.line_pen = qtg.QPen()
@@ -42,7 +43,7 @@ class Scene(qtw.QGraphicsScene):
         x = min(width, height)  # choose the smallest dimension of the scene, let's call it x
 
         self.radius = int(x * self.PEN_SCALING_FACTOR)  # set the point radius to x *  a constant
-        self.point_pen.setWidth(max(1, self.radius))  # the pen width has to be at least 1
+        self.point_pen.setWidth(max(1, self.radius*2))  # the pen width has to be at least 1
 
         self.stroke_width = int(x * self.PEN_SCALING_FACTOR)  # set the stroke to x *  a constant
         self.line_pen.setWidth(max(1, self.stroke_width))  # the pen width has to be at least 1
@@ -54,6 +55,7 @@ class Scene(qtw.QGraphicsScene):
             y = new_coords[i][1]
             point = Point(x - self.radius, y - self.radius, self.radius * 2, self.radius * 2)
             point.setPen(self.point_pen)
+            point.setZValue(2)
             self.addItem(point)
             points_list.append(point)
             point.setToolTip(tooltip)
@@ -81,6 +83,8 @@ class Scene(qtw.QGraphicsScene):
             y2 = point_list[next_i].real_y()
 
             line = qtw.QGraphicsLineItem(x1, y1, x2, y2)
+            line.setZValue(1)
+
             line.setPen(self.line_pen)
             self.addItem(line)
             self.lines.append(line)
