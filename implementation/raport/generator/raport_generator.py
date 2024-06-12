@@ -1,4 +1,6 @@
 import os.path
+import subprocess
+from PySide6 import QtGui as qtg
 
 from .raport_generator_interface import RaportGeneratorInterface
 import numpy as np
@@ -8,6 +10,10 @@ import matplotlib.backends.backend_pdf as pdf
 from PySide6 import QtWidgets as qtw
 
 import sys
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+import os
 
 
 class RaportGenerator(RaportGeneratorInterface):
@@ -143,3 +149,70 @@ class RaportGenerator(RaportGeneratorInterface):
             msg_box.exec()
         else:
             print("Nie wybrano katalogu!")
+
+    def generate_measurement_raport(self, file_path, image_path, left_eye, right_eye, lip, philtrum_class):
+        c = canvas.Canvas(file_path, pagesize=letter)
+        width, height = letter
+
+        # Set a title for the document
+        c.setFont("Helvetica-Bold", 16)
+        c.drawString(72, height - 72, "Raport z pomiarów")
+
+        # Add the image if available
+        if image_path and os.path.exists(image_path):
+            try:
+                img = qtg.QImage(image_path)
+                img_width = img.width()
+                img_height = img.height()
+
+                # Maintain aspect ratio
+                max_width = width * 0.6
+                max_height = height * 0.6
+                aspect_ratio = img_width / img_height
+                if aspect_ratio > (max_width / max_height):
+                    display_width = max_width
+                    display_height = max_width / aspect_ratio
+                else:
+                    display_height = max_height
+                    display_width = max_height * aspect_ratio
+
+                c.drawImage(image_path, 72, height - 72 - display_height - 20, width=display_width,
+                            height=display_height)
+            except Exception as e:
+                return str(e)
+
+        y_position = height - 72 - 20 - display_height - 40
+
+        c.setFont("Helvetica", 12)
+        # czcionki = ['Courier', 'Courier-Bold', 'Courier-BoldOblique', 'Courier-Oblique', 'Helvetica', 'Helvetica-Bold',
+        #             'Helvetica-BoldOblique', 'Helvetica-Oblique', 'Symbol', 'Times-Bold', 'Times-BoldItalic',
+        #             'Times-Italic', 'Times-Roman', 'ZapfDingbats']
+
+        left_eye_measurement = f"Szerokosc lewego oka: {left_eye}mm"
+        right_eye_measurement = f"Szerokosc prawego oka: {right_eye}mm"
+        upper_lip_measurement = f"Wysokosc gornej wargi: {lip}mm"
+
+        c.drawString(72, y_position, left_eye_measurement)
+        y_position -= 20
+        c.drawString(72, y_position, right_eye_measurement)
+        y_position -= 20
+        c.drawString(72, y_position, upper_lip_measurement)
+        y_position -= 20
+
+        if philtrum_class != 0:
+            philtrum_measurement = f"Typ rynienki podnosowej: {philtrum_class}"
+            c.drawString(72, y_position, philtrum_measurement)
+
+        c.save()
+
+        # Open the PDF file
+        try:
+            if os.name == 'nt':  # Windows
+                os.startfile(file_path)
+            elif os.name == 'posix':  # macOS and Linux
+                if sys.platform == 'darwin':  # macOS
+                    subprocess.call(('open', file_path))
+                else:  # Linux
+                    subprocess.call(('xdg-open', file_path))
+        except Exception as e:
+            return f"Nie można otworzyć pliku: {str(e)}"

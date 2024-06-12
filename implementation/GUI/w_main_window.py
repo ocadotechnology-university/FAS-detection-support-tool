@@ -288,15 +288,15 @@ class Ui_w_MainWindow(object):
 
         self.gridLayout_7.addWidget(self.label_8, 0, 0, 1, 1)
 
-        self.HeadCircumferenceCMChart = QLineEdit(self.groupBox_5)
-        self.HeadCircumferenceCMChart.setObjectName(u"HeadCircumferenceCMChart")
+        self.le_HeadCircumference = QLineEdit(self.groupBox_5)
+        self.le_HeadCircumference.setObjectName(u"le_HeadCircumference")
         sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
         sizePolicy4.setHorizontalStretch(0)
         sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.HeadCircumferenceCMChart.sizePolicy().hasHeightForWidth())
-        self.HeadCircumferenceCMChart.setSizePolicy(sizePolicy4)
+        sizePolicy4.setHeightForWidth(self.le_HeadCircumference.sizePolicy().hasHeightForWidth())
+        self.le_HeadCircumference.setSizePolicy(sizePolicy4)
 
-        self.gridLayout_7.addWidget(self.HeadCircumferenceCMChart, 0, 1, 1, 1)
+        self.gridLayout_7.addWidget(self.le_HeadCircumference, 0, 1, 1, 1)
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
@@ -435,8 +435,8 @@ class Ui_w_MainWindow(object):
         QWidget.setTabOrder(self.rb3, self.rb2)
         QWidget.setTabOrder(self.rb2, self.rb1)
         QWidget.setTabOrder(self.rb1, self.tabWidget)
-        QWidget.setTabOrder(self.tabWidget, self.HeadCircumferenceCMChart)
-        QWidget.setTabOrder(self.HeadCircumferenceCMChart, self.pb_HeadCircumferenceWHO)
+        QWidget.setTabOrder(self.tabWidget, self.le_HeadCircumference)
+        QWidget.setTabOrder(self.le_HeadCircumference, self.pb_HeadCircumferenceWHO)
         QWidget.setTabOrder(self.pb_HeadCircumferenceWHO, self.pb_chart4)
         QWidget.setTabOrder(self.pb_chart4, self.le_Height)
         QWidget.setTabOrder(self.le_Height, self.pb_HeightWHO)
@@ -448,7 +448,7 @@ class Ui_w_MainWindow(object):
 
         self.retranslateUi(w_MainWindow)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(w_MainWindow)

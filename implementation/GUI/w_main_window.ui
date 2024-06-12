@@ -43,7 +43,7 @@
       <enum>QTabWidget::TabShape::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="Pomiary">
       <attribute name="title">
@@ -458,7 +458,7 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="HeadCircumferenceCMChart">
+             <widget class="QLineEdit" name="le_HeadCircumference">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -680,7 +680,7 @@
   <tabstop>rb2</tabstop>
   <tabstop>rb1</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>HeadCircumferenceCMChart</tabstop>
+  <tabstop>le_HeadCircumference</tabstop>
   <tabstop>pb_HeadCircumferenceWHO</tabstop>
   <tabstop>pb_chart4</tabstop>
   <tabstop>le_Height</tabstop>
